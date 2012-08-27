@@ -44,9 +44,9 @@ public class JdbcUserDAO implements UserDAO{
 			ps = conn.prepareStatement(roleSQL);
 			ps.setInt(1, id);
 			if(user.isModerator()){
-				ps.setString(2, "ROLE_USER");
-			} else {
 				ps.setString(2, "ROLE_ADMIN");
+			} else {
+				ps.setString(2, "ROLE_USER");
 			}
 			ps.executeUpdate();
 			ps.close();
