@@ -1,6 +1,7 @@
 package com.drexelexp.subject;
 /**
- * DAO interface for the Subject object
+ * DAO interface for the Subject.
+ * 396*-+. object
  * @author
  *
  */

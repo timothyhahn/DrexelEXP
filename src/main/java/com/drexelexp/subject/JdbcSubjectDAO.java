@@ -1,6 +1,6 @@
 package com.drexelexp.subject;
 /**
- * Implementation of CourseDAO in JDBC style.
+ * Implementation of SubjectDAO in JDBC style.
  * @author
  *
  */
