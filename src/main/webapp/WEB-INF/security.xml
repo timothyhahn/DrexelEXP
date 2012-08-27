@@ -9,7 +9,7 @@
 	<import resource="/Spring-Datasource.xml" />
 		<security:http auto-config='true'>
 			<security:intercept-url pattern="/welcome*" access="ROLE_USER" />
-			<security:form-login login-page="/login" default-target-url="/course" authentication-failure-url="/loginfailed"/>
+			<security:form-login login-page="/login" default-target-url="/course/list" authentication-failure-url="/loginfailed"/>
 			<security:logout logout-success-url="/logout" />
 		</security:http>
 		  
@@ -19,12 +19,12 @@
       <security:jdbc-user-service data-source-ref="dataSource"
  
 		   users-by-username-query="
-		      select username,password, enabled 
-		      from users where username=?" 
+		      select email,password,active 
+		      from users where email=?" 
  
 		   authorities-by-username-query="
-		      select u.username, ur.authority from users u, user_roles ur 
-		      where u.user_id = ur.user_id and u.username =?  " 
+		      select u.email, ur.authority from users u, user_roles ur 
+		      where u.user_id = ur.user_id and u.email =?  " 
  
 		/>
     </security:authentication-provider>

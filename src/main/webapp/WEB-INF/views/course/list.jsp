@@ -9,23 +9,20 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
  
-<h1>
- 
- 
-Persons</h1><table>
+<h1>Courses</h1><table>
 <tr>
-<td width="50">Id</td>
-<td width="150">First Name</td>
-<td width="150">Last Name</td>
-<td width="50">Money</td>
+<td width="50">Subject</td>
+<td width="50">Number</td>
+<td width="150">Name</td>
+
 </tr>
-<c:forEach items="${persons}" var="person">
+<c:forEach items="${courses}" var="course">
 <tr>
-<td><c:out value="${person.id}" /></td>
-<td><c:out value="${person.firstName}" /></td>
-<td><c:out value="${person.lastName}" /></td>
-<td><c:out value="${person.money}" /></td>
-</tr>
+<td><c:out value="${course.subject.shortName}" /></td>
+<td><c:out value="${course.number}" /></td>
+<td><c:out value="${course.name}" /></td>
+</tr>  
+
 </c:forEach>
 </table></body>
 </html>

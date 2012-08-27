@@ -1,4 +1,8 @@
 package com.drexelexp.user;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * Model for the User object
  * @author Timothy Hahn
@@ -21,7 +25,7 @@ public class User {
 		this.setId(-1);
 		this.setEmail("");
 		this.setUniversity("");
-		this.setActive(false);
+		this.setActive(true);
 		this.setModerator(false);
 	}
 	/**
@@ -95,6 +99,9 @@ public class User {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public void create() {
+	
 	}
 	
 	
