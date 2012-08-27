@@ -5,26 +5,20 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Professor List</title>
 </head>
 <body>
  
-<h1>
- 
- 
-Persons</h1><table>
+<h1>Professors</h1>
+<table>
 <tr>
 <td width="50">Id</td>
-<td width="150">First Name</td>
-<td width="150">Last Name</td>
-<td width="50">Money</td>
+<td width="150">Name</td>
 </tr>
-<c:forEach items="${persons}" var="person">
+<c:forEach items="${professors}" var="person">
 <tr>
-<td><c:out value="${person.id}" /></td>
-<td><c:out value="${person.firstName}" /></td>
-<td><c:out value="${person.lastName}" /></td>
-<td><c:out value="${person.money}" /></td>
+<td><c:out value="${person.getId()}" /></td>
+<td><c:out value="${person.getName()}" /></td>
 </tr>
 </c:forEach>
 </table></body>

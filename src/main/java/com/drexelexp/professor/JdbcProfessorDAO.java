@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.JdbcDAO;
-import com.drexelexp.customer.Customer;
 
 /**
  * Implementation of ProfessorDAO in JDBC style.
