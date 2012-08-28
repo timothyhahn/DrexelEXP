@@ -18,8 +18,17 @@ import com.drexelexp.baseDAO.BaseDAO;
  */
 @Controller
 public class ProfessorController {
+	
+	@RequestMapping(value="/professor/add", method = RequestMethod.GET)
+	public String add(Model model) {		
+		return "professor/add";
+	}
+	
 	@RequestMapping(value="/professor/list", method = RequestMethod.GET)
 	public String list(Model model) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
+		
 		ArrayList<Professor> professors = new ArrayList<Professor>();
 		professors.add(new Professor(1,"Sunny Wong"));
 		professors.add(new Professor(2,"Jeffery Popyack"));
@@ -30,11 +39,15 @@ public class ProfessorController {
 		return "professor/list";
 	}
 	
-	@RequestMapping(value="/professor/testinsert", method = RequestMethod.GET)
-	public String testinsert(Model model) {
+	
+	
+	@RequestMapping(value="/professor/show", method = RequestMethod.GET)
+	public String show(Model model) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
-		dao.insert(new Professor(0,"Sunny"));
-		return "professor/list";
+		
+		model.addAttribute("professor",dao.getById(1));
+		
+		return "professor/show";
 	}
 }
