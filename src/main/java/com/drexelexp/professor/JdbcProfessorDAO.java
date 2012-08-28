@@ -17,7 +17,7 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 
 	@Override
 	public void insert(Professor instance) {
-		String sql = "INSERT INTO PROFESSOR " + "(NAME) VALUES (?)";
+		String sql = "INSERT INTO PROFESSORS " + "(NAME) VALUES (?)";
 		Connection conn = null;
  
 		try {
@@ -41,7 +41,7 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 
 	@Override
 	public Professor getById(int id) {
-		String sql = "SELECT * FROM PROFESSOR WHERE PROF_ID = ?";
+		String sql = "SELECT * FROM PROFESSORS WHERE PROF_ID = ?";
 		 
 		Connection conn = null;
  
