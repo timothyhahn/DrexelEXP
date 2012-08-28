@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.user.JdbcUserDAO;
 import com.drexelexp.user.User;
-import com.drexelexp.user.UserDAO;
 
 @Controller
 public class RegisterController {
@@ -19,7 +20,7 @@ public class RegisterController {
     User user,ModelMap model) {
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
-		UserDAO userDAO = (UserDAO) context.getBean("userDAO");
+		BaseDAO<User> userDAO = (JdbcUserDAO) context.getBean("userDAO");
 		userDAO.insert(user);
 		return "login";
 	}
