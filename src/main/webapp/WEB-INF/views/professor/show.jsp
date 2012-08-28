@@ -10,10 +10,7 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
  
-<h1>
- 
- 
-Persons</h1><p>
+<h1>Professor</h1><p>
  
  
 You are show a person with id ${professor.getId()} and name ${professor.getName()} at</p><%= new java.util.Date() %>
