@@ -20,6 +20,7 @@
   
             <security:authentication-manager>
     <security:authentication-provider>
+		<security:password-encoder hash="sha-256"/>
       <security:jdbc-user-service data-source-ref="dataSource"
  
 		   users-by-username-query="
@@ -34,5 +35,4 @@
     </security:authentication-provider>
   </security:authentication-manager>
   
-        
 </beans>
