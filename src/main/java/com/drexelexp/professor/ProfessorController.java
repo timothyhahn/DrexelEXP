@@ -40,14 +40,8 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor/list", method = RequestMethod.GET)
 	public String list(Model model) {
-		//ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-		//BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
+		ArrayList<Professor> professors = null;
 		
-		ArrayList<Professor> professors = new ArrayList<Professor>();
-		
-		//professors.add(new Professor(1,"Sunny Wong"));
-		//professors.add(new Professor(2,"Jeffery Popyack"));
-		//professors.add(new Professor(3,"Kurt Schmidt"));
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
