@@ -105,4 +105,56 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		}
 	}
 
+	public void edit(Professor professor) {
+		String sql = "UPDATE PROFESSORS SET NAME = ? WHERE PROF_ID = ?";
+		 
+		Connection conn = null;
+ 
+		try {
+			System.out.println(sql);
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, professor.getName());
+			ps.setInt(2, professor.getId());
+			System.out.println(ps.toString());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		
+		}
+	}
+
+	public void delete(Professor professor) {
+		String sql = "DELETE FROM PROFESSORS WHERE PROF_ID = ?";
+		 
+		Connection conn = null;
+ 
+		try {
+			System.out.println(sql);
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, professor.getId());
+			//professor = null;
+			System.out.println(ps.toString());
+			ps.executeUpdate();
+			ps.close();
+		//	return professor;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		
+		}
+	}
 }
