@@ -3,13 +3,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.user.JdbcUserDAO;
 import com.drexelexp.user.User;
 
 @Controller
 public class RegisterController {
-
 	
 	@RequestMapping(value="/register")
 	public ModelAndView showUsers() {

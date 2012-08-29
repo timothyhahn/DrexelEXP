@@ -9,6 +9,9 @@
 	<import resource="/Spring-Datasource.xml" />
 		<security:http auto-config='true'>
 			<security:intercept-url pattern="/welcome*" access="ROLE_USER" />
+			<security:intercept-url pattern="/course**" access="ROLE_USER" />
+			<security:intercept-url pattern="/professor**" access="ROLE_USER" />
+			
 			<security:form-login login-page="/login" default-target-url="/course/list" authentication-failure-url="/loginfailed"/>
 			<security:logout logout-success-url="/logout" />
 		</security:http>

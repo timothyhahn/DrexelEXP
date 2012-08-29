@@ -10,6 +10,10 @@ public class Professor {
 	private int id;
 	private String name;
 
+	public Professor() {
+		this.id = -1;
+		this.name = "";
+	}
 	public Professor(int id, String name) {
 		this.id = id;
 		this.name = name;
