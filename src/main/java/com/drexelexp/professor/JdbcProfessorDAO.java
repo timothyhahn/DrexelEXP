@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> e54427edfaf56fb9d3849b9c8b28a650419f211d
 package com.drexelexp.professor;
 
 import java.sql.Connection;
@@ -9,10 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.LinkedList;
->>>>>>> e54427edfaf56fb9d3849b9c8b28a650419f211d
 
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.JdbcDAO;
@@ -164,13 +158,9 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		
 		}
 	}
-<<<<<<< HEAD
-	public ArrayList<Professor> searchByName(ArrayList<String> queryTerms) {
-		ArrayList<Professor> professors = new ArrayList<Professor>();
-=======
+
 	public LinkedList<Professor> searchByName(ArrayList<String> queryTerms) {
 		LinkedList<Professor> professors = new LinkedList<Professor>();
->>>>>>> e54427edfaf56fb9d3849b9c8b28a650419f211d
 		for(String s : queryTerms) {
 			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE ?";
 			 
@@ -189,10 +179,6 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 						rs.getInt("PROF_ID"),
 						rs.getString("NAME")
 					);
-<<<<<<< HEAD
-					
-					professors.add(professor);
-=======
 					boolean profNotFound = true;
 					for(Professor p : professors) {
 						if(p.getId() == professor.getId()) {
@@ -204,7 +190,6 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 					}
 					if(profNotFound)
 						professors.add(professor);
->>>>>>> e54427edfaf56fb9d3849b9c8b28a650419f211d
 				}
 				rs.close();
 				ps.close();
@@ -222,7 +207,3 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		return professors;
 	}
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> e54427edfaf56fb9d3849b9c8b28a650419f211d
