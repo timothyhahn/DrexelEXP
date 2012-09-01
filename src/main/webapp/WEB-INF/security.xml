@@ -7,6 +7,7 @@
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	
 	<import resource="/Spring-Datasource.xml" />
+	   <security:global-method-security pre-post-annotations="enabled" />
 		<security:http auto-config='true'>
 			<security:intercept-url pattern="/welcome*" access="ROLE_USER,ROLE_ADMIN" />
 			<security:intercept-url pattern="/course**" access="ROLE_USER,ROLE_ADMIN" />
@@ -20,7 +21,7 @@
   
             <security:authentication-manager>
     <security:authentication-provider>
-		<security:password-encoder hash="sha-256"/>
+		<security:password-encoder ref="encoder"/>
       <security:jdbc-user-service data-source-ref="dataSource"
  
 		   users-by-username-query="
@@ -34,5 +35,5 @@
 		/>
     </security:authentication-provider>
   </security:authentication-manager>
-  
+  <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
 </beans>
