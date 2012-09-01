@@ -15,18 +15,19 @@ import com.drexelexp.baseDAO.JdbcDAO;
  *
  */
 public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
-	
-	// TODO Finish implementing this (currently copied from professor).
 
 	@Override
 	public void insert(Review instance) {
-		String sql = "INSERT INTO PROFESSORS " + "(NAME) VALUES (?)";
+		String sql = "INSERT INTO reviews " + "(DATA, RATING, PROF_ID, COURSE_ID) VALUES (?, ?, ?, ?)";
 		Connection conn = null;
  
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			//ps.setString(1, instance.getName());
+			ps.setString(1, instance.getData());
+			ps.setInt(2, instance.getRating());
+			ps.setInt(3, instance.getProfessor().getId());
+			//ps.setInt(4, instance.getCourse().getId()); // TODO when course has an id, uncomment this
 			ps.executeUpdate();
 			ps.close();
  
@@ -43,10 +44,8 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 	}
 
 	public ArrayList<Review> getAll() {
-		return new ArrayList<Review>(); // TODO delete me
-		/*
-		ArrayList<Review> professors = new ArrayList<Review>();
-		String sql = "SELECT * FROM PROFESSORS";
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		String sql = "SELECT * FROM reviews";
 		Connection conn = null;
 		 
 		try {
@@ -56,16 +55,13 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 
-				Review professor = null;
-				professor = new Review(
-					rs.getInt("PROF_ID"),
-					rs.getString("NAME")
-				);
-				professors.add(professor);
+				Review review = null;
+				review = new Review(); // TODO actually create the review with the result data rs.getInt("PROF_ID")
+				reviews.add(review);
 			}
 			rs.close();
 			ps.close();
-			return professors;
+			return reviews;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -75,13 +71,11 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 				} catch (SQLException e) {}
 			}
 		}
-		*/
 	}
+	
 	@Override
 	public Review getById(int id) {
-		return null; // TODO delete me
-		/*
-		String sql = "SELECT * FROM PROFESSORS WHERE PROF_ID = ?";
+		String sql = "SELECT * FROM reviews WHERE REVIEW_ID = ?";
 		 
 		Connection conn = null;
  
@@ -92,10 +86,7 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			Review professor = null;
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				professor = new Review(
-					rs.getInt("PROF_ID"),
-					rs.getString("NAME")
-				);
+				professor = new Review(); // TODO populate it from the result rs.getInt("PROF_ID")
 			}
 			rs.close();
 			ps.close();
@@ -109,11 +100,10 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 				} catch (SQLException e) {}
 			}
 		}
-		*/
 	}
 
-	public void edit(Review professor) {
-		String sql = "UPDATE PROFESSORS SET NAME = ? WHERE PROF_ID = ?";
+	public void edit(Review review) {
+		String sql = "UPDATE REVIEWs SET DATA = ?, PROF_ID = ?, COURSE_ID = ? WHERE PROF_ID = ?";
 		 
 		Connection conn = null;
  
@@ -121,8 +111,10 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			System.out.println(sql);
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			//ps.setString(1, professor.getName());
-			ps.setInt(2, professor.getId());
+			ps.setString(1, review.getData());
+			ps.setInt(2, review.getProfessor().getId());
+			//ps.setInt(3, review.getCourse().getId()); // TODO uncomment when getId exists
+			ps.setInt(4, review.getId());
 			System.out.println(ps.toString());
 			ps.executeUpdate();
 			ps.close();
@@ -138,8 +130,8 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 		}
 	}
 
-	public void delete(Review professor) {
-		String sql = "DELETE FROM PROFESSORS WHERE PROF_ID = ?";
+	public void delete(Review review) {
+		String sql = "DELETE FROM reviews WHERE PROF_ID = ?";
 		 
 		Connection conn = null;
  
@@ -147,7 +139,7 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			System.out.println(sql);
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, professor.getId());
+			ps.setInt(1, review.getId());
 			//professor = null;
 			System.out.println(ps.toString());
 			ps.executeUpdate();
@@ -164,40 +156,5 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 		
 		}
 	}
-	public ArrayList<Review> searchByName(ArrayList<String> queryTerms) {
-		ArrayList<Review> professors = new ArrayList<Review>();
-		/*
-		for(String s : queryTerms) {
-			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE %?% ";
-			 
-			Connection conn = null;
-	 
-			try {
-				conn = dataSource.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, s);
-				Review professor = null;
-				ResultSet rs = ps.executeQuery();
-				if (rs.next()) {
-					professor = new Review(
-						rs.getInt("PROF_ID"),
-						rs.getString("NAME")
-					);
-				}
-				rs.close();
-				ps.close();
-				professors.add(professor);
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			} finally {
-				if (conn != null) {
-					try {
-					conn.close();
-					} catch (SQLException e) {}
-				}
-			}
-		}*/
-		
-		return professors;
-	}
+
 }
