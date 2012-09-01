@@ -19,8 +19,8 @@
 			data-college="<c:out value="${college.getCode()}"/>"
 			data-subject="<c:out value="${subject.getCode()}"/>">
 		</div>
-		<a href="<c:out value="${college.getCode()}"/>/<c:out value="${subject.getCode()}"/>">
-			<c:out value="${college.getCode()}"/>/<c:out value="${subject.getCode()}"/>
+		<a href="<c:url value="/ingest/${college.getCode()}/${subject.getCode()}" />">
+			<c:url value="/ingest/${college.getCode()}/${subject.getCode()}" />
 		</a>
 	</c:forEach>
 </li>
