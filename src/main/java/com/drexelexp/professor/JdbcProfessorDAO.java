@@ -50,15 +50,15 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 			PreparedStatement ps = conn.prepareStatement(sql);
 	
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
 
-				Professor professor = null;
-				professor = new Professor(
-					rs.getInt("PROF_ID"),
-					rs.getString("NAME")
-				);
-				professors.add(professor);
-			}
+				while (rs.next()) {
+					Professor professor = null;
+					professor = new Professor(
+						rs.getInt("PROF_ID"),
+						rs.getString("NAME")
+					);
+					professors.add(professor);
+				}
 			rs.close();
 			ps.close();
 			return professors;
@@ -91,6 +91,7 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 					rs.getString("NAME")
 				);
 			}
+			
 			rs.close();
 			ps.close();
 			return professor;
@@ -141,11 +142,9 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, professor.getId());
-			//professor = null;
 			System.out.println(ps.toString());
 			ps.executeUpdate();
 			ps.close();
-		//	return professor;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -160,25 +159,28 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 	public ArrayList<Professor> searchByName(ArrayList<String> queryTerms) {
 		ArrayList<Professor> professors = new ArrayList<Professor>();
 		for(String s : queryTerms) {
-			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE %?% ";
+			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE ?";
 			 
 			Connection conn = null;
 	 
 			try {
 				conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, s);
-				Professor professor = null;
+				ps.setString(1, "%" + s + "%");
 				ResultSet rs = ps.executeQuery();
-				if (rs.next()) {
+				while (rs.next()) {
+
+					Professor professor = null;
+					
 					professor = new Professor(
 						rs.getInt("PROF_ID"),
 						rs.getString("NAME")
 					);
+					
+					professors.add(professor);
 				}
 				rs.close();
 				ps.close();
-				professors.add(professor);
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
 			} finally {
