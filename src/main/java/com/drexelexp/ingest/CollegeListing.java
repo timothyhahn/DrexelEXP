@@ -35,6 +35,10 @@ public class CollegeListing {
 		return name;
 	}
 	
+	public String getCode(){
+		return code;
+	}
+	
 	public ArrayList<SubjectListing> getSubjects(){
 		return subjects;
 	}

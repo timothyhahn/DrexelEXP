@@ -133,10 +133,6 @@ public class JdbcSubjectDAO implements SubjectDAO {
 				conn.close();
 				} catch (SQLException e) {}
 			}
-		
-		}
-		
+		}	
 	}
-
-
 }

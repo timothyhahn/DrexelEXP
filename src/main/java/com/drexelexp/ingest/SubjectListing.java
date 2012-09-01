@@ -15,16 +15,16 @@ public class SubjectListing {
 		url = htmlElement.getAttribute("href");
 		
 		String text =htmlElement.getTextContent();
-		
-		logger.error("SText: "+text);
-		
+				
 		name=text.substring(0, text.indexOf('(')-1);
 		code=text.substring(text.indexOf('(')+1,text.indexOf(')'));
-		
-		logger.error("Subject: "+name+" / "+code);
 	}
 	
 	public String getName(){
 		return name;
+	}
+	
+	public String getCode(){
+		return code;
 	}
 }

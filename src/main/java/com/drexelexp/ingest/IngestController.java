@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
@@ -65,9 +66,41 @@ public class IngestController {
 			model.addAttribute("colleges", colleges);
 		}
 
-		return "ingest";
+		return "ingest/list";
 	}
 
+	@RequestMapping(value = "/ingest/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
+	public String subject(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) {
+		String url ="http://catalog.drexel.edu/coursedescriptions/quarter/undergrad/"+subjectCode.toLowerCase();
+		if(subjectCode.equals("UNIV"))
+			url+=collegeCode.toLowerCase();
+		url+="/";
+		
+		ArrayList<CourseListing> courses = new ArrayList<CourseListing>();	
+		
+		try {
+			Document document = getUrlDocument(url);
+
+			Element content = document.getElementById("courseinventorycontainer");
+
+			NodeList divs = content.getElementsByTagName("div");
+			int divCount = divs.getLength();
+			for (int i = 0; i < divCount; i++) {
+				Element div = (Element) divs.item(i);
+
+				if (div.getAttribute("class").equals("courseblock")) {
+					courses.add(new CourseListing(div));
+				}
+			}
+		} catch (IllegalArgumentException ex) {
+			logger.error(ex.getMessage());
+		} finally {
+			model.addAttribute("courses", courses);
+		}
+		
+		return "ingest/courses";
+	}
+	
 	private String getFilteredContents(String url) throws IOException {
 		URL u = new URL(url);
 		BufferedReader input = new BufferedReader(new InputStreamReader(u.openStream()));
