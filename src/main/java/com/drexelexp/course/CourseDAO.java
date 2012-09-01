@@ -14,4 +14,6 @@ public interface CourseDAO {
 	public void insert(Course instance);
 	public Course search(String Coursename);
 	public List<Course> listCourses(Professor instance);
+	public void delete(Course course);
+	//public Course searchCourse(String courseCode);
 }

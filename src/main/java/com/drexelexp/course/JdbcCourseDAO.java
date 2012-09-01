@@ -32,7 +32,7 @@ public class JdbcCourseDAO implements CourseDAO {
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(2, instance.getName());
+			ps.setString(2, "%" +instance.getName() + "%");
 			ps.executeUpdate();
 			ps.close();
  
@@ -53,21 +53,22 @@ public class JdbcCourseDAO implements CourseDAO {
 		// TODO Auto-generated method stub
 		
 		String courseSql = "Select * From courses ";
-		courseSql += "Where name = ?";
+		courseSql += "Where name LIKE ?";
 		
 		Connection conn = null;
 		 
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(courseSql);
-			ps.setString(2, Coursename);
+			ps.setString(2, "%" + Coursename + "%");
 			Course course = null;
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				course = new Course(
 					null,
 					rs.getInt("number"),
-					Coursename
+					Coursename,
+					rs.getInt("CourseId")
 
 				);
 			}
@@ -91,7 +92,7 @@ public class JdbcCourseDAO implements CourseDAO {
 		
 		
 		String courseSql = "Select *  From Courses ";
-		courseSql += "Where name = ? ";
+		courseSql += "Where name LIKE ? ";
 		
 		List<Course> courseList = new ArrayList<Course>();
 		Connection conn = null;
@@ -103,17 +104,19 @@ public class JdbcCourseDAO implements CourseDAO {
 			ResultSet rs = null;
 			
 			for(int index=0; index < instance.getCourses().size(); index++){
-				ps.setString(2, instance.getCourses().get(index).getName());
+				ps.setString(2, "%" + instance.getCourses().get(index).getName() + "%");
 				rs = ps.executeQuery();
-				if (rs.next()) {
+				while (rs.next()) {
 					course = new Course(
 							null,
 							rs.getInt("number"),
-							instance.getCourses().get(index).getName()
+							instance.getCourses().get(index).getName(),
+							instance.getCourses().get(index).getId()
 
 						);
+
+					courseList.add(course);
 				}
-				courseList.add(course);
 			}
 			
 			rs.close();
@@ -130,6 +133,36 @@ public class JdbcCourseDAO implements CourseDAO {
 		}
 			
 	}	
+
+
+	@Override
+	public void delete(Course course) {
 		
+		String sql = "DELETE FROM PROFESSORS WHERE NAME LIKE ?";
+		 
+		Connection conn = null;
+ 
+
+		try {
+			System.out.println(sql);
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(2, "%" + course.getName() + "%");
+			System.out.println(ps.toString());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		
+		}
+		
+	}
+	
 }
 
