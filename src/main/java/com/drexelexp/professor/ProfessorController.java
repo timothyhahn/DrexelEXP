@@ -153,7 +153,8 @@ public class ProfessorController {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		JdbcProfessorDAO dao = (JdbcProfessorDAO) context.getBean("professorDAO");
 		ArrayList<Professor> professors = new ArrayList<Professor>();
-		professors = dao.searchByName(queryList);
+		
+		professors = new ArrayList<Professor>(dao.searchByName(queryList));
 		
 		
 		model.addAttribute("professors",professors);

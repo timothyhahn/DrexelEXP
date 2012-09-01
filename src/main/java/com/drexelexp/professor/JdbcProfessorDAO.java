@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.JdbcDAO;
@@ -156,8 +157,8 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		
 		}
 	}
-	public ArrayList<Professor> searchByName(ArrayList<String> queryTerms) {
-		ArrayList<Professor> professors = new ArrayList<Professor>();
+	public LinkedList<Professor> searchByName(ArrayList<String> queryTerms) {
+		LinkedList<Professor> professors = new LinkedList<Professor>();
 		for(String s : queryTerms) {
 			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE ?";
 			 
@@ -176,8 +177,17 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 						rs.getInt("PROF_ID"),
 						rs.getString("NAME")
 					);
-					
-					professors.add(professor);
+					boolean profNotFound = true;
+					for(Professor p : professors) {
+						if(p.getId() == professor.getId()) {
+							professors.remove(p);
+							professors.addFirst(p);
+							profNotFound = false;
+							System.out.println("exists!");
+						}
+					}
+					if(profNotFound)
+						professors.add(professor);
 				}
 				rs.close();
 				ps.close();
