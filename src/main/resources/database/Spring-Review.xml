@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="professorDAO" class="com.drexelexp.review.JdbcReviewDAO">
+	<bean id="reviewDao" class="com.drexelexp.review.JdbcReviewDAO">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 </beans>
