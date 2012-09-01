@@ -15,10 +15,12 @@ pageEncoding="UTF-8"%>
 <td width="50">Id</td>
 <td width="150">Name</td>
 </tr>
-<c:forEach items="${professors}" var="person">
+<c:forEach items="${professors}" var="professor">
 <tr>
-<td><c:out value="${person.getId()}" /></td>
-<td><c:out value="${person.getName()}" /></td>
+
+<td><c:out value="${professor.getId()}" /></td>
+<td><a href="show/${professor.getId()}"><c:out value="${professor.getName()}" /></a></td>
+
 </tr>
 </c:forEach>
 </table></body>
