@@ -12,9 +12,8 @@ public class Course {
 	public int number;
 	public String name;
 	
-	public Course() {
-		
-	}
+	public Course() {}
+	
 	public Course(Subject subject, int number, String name) {
 		this.subject = subject;
 		this.number = number;

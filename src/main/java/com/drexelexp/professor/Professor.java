@@ -1,5 +1,10 @@
 package com.drexelexp.professor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.drexelexp.course.Course;
+
 /**
  * Model for the Professor object
  * 
@@ -9,12 +14,22 @@ package com.drexelexp.professor;
 public class Professor {
 	private int id;
 	private String name;
-
+	private List<Course> courses = new ArrayList<Course>();
+	
 	public Professor(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
+	public List<Course> getCourses() {
+		return courses;
+	}
+		
+	public void setCourses(List<Course> courses) {
+			this.courses = courses;
+	}
+
+		
 	public int getId() {
 		return id;
 	}
