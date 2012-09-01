@@ -138,7 +138,7 @@ public class JdbcCourseDAO implements CourseDAO {
 	@Override
 	public void delete(Course course) {
 		
-		String sql = "DELETE FROM PROFESSORS WHERE NAME LIKE ?";
+		String sql = "DELETE FROM Courses WHERE NAME LIKE ?";
 		 
 		Connection conn = null;
  

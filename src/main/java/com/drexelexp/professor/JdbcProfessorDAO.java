@@ -1,3 +1,4 @@
+
 package com.drexelexp.professor;
 
 import java.sql.Connection;
@@ -157,6 +158,7 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		
 		}
 	}
+
 	public LinkedList<Professor> searchByName(ArrayList<String> queryTerms) {
 		LinkedList<Professor> professors = new LinkedList<Professor>();
 		for(String s : queryTerms) {
