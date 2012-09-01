@@ -15,7 +15,7 @@ import com.drexelexp.baseDAO.JdbcDAO;
  *
  */
 public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
-
+	
 	@Override
 	public void insert(Review instance) {
 		String sql = "INSERT INTO reviews " + "(DATA, RATING, PROF_ID, COURSE_ID) VALUES (?, ?, ?, ?)";
@@ -27,7 +27,7 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			ps.setString(1, instance.getData());
 			ps.setInt(2, instance.getRating());
 			ps.setInt(3, instance.getProfessor().getId());
-			//ps.setInt(4, instance.getCourse().getId()); // TODO when course has an id, uncomment this
+			ps.setInt(4, instance.getCourse().getId());
 			ps.executeUpdate();
 			ps.close();
  
@@ -54,9 +54,14 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 	
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-
-				Review review = null;
-				review = new Review(); // TODO actually create the review with the result data rs.getInt("PROF_ID")
+				// TODO Add the professor and course objects
+				Review review = new Review(
+						rs.getInt("REVIEW_ID"),
+						rs.getString("DATA"),
+						rs.getInt("RATING"),
+						null,
+						null
+					);
 				reviews.add(review);
 			}
 			rs.close();
@@ -83,14 +88,21 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			Review professor = null;
+			Review review = null;
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				professor = new Review(); // TODO populate it from the result rs.getInt("PROF_ID")
+				// TODO Add the professor and course objects
+				review = new Review(
+						rs.getInt("REVIEW_ID"),
+						rs.getString("DATA"),
+						rs.getInt("RATING"),
+						null,
+						null
+					);
 			}
 			rs.close();
 			ps.close();
-			return professor;
+			return review;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -113,7 +125,7 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, review.getData());
 			ps.setInt(2, review.getProfessor().getId());
-			//ps.setInt(3, review.getCourse().getId()); // TODO uncomment when getId exists
+			ps.setInt(3, review.getCourse().getId());
 			ps.setInt(4, review.getId());
 			System.out.println(ps.toString());
 			ps.executeUpdate();
