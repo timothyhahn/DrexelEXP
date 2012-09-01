@@ -6,8 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.JdbcDAO;
+import com.drexelexp.course.Course;
+import com.drexelexp.course.JdbcCourseDAO;
+import com.drexelexp.professor.JdbcProfessorDAO;
+import com.drexelexp.professor.Professor;
 
 /**
  * Implementation of ProfessorDAO in JDBC style.
@@ -54,12 +61,19 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 	
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				// TODO Add the professor and course objects
+				ApplicationContext context = 
+			    		new ClassPathXmlApplicationContext("Spring-Module.xml");
+				BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
+				Professor professor = professorDAO.getById(rs.getInt("PROF_ID"));
+				
+				// TODO add course as well after the DAO is finished
+				// <Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+				
 				Review review = new Review(
 						rs.getInt("REVIEW_ID"),
 						rs.getString("DATA"),
 						rs.getInt("RATING"),
-						null,
+						professor,
 						null
 					);
 				reviews.add(review);
@@ -91,12 +105,19 @@ public class JdbcReviewDAO extends JdbcDAO implements BaseDAO<Review>{
 			Review review = null;
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				// TODO Add the professor and course objects
+				ApplicationContext context = 
+			    		new ClassPathXmlApplicationContext("Spring-Module.xml");
+				BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
+				Professor professor = professorDAO.getById(rs.getInt("PROF_ID"));
+				
+				// TODO add course as well after the DAO is finished
+				// <Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+				
 				review = new Review(
 						rs.getInt("REVIEW_ID"),
 						rs.getString("DATA"),
 						rs.getInt("RATING"),
-						null,
+						professor,
 						null
 					);
 			}
