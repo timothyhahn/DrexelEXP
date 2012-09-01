@@ -12,9 +12,9 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
  
-	<h3>Create a new professor</h3>
+	<h3>Find a professor</h3>
 
-<form:form method="post" action="create">
+<form:form method="post" action="search">
 
 	<table>
 	<tr>
@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="Create"/>
+			<input type="submit" value="Search"/>
 		</td>
 	</tr>
 </table>	

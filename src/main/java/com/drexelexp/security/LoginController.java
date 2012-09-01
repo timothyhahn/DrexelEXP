@@ -1,4 +1,4 @@
-package com.drexelexp;
+package com.drexelexp.security;
 
 import java.security.Principal;
 

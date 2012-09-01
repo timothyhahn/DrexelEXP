@@ -7,14 +7,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import com.drexelexp.customer.Customer;
+import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.baseDAO.JdbcDAO;
 
 /**
  * Implementation of UserDAO in JDBC style.
  * @author Timothy Hahn
  *
  */
-public class JdbcUserDAO implements UserDAO{
+public class JdbcUserDAO extends JdbcDAO implements BaseDAO<User>{
 	private DataSource dataSource;
 	 
 	public void setDataSource(DataSource dataSource) {
@@ -90,7 +91,7 @@ public class JdbcUserDAO implements UserDAO{
 		}
 	}
 	@Override
-	public User findByUserId(int userId) {
+	public User getById(int userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,5 @@
 package com.drexelexp.user;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Model for the User object

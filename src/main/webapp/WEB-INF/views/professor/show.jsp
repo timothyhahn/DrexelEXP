@@ -6,17 +6,12 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DrexelEXP - ${professor.getName() }</title>
 </head>
 <body>
  
-<h1>
- 
- 
-Persons</h1><p>
- 
- 
-You have edited a person with id ${id} at</p><%= new java.util.Date() %>
+<h1>Professor ${professor.getName() }</h1>
+<p> You are shown a person with id ${professor.getId()} and name ${professor.getName()} on <%= new java.util.Date() %></p>
  
 </body>
 </html>

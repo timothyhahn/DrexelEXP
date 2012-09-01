@@ -10,13 +10,9 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
  
-<h1>
- 
- 
-Persons</h1><p>
- 
- 
-You have deleted a person with id ${id} at</p><%= new java.util.Date() %>
+<h1>Deletion complete</h1>
+<p> 
+You have deleted a person with id ${professor.id} at</p><%= new java.util.Date() %>
  
 </body>
 </html>

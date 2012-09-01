@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
  
-<h1>Professors</h1>
+<h1>Select a Professor to Edit</h1>
 <table>
 <tr>
 <td width="50">Id</td>
@@ -17,10 +17,8 @@ pageEncoding="UTF-8"%>
 </tr>
 <c:forEach items="${professors}" var="professor">
 <tr>
-
-<td><c:out value="${professor.getId()}" /></td>
-<td><a href="show/${professor.getId()}"><c:out value="${professor.getName()}" /></a></td>
-
+<td><a href ="edit/${professor.getId()} "><c:out value="${professor.getId()}" /></a></td>
+<td><c:out value="${professor.getName()}" /></td>
 </tr>
 </c:forEach>
 </table></body>

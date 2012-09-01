@@ -21,10 +21,10 @@ public class CourseController {
 	public String showUsers(Model model) {
 		Subject s = new Subject();
 		s.setShortName("CS");
-		Course cs270 = new Course(s, 270, "Data Structures and Algorithms");
-		Course cs281 = new Course(s, 281, "Systems Architecture I");
-		Course cs283 = new Course(s, 283, "Systems Programming");
-		Course cs350 = new Course(s, 350, "Software Design");
+		Course cs270 = new Course(s, 270, "Data Structures and Algorithms", 01);
+		Course cs281 = new Course(s, 281, "Systems Architecture I", 02);
+		Course cs283 = new Course(s, 283, "Systems Programming", 03);
+		Course cs350 = new Course(s, 350, "Software Design", 04);
 		
 		ArrayList<Course> courses = new ArrayList<Course>();
 		courses.add(cs270);
