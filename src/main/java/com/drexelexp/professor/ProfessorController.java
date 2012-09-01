@@ -71,13 +71,13 @@ public class ProfessorController {
 	}
 	
 	@RequestMapping(value="/professor/edit/{profID}", method = RequestMethod.POST)
-	public String updateProfessor(@ModelAttribute("professor") Professor professor, @PathVariable String profID) {
+	public ModelAndView updateProfessor(@ModelAttribute("professor") Professor professor, @PathVariable String profID) {
 		professor.setId(Integer.parseInt(profID));
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		((JdbcProfessorDAO)professorDAO).edit(professor);
-		return "professor/list";
+		return new ModelAndView("redirect:../");
 	}
 	
 	@RequestMapping(value="/professor/delete", method = RequestMethod.GET) 
@@ -108,13 +108,13 @@ public class ProfessorController {
 	}
 	
 	@RequestMapping(value="/professor/delete/{profID}", method = RequestMethod.POST)
-	public String removeProfessor(@ModelAttribute("professor") Professor professor, @PathVariable String profID) {
+	public ModelAndView removeProfessor(@ModelAttribute("professor") Professor professor, @PathVariable String profID) {
 		professor.setId(Integer.parseInt(profID));
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		((JdbcProfessorDAO)professorDAO).delete(professor);
-		return "professor/list";
+		return new ModelAndView("redirect:../");
 	}
 	
 	@RequestMapping(value="/professor", method = RequestMethod.GET)
@@ -134,12 +134,12 @@ public class ProfessorController {
 	
 	
 	
-	@RequestMapping(value="/professor/show", method = RequestMethod.GET)
-	public String show(Model model) {
+	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
+	public String show(@PathVariable String profID, Model model) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
-		model.addAttribute("professor",dao.getById(1));
+		model.addAttribute("professor",dao.getById(Integer.parseInt(profID)));
 		
 		return "professor/show";
 	}

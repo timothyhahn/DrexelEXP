@@ -2,7 +2,6 @@ package com.drexelexp.user;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,11 +28,10 @@ public class UserController {
 		BaseDAO<User> userDAO = (JdbcUserDAO) context.getBean("userDAO");
 		
 		StandardPasswordEncoder encoder = new StandardPasswordEncoder();
-		
-		//ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		////encoder.encodePassword(user.getPassword(), "");
+
 		
 		user.setPassword(encoder.encode(user.getPassword()));
+		user.setModerator(true);
 		userDAO.insert(user);
 		return "login";
 	}

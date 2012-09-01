@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 </tr>
 <c:forEach items="${professors}" var="professor">
 <tr>
-<td><a href ="${professor.getId()} "><c:out value="${professor.getId()}" /></a></td>
+<td><a href ="edit/${professor.getId()} "><c:out value="${professor.getId()}" /></a></td>
 <td><c:out value="${professor.getName()}" /></td>
 </tr>
 </c:forEach>
