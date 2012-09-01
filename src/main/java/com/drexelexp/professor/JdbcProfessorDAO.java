@@ -157,4 +157,39 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 		
 		}
 	}
+	public ArrayList<Professor> searchByName(ArrayList<String> queryTerms) {
+		ArrayList<Professor> professors = new ArrayList<Professor>();
+		for(String s : queryTerms) {
+			String sql = "SELECT * FROM PROFESSORS WHERE NAME LIKE %?% ";
+			 
+			Connection conn = null;
+	 
+			try {
+				conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, s);
+				Professor professor = null;
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					professor = new Professor(
+						rs.getInt("PROF_ID"),
+						rs.getString("NAME")
+					);
+				}
+				rs.close();
+				ps.close();
+				professors.add(professor);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			} finally {
+				if (conn != null) {
+					try {
+					conn.close();
+					} catch (SQLException e) {}
+				}
+			}
+		}
+		
+		return professors;
+	}
 }

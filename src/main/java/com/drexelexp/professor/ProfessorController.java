@@ -1,9 +1,8 @@
 package com.drexelexp.professor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -15,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drexelexp.HomeController;
 import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.user.JdbcUserDAO;
-import com.drexelexp.user.User;
 
 /**
  * Controller for the Professor object
@@ -91,7 +87,7 @@ public class ProfessorController {
 		
 		model.addAttribute("professors",professors);
 		
-		return "professor/delete/list";
+		return "delete/list";
 	}
 	
 	@RequestMapping(value="/professor/delete/{profID}", method = RequestMethod.GET) 
@@ -142,5 +138,21 @@ public class ProfessorController {
 		model.addAttribute("professor",dao.getById(Integer.parseInt(profID)));
 		
 		return "professor/show";
+	}
+	
+	@RequestMapping(value="/professor/search", method = RequestMethod.GET)
+	public ModelAndView searchForProfessor() {
+		return new ModelAndView("professor/search", "command", new String());
+		
+	}
+	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
+	public String showSearchResults(@ModelAttribute("name") String query) {
+		
+		ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcProfessorDAO dao = (JdbcProfessorDAO) context.getBean("professorDAO");
+		dao.searchByName(queryList);
+		
+		return "professor/list";
 	}
 }
