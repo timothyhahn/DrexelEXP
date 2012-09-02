@@ -9,13 +9,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
+
+import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.baseDAO.JdbcDAO;
 import com.drexelexp.course.Course;
 import com.drexelexp.professor.Professor;
+import com.drexelexp.subject.Subject;
 
-public class JdbcCourseDAO implements CourseDAO {
+public class JdbcCourseDAO extends JdbcDAO implements BaseDAO<Course> {
 	
 	private DataSource dataSource;
 	 
@@ -25,7 +31,7 @@ public class JdbcCourseDAO implements CourseDAO {
 	
 	@Override
 	public void insert(Course instance) {
-		// TODO Auto-generated method stub
+		
 		String sql = "INSERT INTO courses " + "(NAME) VALUES (?)";
 		Connection conn = null;
  
@@ -48,9 +54,7 @@ public class JdbcCourseDAO implements CourseDAO {
 		}
 	}
 	
-	@Override
 	public Course search(String Coursename) {
-		// TODO Auto-generated method stub
 		
 		String courseSql = "Select * From courses ";
 		courseSql += "Where name LIKE ?";
@@ -86,10 +90,7 @@ public class JdbcCourseDAO implements CourseDAO {
 		}
 	}
 
-	@Override
-	public List<Course> listCourses(Professor instance) {
-		// TODO Auto-generated method stub
-		
+	public List<Course> listCoursesByProfessor(Professor instance) {
 		
 		String courseSql = "Select *  From Courses ";
 		courseSql += "Where name LIKE ? ";
@@ -135,19 +136,17 @@ public class JdbcCourseDAO implements CourseDAO {
 	}	
 
 
-	@Override
 	public void delete(Course course) {
 		
-		String sql = "DELETE FROM Courses WHERE NAME LIKE ?";
+		String sql = "DELETE FROM COURSES WHERE COURSE_ID = ?";
 		 
 		Connection conn = null;
  
-
 		try {
 			System.out.println(sql);
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(2, "%" + course.getName() + "%");
+			ps.setInt(1, course.getId());
 			System.out.println(ps.toString());
 			ps.executeUpdate();
 			ps.close();
@@ -161,7 +160,103 @@ public class JdbcCourseDAO implements CourseDAO {
 			}
 		
 		}
+	}
+
+	@Override
+	public Course getById(int id) {
+		String sql = "SELECT * FROM COURSE WHERE COURSE_ID = ?";
+		 
+		Connection conn = null;
+ 
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			Course course = null;
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				course = new Course(
+						new Subject(rs.getInt("SUBJECT_ID")), rs.getInt("COURSE_ID"),//This should be a course num
+						rs.getString("NAME"), rs.getInt("COURSE_ID")
+					);
+			}
+			
+			rs.close();
+			ps.close();
+			return course;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+	}
+
+	public ArrayList<Course> getAll() {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		String sql = "SELECT * FROM COURSES";
+		Connection conn = null;
+		 
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+	
+			ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					Course course = null;
+					course = new Course(
+						new Subject(rs.getInt("SUBJECT_ID")), rs.getInt("COURSE_ID"),//This should be a course num
+						rs.getString("NAME"), rs.getInt("COURSE_ID")
+					);
+					courses.add(course);
+				}
+			rs.close();
+			ps.close();
+			return courses;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}
 		
+	}
+
+	public void edit(Course course) {
+		String sql = "UPDATE COURSES SET NAME = ? WHERE COURSE_ID = ?";
+		 
+		Connection conn = null;
+ 
+		try {
+			System.out.println(sql);
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, course.getName());
+			ps.setInt(2, course.getId());
+			System.out.println(ps.toString());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		
+		}
+	}
+
+	public LinkedList<Course> searchByName(ArrayList<String> queryList) {
+		return null;
 	}
 	
 }

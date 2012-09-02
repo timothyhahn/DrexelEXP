@@ -179,20 +179,26 @@ public class JdbcProfessorDAO extends JdbcDAO implements BaseDAO<Professor>{
 						rs.getInt("PROF_ID"),
 						rs.getString("NAME")
 					);
+					Professor toMod = null;
 					boolean profNotFound = true;
 					for(Professor p : professors) {
 						if(p.getId() == professor.getId()) {
-							professors.remove(p);
-							professors.addFirst(p);
-							profNotFound = false;
-							System.out.println("exists!");
+							toMod = p; // Because modifying while iterating does stupid things...
+							profNotFound = false; 
 						}
 					}
+					
 					if(profNotFound)
 						professors.add(professor);
+					else {
+						professors.remove(toMod);
+						professors.addFirst(toMod);
+					}
+						
 				}
 				rs.close();
 				ps.close();
+				conn.close();
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
 			} finally {

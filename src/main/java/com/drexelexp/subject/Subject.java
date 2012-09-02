@@ -7,6 +7,12 @@ package com.drexelexp.subject;
 public class Subject {
 	public String shortName;
 	public String longName;
+	public Subject(int int1) {
+		// TODO Auto-generated constructor stub
+	}
+	public Subject() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getShortName() {
 		return shortName;
 	}

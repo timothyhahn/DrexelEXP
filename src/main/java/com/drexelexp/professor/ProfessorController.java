@@ -30,12 +30,12 @@ public class ProfessorController {
 	}
 	
 	@RequestMapping(value="/professor/create", method = RequestMethod.POST)
-	public String createProfessor(@ModelAttribute("professor") Professor professor, ModelMap model) {
+	public ModelAndView createProfessor(@ModelAttribute("professor") Professor professor, ModelMap model) {
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		professorDAO.insert(professor);
-		return "professor/list";
+		return new ModelAndView("redirect:../");
 	}
 	
 	@RequestMapping(value="/professor/edit", method = RequestMethod.GET) 
@@ -60,8 +60,7 @@ public class ProfessorController {
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		Professor professor = new Professor();
-		professor.setId(Integer.parseInt(profID));
-		professor = ((JdbcProfessorDAO) professorDAO).getById(professor.getId());
+		professor = ((JdbcProfessorDAO) professorDAO).getById(Integer.parseInt(profID));
 		model.addAttribute("professor", professor);
 		return new ModelAndView("professor/edit", "command", professor);
 	}

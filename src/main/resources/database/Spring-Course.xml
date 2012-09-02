@@ -2,10 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<import resource="database/Spring-Course.xml" />
-	<import resource="database/Spring-Datasource.xml" />
-	<import resource="database/Spring-Professor.xml" />
-	<import resource="database/Spring-Review.xml" />
-	<import resource="database/Spring-User.xml" />
+
+
+	<bean id="courseDAO" class="com.drexelexp.professor.JdbcCourseDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 </beans>
