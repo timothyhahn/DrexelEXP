@@ -225,9 +225,11 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		String sql =
 				"SELECT * FROM "+getTableName()+" "+
 				"WHERE "+condition+" "+
-				"LIMIT "+pageSize+" OFFSET "+((page-1)*pageSize)+" "+
-				"ORDER BY "+getOrderByColumns();
+				"ORDER BY "+getOrderByColumns()+" "+
+				"LIMIT "+pageSize+" OFFSET "+((page-1)*pageSize);
 		
+		System.out.println(sql);
+
 		Connection conn = null;
 
 		try {
