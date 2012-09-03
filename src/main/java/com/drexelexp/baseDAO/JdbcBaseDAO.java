@@ -200,6 +200,8 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		
 		String sql = "SELECT * FROM "+getTableName()+" WHERE "+condition;
 		
+		System.out.println(sql+"~"+conditions.keySet().toArray()[0]+"~"+conditions.values().toArray()[0]);
+		
 		Connection conn = null;
 
 		try {

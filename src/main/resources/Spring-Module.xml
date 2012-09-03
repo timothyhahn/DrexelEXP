@@ -7,5 +7,6 @@
 	<import resource="database/Spring-Datasource.xml" />
 	<import resource="database/Spring-Professor.xml" />
 	<import resource="database/Spring-Review.xml" />
+	<import resource="database/Spring-Subject.xml" />
 	<import resource="database/Spring-User.xml" />
 </beans>
