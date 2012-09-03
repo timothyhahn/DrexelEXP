@@ -155,10 +155,10 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 				} catch (SQLException e) {}
 			}
 		}
-	}
-
-	protected List<T> getWhere(String conditon){
-		String sql = "SELECT * FROM "+getTableName()+" WHERE ";
+	}	
+	
+	protected List<T> getQuery(String query){
+		String sql = query;
 		Connection conn = null;
 
 		try {
@@ -184,6 +184,10 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 				}
 			}
 		}
+	}
+	
+	protected List<T> getWhere(String condition){
+		return getQuery("SELECT * FROM "+getTableName()+" WHERE "+condition);
 	}
 	
 	public List<T> getAll() {

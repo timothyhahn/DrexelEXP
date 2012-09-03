@@ -12,6 +12,8 @@ import java.util.List;
 
 import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.course.Course;
+import com.drexelexp.professor.Professor;
+import com.drexelexp.subject.Subject;
 
 public class JdbcCourseDAO extends SearchableDAO<Course> {
 	protected String getTableName(){
@@ -24,7 +26,6 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 		return instance.getId();
 	}
 	protected Course parseResultSetRow(ResultSet rs) throws SQLException{
-		//TODO
 		return new Course(
 				rs.getInt("COURSE_ID"),
 				rs.getInt("NUMBER"),
@@ -38,10 +39,18 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 		return null;
 	}
 	protected List<String> getSearchableColumns(){
-		return Arrays.asList("name","subject");
+		return Arrays.asList("name");
 	}
 	
-	public List<Course> getBySubjectId(int id){
-		return getWhere("SUBJECT_ID = "+id);
+	public List<Course> getBySubject(Subject subject){
+		return getWhere("SUBJECT_ID = "+subject.getId());
+	}
+	
+	public List<Course> getByProfessor(Professor professor){
+		return getQuery(
+				"SELECT c.* FROM courses as c "+
+						"JOIN (Professor_Course as pc, professors as p) "+
+						"ON (p.prof_id=pc.prof_id and pc.course_id=c.course_id) "+
+						"WHERE pc.prof_id="+professor.getId());
 	}
 }

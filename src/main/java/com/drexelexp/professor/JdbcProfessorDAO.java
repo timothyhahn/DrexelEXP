@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.drexelexp.baseDAO.SearchableDAO;
+import com.drexelexp.course.Course;
 import com.drexelexp.subject.Subject;
 
 /**
@@ -40,5 +41,13 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	}
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("NAME");
+	}
+	
+	public List<Professor> getByCourse(Course course){
+		return getQuery(
+				"SELECT p.* FROM professors as p "+
+						"JOIN (Professor_Course as pc, courses as c) "+
+						"ON (p.prof_id=pc.prof_id and pc.course_id=c.course_id) "+
+						"WHERE pc.course_id="+course.getId());
 	}
 }
