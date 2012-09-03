@@ -3,9 +3,13 @@ package com.drexelexp.ingest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,13 +25,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 @Controller
 public class IngestController {
-	private static final Logger logger = LoggerFactory
-			.getLogger(IngestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(IngestController.class);
+	private static Dictionary<String,String> dtdCache = new Hashtable<String,String>();
 
 	@RequestMapping(value = "/ingest", method = RequestMethod.GET)
 	public String list(Model model) {
@@ -128,8 +133,27 @@ public class IngestController {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-
-			InputSource source = new InputSource(new StringReader(getFilteredContents(url)));
+			builder.setEntityResolver(new EntityResolver() {
+		        @Override
+		        public InputSource resolveEntity(String publicId, String systemId)
+		                throws SAXException, IOException {
+		        	System.out.println("S:"+publicId+"~"+systemId);
+		        	
+		        	if(dtdCache.get(publicId)!=null){
+		        		System.out.println("G:"+publicId);
+		        		return new InputSource(new StringReader(dtdCache.get(publicId)));
+		        	}
+		        	
+		        	System.out.println("P:"+publicId);
+		        	dtdCache.put(publicId, getFilteredContents(systemId));
+		        	
+		        	return new InputSource(new StringReader(dtdCache.get(publicId)));
+		        }
+		    });
+			
+			String contents = getFilteredContents(url);
+			Reader reader = new StringReader(contents);
+			InputSource source = new InputSource(reader);
 			Document document = builder.parse(source);
 			
 			return document;

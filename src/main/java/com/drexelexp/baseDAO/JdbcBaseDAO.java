@@ -185,6 +185,6 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	}
 	
 	public List<T> getAll() {
-		return getWhere("1=1");
+		return getWhere("true");
 	}
 }

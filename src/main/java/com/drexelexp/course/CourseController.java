@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.baseDAO.SearchableDAO;
@@ -143,17 +144,14 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.GET)
-	public ModelAndView searchForCourse(Model model)
+	public String searchForCourse(Model model)
 	{
 		addUsername(model);
 		
-		return new ModelAndView("course/search", "command", new Course());
-		
+		return "course/search";
 	}
-	@RequestMapping(value="/course/search", method = RequestMethod.POST)
-	public String showSearchResults(@ModelAttribute("name") Course c, Model model) {
-		String query = c.getName();
-				
+	@RequestMapping(value="/course/search/", method = RequestMethod.POST)
+	public String showSearchResults(@RequestParam("query") String query, Model model) {				
 		List<Course> courses = getCourseDAO().search(query);		
 		
 		model.addAttribute("courses",courses);

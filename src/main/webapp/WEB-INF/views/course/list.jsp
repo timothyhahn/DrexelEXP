@@ -18,9 +18,9 @@ pageEncoding="UTF-8"%>
 </tr>
 <c:forEach items="${courses}" var="course">
 <tr>
-<td><c:out value="${course.subject.shortName}" /></td>
-<td><c:out value="${course.number}" /></td>
-<td><c:out value="${course.name}" /></td>
+<td><c:out value="${course.getSubject().getCode()}" /></td>
+<td><c:out value="${course.getNumber()}" /></td>
+<td><c:out value="${course.getName()}" /></td>
 </tr>  
 
 </c:forEach>

@@ -9,29 +9,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
+	protected String getSearchTable(){
+		return getTableName();
+	}
 	protected abstract List<String> getSearchableColumns();
 	
 	public List<T> search(String query) {
 		//TODO update to search multiple columns
 		LinkedList<T> items = new LinkedList<T>();
 		
-		String sql = "SELECT * FROM " + getTableName() + " WHERE "+getSearchableColumns().get(0)+" LIKE ?";
-		System.out.println(query);
+		String sql = "SELECT "+getTableName()+".* FROM " + getSearchTable() + " WHERE "+getSearchableColumns().get(0)+" LIKE ?";
+
 		for (String queryPart : Arrays.asList(query.split(" "))) {
-
 			Connection conn = null;
-
+			
 			try {
 				conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
-
+			
 				ps.setString(1, "%" + queryPart + "%");
 
 				ResultSet rs = ps.executeQuery();
-
+			
 				while (rs.next()) {
-
 					T item = parseResultSetRow(rs);
+					
 					T toMod = null;
 					boolean itemNotFound = true;
 					for (T i : items) {

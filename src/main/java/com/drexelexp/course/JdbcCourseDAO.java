@@ -46,9 +46,16 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 		
 		return map;
 	}
-	protected List<String> getSearchableColumns(){
-		return Arrays.asList("name");
+	@Override
+	protected String getSearchTable(){
+		return getTableName()+" "+
+				"JOIN subjects as s "+
+				"ON courses.SUBJECT=s.SUBJECT_ID";
 	}
+	protected List<String> getSearchableColumns(){
+		return Arrays.asList("courses.NAME s.NAME");
+	}	
+	
 	
 	public List<Course> getBySubject(Subject subject){
 		return getWhere("SUBJECT_ID = "+subject.getId());
