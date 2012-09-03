@@ -2,14 +2,20 @@ package com.drexelexp.ingest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -115,42 +121,67 @@ public class IngestController {
 	}
 	
 	@RequestMapping(value = "/ingest/professors/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
-	public String professors(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) {
-		String url ="http://catalog.drexel.edu/coursedescriptions/quarter/undergrad/"+subjectCode.toLowerCase();
-		if(subjectCode.equals("UNIV"))
-			url+=collegeCode.toLowerCase();
-		url+="/";
+	public String professors(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) throws MalformedURLException, IOException {	
+		URL url = new URL("https://duapp3.drexel.edu/webtms_du/");
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.connect();
+		Map<String, List<String>> headers = connection.getHeaderFields(); 
+		List<String> values = headers.get("Set-Cookie");
 		
-		Subject subject = getSubjectDAO().getByCode(subjectCode); 
+		url = new URL("https://duapp3.drexel.edu/webtms_du/Colleges.asp?Term=201145&univ=DREX");
+		connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestProperty("Cookie",values.get(0));
+		connection.setRequestProperty("Cache-Control","no-cache");
 		
-		ArrayList<CourseListing> courses = new ArrayList<CourseListing>();	
+		url = new URL("https://duapp3.drexel.edu/webtms_du/Courses.asp?SubjCode="+subjectCode+"&CollCode="+collegeCode+"&univ=DREX");
+		connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestProperty("Cookie",values.get(0));
+		connection.setRequestProperty("Cache-Control","no-cache");
+		
+		ArrayList<SectionListing> sections = new ArrayList<SectionListing>();	
 		
 		try {
-			Document document = getUrlDocument(url);
+			BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			
+			boolean consume =false;
+			String contents="";
+			while ((line = input.readLine()) != null) {
+				System.out.println(line);
+				
+				
+				line = line.replace("<BR>", "");
+				contents+=line;
+			}
+			//System.out.println(contents);
+			Document document = getDocument(contents);
 
-			Element content = document.getElementById("courseinventorycontainer");
+			Element table = (Element)document.getElementsByTagName("TABLE").item(0);
 
-			NodeList divs = content.getElementsByTagName("div");
-			int divCount = divs.getLength();
-			for (int i = 0; i < divCount; i++) {
-				Element div = (Element) divs.item(i);
+			NodeList rows = table.getElementsByTagName("TR");
+			int rowCount = rows.getLength();
+			for (int i = 0; i < rowCount; i++) {
+				Element row = (Element) rows.item(i);
 
-				if (div.getAttribute("class").equals("courseblock")) {
-					courses.add(new CourseListing(div,subject));
+				if(!((Element)row.getElementsByTagName("TD").item(0)).getTextContent().equals("")){
+					sections.add(new SectionListing(row));
 				}
 			}
 		} catch (IllegalArgumentException ex) {
 			logger.error(ex.getMessage());
 		} finally {
-			model.addAttribute("courses", courses);
+			model.addAttribute("sections", sections);
 		}
 		
 		return "ingest/professors";
 	}
 	
-	private String getFilteredContents(String url) throws IOException {
-		URL u = new URL(url);
-		BufferedReader input = new BufferedReader(new InputStreamReader(u.openStream()));
+	private String getFilteredContents(String url) throws IOException{
+		return getFilteredContents(new URL(url).openStream());
+	}
+	
+	private String getFilteredContents(InputStream stream) throws IOException {
+		BufferedReader input = new BufferedReader(new InputStreamReader(stream));
 		String contents = "";
 		String line;
 		
@@ -183,6 +214,27 @@ public class IngestController {
 		return contents;
 	}
 
+	private Document getDocument(String contents) {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			
+			Reader reader = new StringReader(contents);
+			InputSource source = new InputSource(reader);
+			Document document = builder.parse(source);
+			
+			return document;
+		} catch (ParserConfigurationException ex) {
+			logger.error(ex.getMessage());
+		} catch (IOException ex) {
+			logger.error(ex.getMessage());
+		} catch (SAXException ex) {
+			logger.error(ex.getMessage());
+		}
+
+		throw new IllegalArgumentException("Getting document from string failed.");
+	}
+	
 	private Document getUrlDocument(String url) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

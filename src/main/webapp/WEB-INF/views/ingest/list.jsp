@@ -23,13 +23,8 @@
 						<ul>
 							<c:forEach items="${college.getSubjects()}" var="subject">
 								<li>
-									<span><c:out value="${subject.getName()}" /></span>
-									<div class="subject"
-										data-college="<c:out value="${college.getCode()}"/>"
-										data-subject="<c:out value="${subject.getCode()}"/>">
-									</div>
 									<a href="<c:url value="/ingest/courses/${college.getCode()}/${subject.getCode()}" />">
-										<c:url value="/ingest/courses/${college.getCode()}/${subject.getCode()}" />
+										Ingest <c:out value="${subject.getName()}" />
 									</a>
 								</li>
 							</c:forEach>

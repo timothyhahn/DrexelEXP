@@ -1,6 +1,7 @@
 
 package com.drexelexp.professor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -41,6 +42,24 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	}
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("NAME");
+	}
+	
+	public Professor getByName(String name){
+		Map<String,Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("LOWER(NAME)",name.toLowerCase());
+		
+		List<Professor> result = getWhere(conditions);
+		
+		if(result.size()==1)
+			return result.get(0);
+		
+		return null;
+	}
+	
+	public void addProfessorCourse(Professor professor,Course course){
+		//TODO
+		
 	}
 	
 	public List<Professor> getByCourse(Course course){
