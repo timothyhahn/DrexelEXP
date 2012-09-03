@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -112,9 +115,17 @@ public class ProfessorController {
 		return new ModelAndView("redirect:../");
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN','ROLE_USER'")
 	@RequestMapping(value="/professor", method = RequestMethod.GET)
 	public String list(Model model) {
 		List<Professor> professors = null;
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -143,7 +154,7 @@ public class ProfessorController {
 		return new ModelAndView("professor/search", "command", new Professor());
 		
 	}
-	
+
 	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
 	public String showSearchResults(@ModelAttribute("name") Professor p, Model model) {
 		String query = p.getName();
@@ -155,7 +166,7 @@ public class ProfessorController {
 		List<Professor> professors = dao.search(query);
 				
 		model.addAttribute("professors",professors);
-		
-		return "professor/list";
+
+		return "/professor/list";
 	}
 }

@@ -1,0 +1,72 @@
+html {
+	       height: auto !important; /* ie 6 will ignore this */
+       height: 100%;            /* ie 6 will use this instead of min-height */
+       min-height: 100%;        /* ie 6 will ignore this */
+	
+}
+body {
+	background-color: #cacbc5;
+	       height: auto !important; /* ie 6 will ignore this */
+       height: 100%;            /* ie 6 will use this instead of min-height */
+       min-height: 100%;        /* ie 6 will ignore this */
+	
+}
+.header {
+	background-color: #002663;
+	color: #F5CF47;
+	width:100%;
+	margin-top:-10px;
+	margin-left:-10px;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	position:absolute;
+}
+a:visited{
+	color: #F5CF47;
+}
+#option {
+	text-align:right;
+	float:right;
+	margin-right:50px;
+}
+#logo {
+	font-size: 50px;
+	margin-bottom:-30px;
+}
+#page {
+	padding-top: 80px;
+		       height: auto !important; /* ie 6 will ignore this */
+       height: 100%;            /* ie 6 will use this instead of min-height */
+       min-height: 100%;        /* ie 6 will ignore this */
+
+		display: block;
+		
+    height:auto;
+
+	min-height:100%;
+}
+#login {
+	display: none;
+	float:left;
+}
+#profSearch {
+	float:left;
+}
+#courseSearch {
+	float:left;
+}
+#text {
+	margin-left:auto;
+	margin-right:auto;
+	padding-left:50px;
+	padding-right:50px;
+	padding-top:40px;
+	background-color: #efefef;
+	width:80%;
+	display: block;
+	
+	height:auto !important;
+	height:100%;
+	min-height:100%;
+}

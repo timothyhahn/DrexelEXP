@@ -28,13 +28,13 @@
 		  
 	   <security:global-method-security pre-post-annotations="enabled" />
 		<security:http auto-config='true'>
-			<security:form-login login-page="/login" default-target-url="/course/list" authentication-failure-url="/loginfailed"/>
+			<security:form-login login-page="/login" default-target-url="/" authentication-failure-url="/loginfailed"/>
 			<security:intercept-url pattern="/welcome*" access="ROLE_USER,ROLE_ADMIN" />
 			<security:intercept-url pattern="/course**" access="ROLE_USER,ROLE_ADMIN" />
 			<security:intercept-url pattern="/professor**" access="ROLE_USER,ROLE_ADMIN" />
 			<security:intercept-url pattern="/professor/add*" access="ROLE_USER,ROLE_ADMIN" />
 			<security:intercept-url pattern="/professor/create*" access="ROLE_USER,ROLE_ADMIN" />
-			<security:logout logout-success-url="/logout" />
+			<security:logout logout-success-url="/" />
 		</security:http>
 		  
   
