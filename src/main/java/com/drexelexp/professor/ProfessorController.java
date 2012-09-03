@@ -1,6 +1,8 @@
 package com.drexelexp.professor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
 import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.review.Review;
 
 /**
  * Controller for the Professor object
@@ -182,7 +185,14 @@ public class ProfessorController {
 		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
 		model.addAttribute("professor",dao.getById(Integer.parseInt(profID)));
+		Timestamp t = new Timestamp(0);
 		
+		Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,
+				1, 1, 1);
+		List<Review> reviews = new ArrayList<Review>();
+
+		reviews.add(review);
+		model.addAttribute("reviews", reviews);
 		return "professor/show";
 	}
 	
