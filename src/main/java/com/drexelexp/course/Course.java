@@ -63,6 +63,8 @@ public class Course {
 		
 		subject = dao.getById(subjectId);
 		
+		System.out.println(subject!=null?subject.getName():"NULL");
+		
 		return subject;
 	}
 		

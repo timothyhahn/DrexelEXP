@@ -49,24 +49,32 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		Map<String,Object> columnMap = getColumnMap(instance);
 		columnMap.remove(getIdColumnName());
 		
-		String list = "(?";
-		for(int i=1;i<columnMap.size();i++)
-			list+=",?";
+		String list = "(";
+		String cols = "(";
+		boolean first = true;
+		for(String column : columnMap.keySet()){
+			if(first){
+				list+="?";
+				cols+=column;
+				first=false;
+			}
+			else{
+				list+=",?";
+				cols+=","+column;
+			}
+		}
 		list+=")";
 		
-		String sql = "INSERT INTO "+getTableName()+" "+list+" VALUES "+list;
+		String sql = "INSERT INTO "+getTableName()+" "+cols+" VALUES "+list;
 		Connection conn = null;
  
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			int offset = columnMap.size();
 			int parameterIndex=1;
-			for (String key : columnMap.keySet()) {				
-				ps.setString(parameterIndex, key);
-				
-				setUnknownParameter(ps,parameterIndex+offset,columnMap.get(key));
+			for (String key : columnMap.keySet()) {					
+				setUnknownParameter(ps,parameterIndex,columnMap.get(key));
 				
 				parameterIndex++;
 		     }
@@ -98,12 +106,19 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		return null;
 	}
 	public void update(T instance) {
-		String sql = "UPDATE "+getTableName()+" SET ? = ? ";
+		String sql = "UPDATE "+getTableName()+" SET ";
 		
 		Map<String,Object> columnMap = getColumnMap(instance);
-		
-		for(int i=1;i<columnMap.size();i++)
-			sql+=", ? = ? ";
+		boolean first = true;
+		for(String column : columnMap.keySet()){
+			if(first){
+				sql+=column+"=?";
+				first=false;
+			}
+			else{
+				sql+=","+column+"=?";
+			}
+		}
 		
 		sql+=" WHERE "+getIdColumnName()+" = ?";
 		
@@ -115,10 +130,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			
 			int parameterIndex = 1;
 			
-			for (String key :  columnMap.keySet()) {
-				ps.setString(parameterIndex, key);
-				parameterIndex++;
-				
+			for (String key :  columnMap.keySet()) {				
 				setUnknownParameter(ps,parameterIndex,columnMap.get(key));
 				parameterIndex++;
 		     }
@@ -192,10 +204,16 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	}
 	
 	protected List<T> getWhere(Map<String,Object> conditions){
-		String condition = "? = ?";
-		
-		for(int i=1;i<conditions.size();i++){
-			condition+="AND ? = ?";
+		String condition = "";		
+		boolean first = true;
+		for(String column : conditions.keySet()){
+			if(first){
+				condition+=column+"=?";
+				first=false;
+			}
+			else{
+				condition+="AND "+column+"=?";
+			}
 		}		
 		
 		String sql = "SELECT * FROM "+getTableName()+" WHERE "+condition;
@@ -210,8 +228,6 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 
 			int parameterIndex=1;
 			for(String key : conditions.keySet()){
-				ps.setString(parameterIndex, key);
-				parameterIndex++;
 				setUnknownParameter(ps,parameterIndex,conditions.get(key));
 				parameterIndex++;
 			}

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import com.drexelexp.baseDAO.JdbcBaseDAO;
@@ -25,7 +26,9 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		return instance.getId();
 	}
 	protected User parseResultSetRow(ResultSet rs) throws SQLException{
-		throw new IllegalStateException("User methods are overwritten.");
+		return new User(
+				rs.getInt("USER_ID"),
+				rs.getString("EMAIL"));
 	}
 	protected Map<String,Object> getColumnMap(User instance){
 		throw new IllegalStateException("User methods are overwritten.");
@@ -79,6 +82,11 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		
 		conditions.put("EMAIL",email);
 		
-		return getWhere(conditions).get(0).getId();
+		List<User> result = getWhere(conditions);
+		
+		if(result.size()==1)
+			return result.get(0).getId();
+		
+		return 0;
 	}
 }
