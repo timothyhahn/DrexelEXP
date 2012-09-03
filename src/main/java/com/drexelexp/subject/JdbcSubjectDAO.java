@@ -21,6 +21,10 @@ public class JdbcSubjectDAO extends SearchableDAO<Subject> {
 	protected String getIdColumnName(){
 		return "SUBJECT_ID";
 	}
+	@Override
+	protected String getOrderByColumns(){
+		return "NAME";
+	}
 	protected int getId(Subject instance){
 		return instance.getId();
 	}

@@ -23,6 +23,10 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 	protected String getIdColumnName(){
 		return "COURSE_ID";
 	}
+	@Override
+	protected String getOrderByColumns(){
+		return "COURSE_ID,NUMBER";
+	}
 	protected int getId(Course instance){
 		return instance.getId();
 	}

@@ -21,6 +21,9 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	
 	protected abstract String getTableName();
 	protected abstract String getIdColumnName();
+	protected String getOrderByColumns(){
+		return getIdColumnName();
+	}
 	protected abstract int getId(T instance);
 	protected abstract T parseResultSetRow(ResultSet rs) throws SQLException;
 	protected abstract Map<String,Object> getColumnMap(T instance);
@@ -206,7 +209,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		}
 	}
 	
-	protected List<T> getWhere(Map<String,Object> conditions){
+	private List<T> getWhere(Map<String,Object> conditions, int page, int pageSize){
 		String condition = "";		
 		boolean first = true;
 		for(String column : conditions.keySet()){
@@ -219,9 +222,11 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			}
 		}		
 		
-		String sql = "SELECT * FROM "+getTableName()+" WHERE "+condition;
-		
-		System.out.println(sql+"~"+conditions.keySet().toArray()[0]+"~"+conditions.values().toArray()[0]);
+		String sql =
+				"SELECT * FROM "+getTableName()+" "+
+				"WHERE "+condition+" "+
+				"LIMIT "+pageSize+" OFFSET "+((page-1)*pageSize)+" "+
+				"ORDER BY "+getOrderByColumns();
 		
 		Connection conn = null;
 
@@ -256,11 +261,23 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		}
 	}
 	
+	protected List<T> getWhere(Map<String,Object> conditions){
+		return getWhere(conditions,1, Integer.MAX_VALUE);
+	}
+	
 	public List<T> getAll() {
 		Map<String, Object> conditions = new Hashtable<String,Object>();
 		
 		conditions.put("1",1);
 		
 		return getWhere(conditions);
+	}
+	
+	public List<T> getPage(int page, int pageSize) {
+		Map<String, Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("1",1);
+		
+		return getWhere(conditions, page, pageSize);
 	}
 }

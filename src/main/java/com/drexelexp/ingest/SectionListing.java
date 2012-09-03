@@ -50,10 +50,7 @@ public class SectionListing {
 	}
 	
 	public SectionListing(Element htmlElement){
-		NodeList cells = htmlElement.getElementsByTagName("TD");
-		
-		System.out.println("C: "+cells.getLength());
-		
+		NodeList cells = htmlElement.getElementsByTagName("TD");		
 		
 		subjectCode = ((Element)cells.item(0)).getTextContent();
 		courseNumber = Integer.parseInt(((Element)cells.item(1)).getTextContent());

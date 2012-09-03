@@ -25,6 +25,10 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	protected String getIdColumnName(){
 		return "PROF_ID";
 	}
+	@Override
+	protected String getOrderByColumns(){
+		return "NAME";
+	}
 	protected int getId(Professor instance){
 		return instance.getId();
 	}
