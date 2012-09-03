@@ -25,9 +25,11 @@
 						<ul>
 							<c:forEach items="${college.getSubjects()}" var="subject">
 								<li>
-									<a class="courses" href="<c:url value="/ingest/courses/${college.getCode()}/${subject.getCode()}" />">
-										Ingest <c:out value="${subject.getName()}" />
-									</a>
+									<div class="subject"
+										data-college="<c:out value="${college.getCode()}"/>"
+										data-subject="<c:out value="${subject.getCode()}"/>">
+										<span><c:out value="${subject.getName()}" /></span>
+									</div>
 								</li>
 							</c:forEach>
 						</ul>
@@ -39,9 +41,17 @@
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#autorun").click(function(){
-			$("a.courses").each(function(index,value){
-				$.get($(value).attr("href"));
+		$("#autoingest").click(function(){
+			$(".subject").each(function(index,value){
+				var subject = $(value).attr('data-subject');
+				var college = $(value).attr('data-college');
+				
+				var courseUrl = '<c:url value="/ingest/courses/" />'+college+'/'+subject;
+				var professorUrl = '<c:url value="/ingest/professors/" />'+college+'/'+subject;
+				
+				$.get(courseUrl,function(){
+					$.get(professorUrl);
+				});
 			});
 		});
 	});

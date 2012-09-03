@@ -35,7 +35,7 @@ public class CourseListing {
 		nodes = ((Element)htmlElement.getElementsByTagName("p").item(0)).getElementsByTagName("span");
 		
 		text = ((Element)nodes.item(0)).getTextContent();
-		number = Integer.parseInt(text.split("\\u00A0")[1].trim());
+		number = Integer.parseInt(text.split("\\u00A0")[1].split("[\\s]+")[0].trim());
 		text = ((Element)nodes.item(1)).getTextContent();
 		name = text;
 		

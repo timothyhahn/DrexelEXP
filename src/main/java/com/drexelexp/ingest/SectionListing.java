@@ -52,6 +52,9 @@ public class SectionListing {
 	public SectionListing(Element htmlElement){
 		NodeList cells = htmlElement.getElementsByTagName("TD");
 		
+		System.out.println("C: "+cells.getLength());
+		
+		
 		subjectCode = ((Element)cells.item(0)).getTextContent();
 		courseNumber = Integer.parseInt(((Element)cells.item(1)).getTextContent());
 		professorName = ((Element)cells.item(8)).getTextContent();

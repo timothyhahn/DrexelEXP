@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Dictionary;
@@ -121,22 +122,24 @@ public class IngestController {
 	}
 	
 	@RequestMapping(value = "/ingest/professors/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
-	public String professors(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) throws MalformedURLException, IOException {	
+	public String professors(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) throws MalformedURLException, IOException, InterruptedException {	
 		URL url = new URL("https://duapp3.drexel.edu/webtms_du/");
-		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		URLConnection connection = url.openConnection();
 		connection.connect();
 		Map<String, List<String>> headers = connection.getHeaderFields();
-		List<String> values = headers.get("Set-Cookie");
+		String cookie = headers.get("Set-Cookie").get(0);
 		
 		url = new URL("https://duapp3.drexel.edu/webtms_du/Colleges.asp?Term=201145&univ=DREX");
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestProperty("Cookie",values.get(0));
-		connection.setRequestProperty("Cache-Control","no-cache");
+		connection = url.openConnection();
+		connection.setRequestProperty("Cookie",cookie);
+		connection.connect();
+		connection.getContent();
 		
 		url = new URL("https://duapp3.drexel.edu/webtms_du/Courses.asp?SubjCode="+subjectCode+"&CollCode="+collegeCode+"&univ=DREX");
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestProperty("Cookie",values.get(0));
-		connection.setRequestProperty("Cache-Control","no-cache");
+		connection = url.openConnection();
+		connection.setRequestProperty("Cookie",cookie);
+		connection.connect();
+		connection.getContent();
 		
 		ArrayList<SectionListing> sections = new ArrayList<SectionListing>();	
 		
@@ -147,22 +150,45 @@ public class IngestController {
 			boolean consume =false;
 			String contents="";
 			while ((line = input.readLine()) != null) {
-				System.out.println(line);
-				
-				
-				line = line.replace("<BR>", "");
-				contents+=line;
+				if(line.contains("<TABLE")){
+					consume=true;
+				}
+				if(consume){
+					line= line
+							.replaceAll("<BR>", "")
+							.replaceAll("<TD[^>]*>", "<TD>")
+							.replaceAll("<A[^>]*>", "<A>")
+							.replaceAll("<FONT[^>]*>", "")
+							.replaceAll("</FONT>", "")
+							.replaceAll("&nbsp;", "")
+							.replaceAll("&", "&amp;");
+					
+					contents+=line;
+					//System.out.println(line);
+				}
+				if(line.contains("</TABLE>")){
+					break;
+				}
 			}
+			contents = "<html>"+contents+"</html>";
+			System.out.println(contents);			
+			
 			Document document = getDocument(contents);
 
 			Element table = (Element)document.getElementsByTagName("TABLE").item(0);
 
 			NodeList rows = table.getElementsByTagName("TR");
 			int rowCount = rows.getLength();
-			for (int i = 0; i < rowCount; i++) {
+			System.out.println("R: " + rowCount);
+			
+			for (int i = 1; i < rowCount; i++) {
 				Element row = (Element) rows.item(i);
 
-				if(!((Element)row.getElementsByTagName("TD").item(0)).getTextContent().equals("")){
+				NodeList cells = row.getElementsByTagName("TD");
+				Element firstCell = (Element)cells.item(0);
+				
+				if(!firstCell.getTextContent().trim().equals("") && cells.getLength()==9){
+					System.out.println("r: "+i);
 					sections.add(new SectionListing(row));
 				}
 			}
