@@ -13,11 +13,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.drexelexp.professor.Professor;
-
-public abstract class JdbcDAO<T> implements BaseDAO<T> {
-	
-	
+public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	protected DataSource dataSource;
 
 	public void setDataSource(DataSource dataSource) {
@@ -29,8 +25,27 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 	protected abstract int getId(T instance);
 	protected abstract T parseResultSetRow(ResultSet rs) throws SQLException;
 	protected abstract Dictionary<String,Object> getColumnMap(T instance);
-	protected abstract List<String> getSearchableColumns();
 	
+	private List<T> parseResultSet(ResultSet rs) throws SQLException{
+		List<T> items = new ArrayList<T>();
+		while (rs.next()) {
+			T item = parseResultSetRow(rs);
+			items.add(item);
+		}
+		return items;
+	}
+	
+	private void setUnknownParameter(PreparedStatement ps, int parameterIndex, Object value) throws SQLException{
+		Class type = value.getClass();
+		
+		if(type.equals(Integer.class))
+			ps.setInt(parameterIndex, (Integer)value);
+		else if(type.equals(String.class))
+			ps.setString(parameterIndex, (String)value);
+		else if(type.equals(Float.class))
+			ps.setFloat(parameterIndex, (Float)value);
+	}
+
 	public void insert(T instance) {
 		Dictionary<String,Object> columnMap = getColumnMap(instance);
 		
@@ -53,13 +68,7 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 
 					ps.setString(parameterIndex, key);
 					
-					Object value = columnMap.get(key);
-					Class type = value.getClass();
-					
-					if(type.equals(Integer.class))
-						ps.setInt(parameterIndex+offset, (Integer)value);
-					else if(type.equals(String.class))
-						ps.setString(parameterIndex+offset, (String)value);
+					setUnknownParameter(ps,parameterIndex+offset,columnMap.get(key));
 					
 					parameterIndex++;
 		     }
@@ -79,34 +88,7 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 		}
 	}
 	public T getById(int id) {
-		String sql = "SELECT * FROM "+getTableName()+" WHERE "+getIdColumnName()+" = ?";
-		 
-		Connection conn = null;
- 
-		try {
-			conn = dataSource.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
-			T item = null;
-			ResultSet rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				item = parseResultSetRow(rs);
-			}
-			
-			rs.close();
-			ps.close();
-			
-			return item;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (conn != null) {
-				try {
-				conn.close();
-				} catch (SQLException e) {}
-			}
-		}
+		return getWhere(getIdColumnName()+" = "+id).get(0);
 	}
 	public void update(T instance) {
 		String sql = "UPDATE "+getTableName()+" SET ? = ? ";
@@ -132,14 +114,7 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 					ps.setString(parameterIndex, key);
 					parameterIndex++;
 					
-					Object value = columnMap.get(key);
-					Class type = value.getClass();
-					
-					if(type.equals(Integer.class))
-						ps.setInt(parameterIndex, (Integer)value);
-					else if(type.equals(String.class))
-						ps.setString(parameterIndex, (String)value);
-					
+					setUnknownParameter(ps,parameterIndex,columnMap.get(key));					
 					parameterIndex++;
 		     }
 			
@@ -181,68 +156,9 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 			}
 		}
 	}
-	
-	public List<T> search(String query) {
-		//TODO update to search multiple columns
-		LinkedList<T> items = new LinkedList<T>();
-		
-		String sql = "SELECT * FROM " + getTableName() + " WHERE "+getSearchableColumns().get(0)+" LIKE ?";
 
-		for (String queryPart : Arrays.asList(query.split(" "))) {
-
-			Connection conn = null;
-
-			try {
-				conn = dataSource.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql);
-
-				ps.setString(1, "%" + queryPart + "%");
-
-				ResultSet rs = ps.executeQuery();
-
-				while (rs.next()) {
-
-					T item = parseResultSetRow(rs);
-
-					T toMod = null;
-					boolean itemNotFound = true;
-					for (T i : items) {
-						if (getId(i) == getId(item)) {
-							toMod = i; // Because modifying while iterating does
-										// stupid things...
-							itemNotFound = false;
-						}
-					}
-
-					if (itemNotFound)
-						items.add(item);
-					else {
-						items.remove(toMod);
-						items.addFirst(toMod);
-					}
-				}
-
-				rs.close();
-				ps.close();
-				conn.close();
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			} finally {
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-					}
-				}
-			}
-		}
-
-		return items;
-	}
-
-	public List<T> getAll() {
-		ArrayList<T> items = new ArrayList<T>();
-		String sql = "SELECT * FROM " + getTableName();
+	protected List<T> getWhere(String conditon){
+		String sql = "SELECT * FROM "+getTableName()+" WHERE ";
 		Connection conn = null;
 
 		try {
@@ -251,10 +167,7 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 
 			ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				T item = parseResultSetRow(rs);
-				items.add(item);
-			}
+			List<T> items = parseResultSet(rs);
 
 			rs.close();
 			ps.close();
@@ -271,5 +184,9 @@ public abstract class JdbcDAO<T> implements BaseDAO<T> {
 				}
 			}
 		}
+	}
+	
+	public List<T> getAll() {
+		return getWhere("1=1");
 	}
 }

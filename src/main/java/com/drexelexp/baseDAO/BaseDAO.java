@@ -8,6 +8,5 @@ public interface BaseDAO<T> {
 	public void update(T insance);
 	public void delete(T instance);	
 	
-	public List<T> search(String query);
 	public List<T> getAll();
 }

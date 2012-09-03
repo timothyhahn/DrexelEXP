@@ -11,15 +11,15 @@ import java.util.Dictionary;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.baseDAO.JdbcDAO;
+import com.drexelexp.baseDAO.SearchableDAO;
+import com.drexelexp.subject.Subject;
 
 /**
  * Implementation of ProfessorDAO in JDBC style.
  * @author
  *
  */
-public class JdbcProfessorDAO extends JdbcDAO<Professor> implements BaseDAO<Professor>{
+public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	protected String getTableName(){
 		return "professors";
 	}

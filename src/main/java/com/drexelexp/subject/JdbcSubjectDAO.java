@@ -11,16 +11,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.baseDAO.JdbcDAO;
-import com.drexelexp.professor.Professor;
+import com.drexelexp.baseDAO.SearchableDAO;
 
 /**
  * Implementation of SubjectDAO in JDBC style.
  * @author
  *
  */
-public class JdbcSubjectDAO extends JdbcDAO<Subject> implements BaseDAO<Subject> {
+public class JdbcSubjectDAO extends SearchableDAO<Subject> {
 	protected String getTableName(){
 		return "subjects";
 	}

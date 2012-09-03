@@ -11,8 +11,7 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.baseDAO.JdbcDAO;
+import com.drexelexp.baseDAO.JdbcBaseDAO;
 import com.drexelexp.course.Course;
 import com.drexelexp.course.JdbcCourseDAO;
 import com.drexelexp.professor.JdbcProfessorDAO;
@@ -23,7 +22,7 @@ import com.drexelexp.professor.Professor;
  * @author
  *
  */
-public class JdbcReviewDAO extends JdbcDAO<Review> implements BaseDAO<Review>{
+public class JdbcReviewDAO extends JdbcBaseDAO<Review> {
 	protected String getTableName(){
 		return "reviews";
 	}
@@ -38,10 +37,6 @@ public class JdbcReviewDAO extends JdbcDAO<Review> implements BaseDAO<Review>{
 		return null;
 	}
 	protected Dictionary<String,Object> getColumnMap(Review instance){
-		//TODO
-		return null;
-	}
-	protected List<String> getSearchableColumns(){
 		//TODO
 		return null;
 	}

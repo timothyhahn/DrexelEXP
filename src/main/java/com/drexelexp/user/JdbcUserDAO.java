@@ -10,15 +10,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.baseDAO.JdbcDAO;
+import com.drexelexp.baseDAO.JdbcBaseDAO;
 
 /**
  * Implementation of UserDAO in JDBC style.
  * @author Timothy Hahn
  *
  */
-public class JdbcUserDAO extends JdbcDAO<User> implements BaseDAO<User>{
+public class JdbcUserDAO extends JdbcBaseDAO<User>{
 	protected String getTableName(){
 		return "users";
 	}

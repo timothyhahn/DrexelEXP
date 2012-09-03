@@ -10,11 +10,10 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.baseDAO.JdbcDAO;
+import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.course.Course;
 
-public class JdbcCourseDAO extends JdbcDAO<Course> implements BaseDAO<Course> {
+public class JdbcCourseDAO extends SearchableDAO<Course> {
 	protected String getTableName(){
 		return "courses";
 	}
@@ -41,5 +40,8 @@ public class JdbcCourseDAO extends JdbcDAO<Course> implements BaseDAO<Course> {
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("name","subject");
 	}
+	
+	public List<Course> getBySubjectId(int id){
+		return getWhere("SUBJECT_ID = "+id);
+	}
 }
-
