@@ -56,9 +56,12 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 		return Arrays.asList("courses.NAME","s.NAME");
 	}	
 	
-	
 	public List<Course> getBySubject(Subject subject){
-		return getWhere("SUBJECT_ID = "+subject.getId());
+		Map<String, Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("SUBJECT_ID",subject.getId());
+		
+		return getWhere(conditions);
 	}
 	
 	public List<Course> getByProfessor(Professor professor){

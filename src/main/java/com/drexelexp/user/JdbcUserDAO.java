@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Hashtable;
 import java.util.Map;
 
 import com.drexelexp.baseDAO.JdbcBaseDAO;
@@ -73,7 +74,11 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		}
 	}
 	
-	public int findIdByEmail(String email) {		 
-		return getWhere("EMAIL = '"+email+"'").get(0).getId();
+	public int findIdByEmail(String email) {
+		Map<String, Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("EMAIL",email);
+		
+		return getWhere(conditions).get(0).getId();
 	}
 }

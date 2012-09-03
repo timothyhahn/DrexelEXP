@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +86,11 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		}
 	}
 	public T getById(int id) {
-		return getWhere(getIdColumnName()+" = "+id).get(0);
+		Map<String, Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put(getIdColumnName(),id);
+		
+		return getWhere(conditions).get(0);
 	}
 	public void update(T instance) {
 		String sql = "UPDATE "+getTableName()+" SET ? = ? ";
@@ -181,11 +186,55 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		}
 	}
 	
-	protected List<T> getWhere(String condition){
-		return getQuery("SELECT * FROM "+getTableName()+" WHERE "+condition);
+	protected List<T> getWhere(Map<String,Object> conditions){
+		String condition = "? = ?";
+		
+		for(int i=1;i<conditions.size();i++){
+			condition+="AND ? = ?";
+		}		
+		
+		String sql = "SELECT * FROM "+getTableName()+" WHERE "+condition;
+		
+		Connection conn = null;
+
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			int parameterIndex=1;
+			for(String key : conditions.keySet()){
+				ps.setString(parameterIndex, key);
+				parameterIndex++;
+				setUnknownParameter(ps,parameterIndex,conditions.get(key));
+				parameterIndex++;
+			}
+			
+			ResultSet rs = ps.executeQuery();
+
+			List<T> items = parseResultSet(rs);
+
+			rs.close();
+			ps.close();
+
+			return items;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
 	}
 	
 	public List<T> getAll() {
-		return getWhere("true");
+		Map<String, Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("1","1");
+		
+		return getWhere(conditions);
 	}
 }
