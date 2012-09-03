@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,15 +33,15 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		return items;
 	}
 	
-	private void setUnknownParameter(PreparedStatement ps, int parameterIndex, Object value) throws SQLException{
-		Class type = value.getClass();
-		
-		if(type.equals(Integer.class))
+	private void setUnknownParameter(PreparedStatement ps, int parameterIndex, Object value) throws SQLException{		
+		if(value instanceof Integer)
 			ps.setInt(parameterIndex, (Integer)value);
-		else if(type.equals(String.class))
+		else if(value instanceof String)
 			ps.setString(parameterIndex, (String)value);
-		else if(type.equals(Float.class))
+		else if(value instanceof Float)
 			ps.setFloat(parameterIndex, (Float)value);
+		else if(value instanceof Timestamp)
+			ps.setTimestamp(parameterIndex, (Timestamp)value);
 	}
 
 	public void insert(T instance) {

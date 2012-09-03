@@ -7,6 +7,7 @@ package com.drexelexp.course;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,15 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 			);
 	}
 	protected Map<String,Object> getColumnMap(Course instance){
-		//TODO
-		return null;
+		Map<String,Object> map = new Hashtable<String,Object>();
+
+		map.put("COURSE_ID",instance.getId());
+		map.put("NUMBER",instance.getNumber());
+		map.put("NAME",instance.getName());
+		map.put("DESCRIPTION",instance.getDescription());
+		map.put("SUBJECT_ID",instance.getSubject().getId());
+		
+		return map;
 	}
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("name");

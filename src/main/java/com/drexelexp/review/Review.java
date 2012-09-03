@@ -1,5 +1,7 @@
 package com.drexelexp.review;
 
+import java.sql.Timestamp;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -8,8 +10,6 @@ import com.drexelexp.course.Course;
 import com.drexelexp.course.JdbcCourseDAO;
 import com.drexelexp.professor.JdbcProfessorDAO;
 import com.drexelexp.professor.Professor;
-import com.drexelexp.subject.JdbcSubjectDAO;
-import com.drexelexp.subject.Subject;
 import com.drexelexp.user.JdbcUserDAO;
 import com.drexelexp.user.User;
 
@@ -22,10 +22,8 @@ import com.drexelexp.user.User;
 public class Review {
 	private int id;
 	private String text;
-	private float professorRating;
-	private float courseRating;
-	private float overallRating;
-	private int timestamp;
+	private float rating;
+	private Timestamp timestamp;
 	private int userId;
 	private User user;
 	private int professorId;
@@ -36,19 +34,16 @@ public class Review {
 	public Review() {
 		this.id = -1;
 		this.text = "";
-		this.overallRating = 0;
+		this.rating = 0;
 		this.professor = null;
 		this.course = null;
 	}
 
-	public Review(int id, String text, float professorRating,
-			float courseRating, float overallRating, int timestamp,
+	public Review(int id, String text, float rating, Timestamp timestamp,
 			int userId, int professorId, int courseId) {
 		this.id = id;
 		this.text = text;
-		this.professorRating = professorRating;
-		this.courseRating = courseRating;
-		this.overallRating = overallRating;
+		this.rating = rating;
 		this.timestamp = timestamp;
 		this.userId = userId;
 		this.professorId = professorId;
@@ -65,16 +60,10 @@ public class Review {
 	public String getText(){
 		return text;
 	}
-	public float getProfessorRating(){
-		return professorRating;
+	public float getRating(){
+		return rating;
 	}
-	public float getCourseRating(){
-		return courseRating;
-	}
-	public float getOverallRating(){
-		return overallRating;
-	}
-	public int getTimestamp(){
+	public Timestamp getTimestamp(){
 		return timestamp;
 	}
 	public User getUser(){

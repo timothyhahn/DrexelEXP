@@ -4,12 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.List;
 import java.util.Map;
-
-import javax.sql.DataSource;
 
 import com.drexelexp.baseDAO.JdbcBaseDAO;
 
@@ -35,9 +30,6 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 	protected Map<String,Object> getColumnMap(User instance){
 		//TODO
 		return null;
-	}
-	protected List<String> getSearchableColumns(){
-		return Arrays.asList();
 	}	
 	
 	@Override
@@ -83,30 +75,7 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		}
 	}
 	
-	public int findIdByEmail(String email) {
-		String sql = "SELECT * FROM USERS WHERE EMAIL = ?";
-		 
-		Connection conn = null;
-		int id = 0;
-		try {
-			conn = dataSource.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, email);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				id = rs.getInt("USER_ID");
-			}
-			rs.close();
-			ps.close();
-			return id;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (conn != null) {
-				try {
-				conn.close();
-				} catch (SQLException e) {}
-			}
-		}
+	public int findIdByEmail(String email) {		 
+		return getWhere("EMAIL = '"+email+"'").get(0).getId();
 	}
 }

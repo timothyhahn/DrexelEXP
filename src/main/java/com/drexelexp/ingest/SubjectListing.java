@@ -9,13 +9,10 @@ public class SubjectListing {
 	
 	private String name;
 	private String code;
-	private String url;
 	
-	public SubjectListing(Element htmlElement){
-		url = htmlElement.getAttribute("href");
-		
-		String text =htmlElement.getTextContent();
-				
+	public SubjectListing(Element htmlElement){		
+		String text = htmlElement.getTextContent();
+			
 		name=text.substring(0, text.indexOf('(')-1);
 		code=text.substring(text.indexOf('(')+1,text.indexOf(')'));
 	}

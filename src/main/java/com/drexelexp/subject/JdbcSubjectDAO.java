@@ -3,6 +3,7 @@ package com.drexelexp.subject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +31,13 @@ public class JdbcSubjectDAO extends SearchableDAO<Subject> {
 				rs.getString("NAME"));
 	}
 	protected Map<String,Object> getColumnMap(Subject instance){
-		//TODO
-		return null;
+		Map<String,Object> map = new Hashtable<String,Object>();
+		
+		map.put("SUBJECT_ID",instance.getId());
+		map.put("CODE",instance.getCode());
+		map.put("NAME",instance.getName());
+		
+		return map;
 	}
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("name");
