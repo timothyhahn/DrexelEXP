@@ -32,12 +32,12 @@ public class HomeController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
-			logger.info("no auth");
 			model.addAttribute("username","");
 		} else {
-			logger.info("auth");
 			model.addAttribute("username",authentication.getName());
 		}
+		
+		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		

@@ -11,7 +11,9 @@
 	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
-<div id="navbar">DrexelEXP <div id="option">Login Register</div></div>
+	<div class="header">
+		<%@ include file="header.jsp" %>
+	</div>
 	<div id="page">
 		<p>
 			DrexelEXP is a bla bla bla. If you want more information, try the following steps

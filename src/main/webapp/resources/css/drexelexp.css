@@ -1,0 +1,33 @@
+body {
+	background-color: #cacbc5;
+}
+.header {
+	background-color: #002663;
+	color: #F5CF47;
+	width:100%;
+	margin-top:-10px;
+	margin-left:-10px;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	position:absolute;
+}
+a:visited{
+	color: #F5CF47;
+}
+#option {
+	text-align:right;
+	float:right;
+	margin-right:50px;
+}
+#logo {
+	font-size: 50px;
+	margin-bottom:-30px;
+}
+#page {
+	padding-top: 80px;
+}
+#login {
+	display: none;
+	float:left;
+}
