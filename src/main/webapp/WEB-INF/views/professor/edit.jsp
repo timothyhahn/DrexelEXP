@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
 <title>DrexelEXP - Edit Professors</title>
 		<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 		<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
-
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
  	 <div class="header">

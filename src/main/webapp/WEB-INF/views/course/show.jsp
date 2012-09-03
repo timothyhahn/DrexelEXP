@@ -10,6 +10,7 @@ pageEncoding="UTF-8"%>
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
 	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<div class="header">
@@ -18,7 +19,6 @@ pageEncoding="UTF-8"%>
 	<div id="page">
 		<div id ="text">
 			<h1>Course ${course.getName() }</h1>
-			<p> You are shown a course with id ${course.getId()} and name ${course.getName()} on <%= new java.util.Date() %></p>
 			<a href="<c:url value="/course/edit/${course.getId()}" />">Edit</a>
 			<a href="<c:url value="/course/delete/${course.getId()}" />">Delete</a>
 		 </div>

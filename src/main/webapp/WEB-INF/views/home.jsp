@@ -9,6 +9,7 @@
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
 	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<div class="header">

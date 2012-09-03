@@ -21,6 +21,10 @@ body {
 	padding-top: 20px;
 	padding-bottom: 20px;
 	position:absolute;
+	font-family: 'Quattrocento', serif;
+}
+#option a:link{
+	color: #F5CF47;
 }
 #option a:visited{
 	color: #F5CF47;
@@ -33,6 +37,15 @@ body {
 #logo {
 	font-size: 50px;
 	margin-bottom:-30px;
+}
+#logo a:link{
+	color: #F5CF47;
+}
+#logo a:visited{
+	color: #F5CF47;
+}
+#logo a {
+	text-decoration:none;
 }
 #page {
 	padding-top: 80px;
@@ -57,6 +70,7 @@ body {
 	float:left;
 }
 #text {
+	font-family: 'Source Sans Pro', sans-serif;
 	margin-left:auto;
 	margin-right:auto;
 	padding-left:50px;

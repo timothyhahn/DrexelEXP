@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- 
-<div id="logo">DrexelEXP</div>
+<link href='http://fonts.googleapis.com/css?family=Quattrocento' rel='stylesheet' type='text/css'>
+<div id="logo"><a href="/drexelexp">DrexelEXP</a></div>
 <div id="option">
 	<c:choose>
 		<c:when test="${username ==  ''}">
