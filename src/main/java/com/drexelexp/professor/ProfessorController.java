@@ -2,6 +2,7 @@ package com.drexelexp.professor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -31,8 +32,7 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor/create", method = RequestMethod.POST)
 	public ModelAndView createProfessor(@ModelAttribute("professor") Professor professor, ModelMap model) {
-		ApplicationContext context = 
-	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		professorDAO.insert(professor);
 		return new ModelAndView("redirect:../");
@@ -40,7 +40,7 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor/edit", method = RequestMethod.GET) 
 	public String listEditProfessor(Model model) {
-		ArrayList<Professor> professors = null;
+		List<Professor> professors = null;
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
@@ -71,13 +71,13 @@ public class ProfessorController {
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
-		((JdbcProfessorDAO)professorDAO).edit(professor);
+		((JdbcProfessorDAO)professorDAO).update(professor);
 		return new ModelAndView("redirect:../");
 	}
 	
 	@RequestMapping(value="/professor/delete", method = RequestMethod.GET) 
 	public String listDeleteProfessor(Model model) {
-		ArrayList<Professor> professors = new ArrayList<Professor>();
+		List<Professor> professors = new ArrayList<Professor>();
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
@@ -114,7 +114,7 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor", method = RequestMethod.GET)
 	public String list(Model model) {
-		ArrayList<Professor> professors = null;
+		List<Professor> professors = null;
 		
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -143,19 +143,19 @@ public class ProfessorController {
 		return new ModelAndView("professor/search", "command", new Professor());
 		
 	}
+	
 	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
 	public String showSearchResults(@ModelAttribute("name") Professor p, Model model) {
 		String query = p.getName();
 		
-		ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		
 		JdbcProfessorDAO dao = (JdbcProfessorDAO) context.getBean("professorDAO");
-		ArrayList<Professor> professors = new ArrayList<Professor>();
 		
-		professors = new ArrayList<Professor>(dao.searchByName(queryList));
-		
-		
+		List<Professor> professors = dao.search(query);
+				
 		model.addAttribute("professors",professors);
+		
 		return "professor/list";
 	}
 }

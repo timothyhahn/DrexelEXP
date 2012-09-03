@@ -2,6 +2,7 @@ package com.drexelexp.course;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -42,7 +43,7 @@ public class CourseController {
 	
 	@RequestMapping(value="/course/edit", method = RequestMethod.GET)
 	public String listEditCourse(Model model) {
-		ArrayList<Course> courses = null;
+		List<Course> courses = null;
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
@@ -67,17 +68,16 @@ public class CourseController {
 	@RequestMapping(value="/course/edit/{courseID}",method = RequestMethod.POST)
 	public ModelAndView updateCourse(@ModelAttribute("course") Course course, @PathVariable String courseID){
 		course.setId(Integer.parseInt(courseID));
-		ApplicationContext context=
-				new ClassPathXmlApplicationContext("Spring-Module.xml");
+		ApplicationContext context=	new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
-		((JdbcCourseDAO) courseDAO).edit(course);
+		((JdbcCourseDAO) courseDAO).update(course);
 		return new ModelAndView("redirect:../");
 		
 	}
 	
 	@RequestMapping(value="course/delete", method = RequestMethod.GET)
 	public String listDeleteCourse(Model model) {
-		ArrayList<Course> courses = new ArrayList<Course>();
+		List<Course> courses = new ArrayList<Course>();
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
@@ -117,11 +117,10 @@ public class CourseController {
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
 		
-		ArrayList<Course> courses = new ArrayList<Course>();
+		List<Course> courses = new ArrayList<Course>();
 		
 		courses = ((JdbcCourseDAO) courseDAO).getAll();
-		model.addAttribute("courses", courses);
-		
+		model.addAttribute("courses", courses);		
 		
 		return "course/list";
 	}
@@ -145,13 +144,10 @@ public class CourseController {
 	public String showSearchResults(@ModelAttribute("name") Course c, Model model) {
 		String query = c.getName();
 		
-		ArrayList<String> queryList = new ArrayList<String>(Arrays.asList(query.split(" ")));
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		JdbcCourseDAO dao = (JdbcCourseDAO) context.getBean("courseDAO");
-		ArrayList<Course> courses = new ArrayList<Course>();
 		
-		courses = new ArrayList<Course>(dao.searchByName(queryList));
-		
+		List<Course> courses = dao.search(query);		
 		
 		model.addAttribute("courses",courses);
 		return "course/list";

@@ -5,27 +5,26 @@ package com.drexelexp.subject;
  *
  */
 public class Subject {
-	public String shortName;
-	public String longName;
-	public Subject(int int1) {
-		// TODO Auto-generated constructor stub
+	private int id;
+	private String code;
+	private String name;
+	
+	public Subject(int id, String code, String name) {
+		this.id=id;
+		this.code=code;
+		this.name=name;
 	}
-	public Subject() {
-		// TODO Auto-generated constructor stub
+	
+	public int getId(){
+		return id;
 	}
-	public String getShortName() {
-		return shortName;
+	public void setId(int id){
+		this.id=id;
 	}
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public String getCode() {
+		return code;
 	}
-	public String getLongName() {
-		return longName;
-	}
-	public void setLongName(String longName) {
-		this.longName = longName;
-	}
-	public String toString() {
-		return shortName;
+	public String getName() {
+		return name;
 	}
 }

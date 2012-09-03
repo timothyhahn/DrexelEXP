@@ -5,7 +5,13 @@ package com.drexelexp.course;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.professor.JdbcProfessorDAO;
 import com.drexelexp.professor.Professor;
+import com.drexelexp.subject.JdbcSubjectDAO;
 import com.drexelexp.subject.Subject;
 
 /**
@@ -14,75 +20,54 @@ import com.drexelexp.subject.Subject;
  *
  */
 public class Course {
-	private String courseCode;
-	private Subject subject;
+	private int id;
 	private int number;
 	private String name;
-	private List<Professor> professors = new ArrayList<Professor>();
-	private int CourseId;
+	private String description;
+	private int subjectId;
+	private Subject subject;
 	
-	
-	public Course() {
+	public Course(){
 		
 	}
-	public Course(Subject subject, int number, String name, int id) {
-		this.subject = subject;
+	
+	public Course(int id, int number, String name, String description, int subjectId) {
+		this.id=id;
 		this.number = number;
 		this.name = name;
-		this.setCourseCode(subject.getShortName() + number);
-		this.CourseId = id;
+		this.description=description;
+		this.subjectId=subjectId;
 	}
 	
-	public Subject getSubject() {
-		return subject;
+	public int getId(){
+		return id;
 	}
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-		this.setCourseCode(subject.getShortName() + number);
+	public void setId(int id){
+		this.id=id;
 	}
 	public int getNumber() {
 		return number;
 	}
-	public void setNumber(int number) {
-		this.number = number;
-		this.setCourseCode(subject.getShortName() + number);
-	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public String getDescription(){
+		return description;
 	}
-	public String getCourseCode() {
-		return courseCode;
+	public Subject getSubject() {
+		if(subject!=null)
+			return subject;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Subject> dao = (JdbcSubjectDAO) context.getBean("subjectDAO");
+		
+		subject = dao.getById(subjectId);
+		
+		return subject;
 	}
-	public void setCourseCode(String courseCode) {
-		this.courseCode = courseCode;
-	}
-	
-	public void setId(int id){
-		this.CourseId = id;
-	}
-	
-	public int getId(){
-		return CourseId;
-	}
-	
+		
 	public List<Professor> getProfessors() {
-		return professors;
-	}
-	public void setProfessors(List<Professor> professors) {
-		this.professors = professors;
-	}
-	public void addProfessor(Professor professor) {
-		professors.add(professor);
-	}
-	public Professor getProfessorById(int id) {
-		for(Professor p : professors) {
-			if(p.getId() == id ) {
-				return p;
-			}
-		}
+		//TODO
 		return null;
 	}
 }

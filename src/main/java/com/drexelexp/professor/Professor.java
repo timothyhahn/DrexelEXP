@@ -14,7 +14,7 @@ import com.drexelexp.course.Course;
 public class Professor {
 	private int id;
 	private String name;
-	private List<Course> courses = new ArrayList<Course>();
+	private List<Course> courses;;
 	
 	public Professor() {
 		this.id = -1;
@@ -25,37 +25,21 @@ public class Professor {
 		this.name = name;
 	}
 
+	public void setId(int id){
+		this.id=id;
+	}
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
+	public String getName(){
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	public List<Course> getCourses() {
-		return courses;
-	}
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
-	}
-	public void addCourse(Course course) {
-		this.courses.add(course);
-	}
-	public Course getCourseByCode(String courseCode) {
-		for(Course c : courses) {
-			if(c.getCourseCode().equals(courseCode)){ 
-				return c;
-			}
-		}
+	public List<Course> getCourses(){
+		if(courses!=null)
+			return courses;
+		
+		//TODO
+		
 		return null;
 	}
-
 }

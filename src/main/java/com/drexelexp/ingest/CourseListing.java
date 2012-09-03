@@ -1,21 +1,25 @@
 package com.drexelexp.ingest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class CourseListing {
+	private static final Logger logger = LoggerFactory.getLogger(CourseListing.class);
+	
 	private int number;
 	private String name;
 	private String desc;
 	
 	public CourseListing(Element htmlElement){
-		String text;		
+		String text;
 		NodeList nodes;
 		
 		nodes = ((Element)htmlElement.getElementsByTagName("p").item(0)).getElementsByTagName("span");
 		
 		text = ((Element)nodes.item(0)).getTextContent();
-		number = 0;//Integer.parseInt(text.split("[0-9]*")[0]);
+		number = Integer.parseInt(text.split("\\u00A0")[1].trim());
 		text = ((Element)nodes.item(1)).getTextContent();
 		name = text;
 		

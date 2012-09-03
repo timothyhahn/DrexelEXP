@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -15,12 +18,28 @@ import com.drexelexp.baseDAO.JdbcDAO;
  * @author Timothy Hahn
  *
  */
-public class JdbcUserDAO extends JdbcDAO implements BaseDAO<User>{
-	private DataSource dataSource;
-	 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
+public class JdbcUserDAO extends JdbcDAO<User> implements BaseDAO<User>{
+	protected String getTableName(){
+		return "users";
 	}
+	protected String getIdColumnName(){
+		return "USER_ID";
+	}
+	protected int getId(User instance){
+		return instance.getId();
+	}
+	protected User parseResultSetRow(ResultSet rs) throws SQLException{
+		//TODO
+		return null;
+	}
+	protected Dictionary<String,Object> getColumnMap(User instance){
+		//TODO
+		return null;
+	}
+	protected List<String> getSearchableColumns(){
+		return Arrays.asList();
+	}	
+	
 	@Override
 	public void insert(User user) {
 		String userSQL = "INSERT INTO users " +
@@ -90,10 +109,4 @@ public class JdbcUserDAO extends JdbcDAO implements BaseDAO<User>{
 			}
 		}
 	}
-	@Override
-	public User getById(int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
