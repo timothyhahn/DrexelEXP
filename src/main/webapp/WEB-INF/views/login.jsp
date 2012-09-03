@@ -40,11 +40,7 @@
 			</tr>
 			<tr>
 				<td colspan='2'><input name="submit" type="submit"
-					value="Submit" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="reset" type="reset" />
+					value="Submit" /><input name="reset" type="reset" />
 				</td>
 			</tr>
 		</table>
