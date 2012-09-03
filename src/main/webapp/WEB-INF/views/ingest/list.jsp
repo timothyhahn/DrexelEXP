@@ -15,7 +15,9 @@
 	<div id="page">
 		<div id="text">
 			<h1>Ingest</h1>
-
+			
+			<span id="autoingest">Click me to ingest everything</span>
+			
 			<ul>
 				<c:forEach items="${colleges}" var="college">
 					<li>
@@ -23,7 +25,7 @@
 						<ul>
 							<c:forEach items="${college.getSubjects()}" var="subject">
 								<li>
-									<a href="<c:url value="/ingest/courses/${college.getCode()}/${subject.getCode()}" />">
+									<a class="courses" href="<c:url value="/ingest/courses/${college.getCode()}/${subject.getCode()}" />">
 										Ingest <c:out value="${subject.getName()}" />
 									</a>
 								</li>
@@ -35,4 +37,13 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#autorun").click(function(){
+			$("a.courses").each(function(index,value){
+				$.get($(value).attr("href"));
+			});
+		});
+	});
+</script>
 </html>

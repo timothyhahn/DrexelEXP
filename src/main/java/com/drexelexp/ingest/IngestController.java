@@ -125,7 +125,7 @@ public class IngestController {
 		URL url = new URL("https://duapp3.drexel.edu/webtms_du/");
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.connect();
-		Map<String, List<String>> headers = connection.getHeaderFields(); 
+		Map<String, List<String>> headers = connection.getHeaderFields();
 		List<String> values = headers.get("Set-Cookie");
 		
 		url = new URL("https://duapp3.drexel.edu/webtms_du/Colleges.asp?Term=201145&univ=DREX");
@@ -153,7 +153,6 @@ public class IngestController {
 				line = line.replace("<BR>", "");
 				contents+=line;
 			}
-			//System.out.println(contents);
 			Document document = getDocument(contents);
 
 			Element table = (Element)document.getElementsByTagName("TABLE").item(0);
