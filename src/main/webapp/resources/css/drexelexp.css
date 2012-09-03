@@ -70,3 +70,11 @@ a:visited{
 	height:100%;
 	min-height:100%;
 }
+
+.error {
+	color: #ff0000;
+	background-color: #ffdddd;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}

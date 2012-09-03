@@ -24,21 +24,34 @@
 	</div>	
 	<div id="page">
 		<div id ="text">
-	<h3>Create User</h3>
-
+	<h3>DrexelEXP - Create User</h3>
+		<p>
+		Fill out the form below to create a DrexelEXP user. Please use a <strong><em>valid</em></strong> university e-mail address as it will be used to determine your university.
+		</p>
+		<c:if test="${not empty errorMessage}">
+		<hr />
+			<div class="error">
+				${errorMessage}
+			</div>
+		<hr />
+		</c:if>
 		<form:form method="post" action="create_user">
 		
 			<table>
 			<tr>
-				<td><form:label path="email">Email</form:label></td>
+				<td><form:label path="email">E-mail Address: </form:label></td>
 				<td><form:input path="email" /></td> 
 			</tr>
 			<tr>
-				<td><form:label path="password">Password</form:label></td>
+				<td><form:label path="password">Password: </form:label></td>
 				<td><form:password path="password" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="name">Name</form:label></td>
+				<td><form:label path="confPassword">Confirm Password: </form:label></td>
+				<td><form:password path="confPassword" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="name">Name (Optional): </form:label></td>
 				<td><form:input path="name" /></td>
 			</tr>
 		

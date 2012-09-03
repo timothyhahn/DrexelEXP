@@ -1,5 +1,8 @@
 package com.drexelexp.user;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * Model for the User object
@@ -10,7 +13,9 @@ public class User {
 	private int id;
 	private String email;
 	private String name = "";
-	private String password = ""; //temp thing
+	private String password = ""; 
+	private String confPassword = "";
+	
 	private String university;
 	private boolean active;
 	private boolean moderator;
@@ -101,6 +106,40 @@ public class User {
 	public void create() {
 	
 	}
+	public String getConfPassword() {
+		return confPassword;
+	}
+	public void setConfPassword(String confPassword) {
+		this.confPassword = confPassword;
+	}
+	public String isValid() {
+		//Check email is valid
+		final String email_regex = 
+                "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		
+		Pattern emailPattern = Pattern.compile(email_regex);
+		Matcher emailMatcher = emailPattern.matcher(email);
+		
+		if(!emailMatcher.matches()) {
+			return "Your e-mail is not valid. Please check your e-mail for any errors.";
+		}
+		//Check password exists
+		if(password.isEmpty()) {
+			return "Please input a password.";
+		}
+		
+		//Check conf password exists
+		if(confPassword.isEmpty()) {
+			return "Please confirm your password below.";
+		}
+		
+		//Check passwords match
+		if(!password.equals(confPassword)) {
+			return "Your passwords do not match. Please ensure your confirmation password matches.";
+		}
+		return "";
+	}
+	
 	
 	
 }
