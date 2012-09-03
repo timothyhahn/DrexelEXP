@@ -12,21 +12,18 @@
 </head>
 <body>
 	<div class="header">
-		<%@ include file="header.jsp" %>
+		<%@ include file="/WEB-INF/views/header.jsp" %>
 	</div>
 	<div id="page">
+		<div id ="text">
 		<p>
 			DrexelEXP is a bla bla bla. If you want more information, try the following steps
 			<ul>
-				<li>If you don't want to register, make sure to select your university above</li>
-				<li>Search for a Professor below</li>
-				<li>Search for a Course below</li>
-				<li>Or register above for more features!</li>
+				<li>Register above for more features!</li>
 			</ul>
 		</p>
-		<div id ="profSearch" class="search"><input type="text" name="fname" /><br /></div>
-		<div id ="courseSearch" class="search"><input type="text" name="fname" /><br /></div>
 		</div>
+	</div>
 
 </body>
 </html>

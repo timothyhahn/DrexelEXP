@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.drexelexp.professor.Professor;
 
 
 /**
@@ -25,8 +28,9 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public ModelAndView home(Locale locale, Model model) {
 
 		logger.info("Welcome home! the locale is "+ locale.toString());
 
@@ -56,7 +60,7 @@ public class HomeController {
         System.out.println(customer1.getName());
         **/
 
-		return "home";
+		return new ModelAndView("home", "command", new Professor());
 		
 	}
 	

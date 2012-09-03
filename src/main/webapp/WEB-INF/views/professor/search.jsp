@@ -8,27 +8,11 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Search for a Professor</title>
 </head>
 <body>
  
 	<h3>Find a professor</h3>
-
-<form:form method="post" action="search">
-
-	<table>
-	<tr>
-		<td><form:label path="name">Name</form:label></td>
-		<td><form:input path="name" /></td>
-	</tr>
-
-	<tr>
-		<td colspan="2">
-			<input type="submit" value="Search"/>
-		</td>
-	</tr>
-</table>	
-	
-</form:form>
+<%@ include file="searchbar.jsp" %>
 </body>
 </html>
