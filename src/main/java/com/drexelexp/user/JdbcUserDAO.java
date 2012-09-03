@@ -24,12 +24,10 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		return instance.getId();
 	}
 	protected User parseResultSetRow(ResultSet rs) throws SQLException{
-		//TODO
-		return null;
+		throw new IllegalStateException("User methods are overwritten.");
 	}
 	protected Map<String,Object> getColumnMap(User instance){
-		//TODO
-		return null;
+		throw new IllegalStateException("User methods are overwritten.");
 	}	
 	
 	@Override

@@ -20,6 +20,8 @@ public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
 		
 		String sql = "SELECT "+getTableName()+".* FROM " + getSearchTable() + " WHERE "+getSearchableColumns().get(0)+" LIKE ?";
 
+		System.out.println(sql);
+		
 		for (String queryPart : Arrays.asList(query.split(" "))) {
 			Connection conn = null;
 			

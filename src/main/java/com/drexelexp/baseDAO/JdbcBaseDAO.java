@@ -46,6 +46,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 
 	public void insert(T instance) {
 		Map<String,Object> columnMap = getColumnMap(instance);
+		columnMap.remove(getIdColumnName());
 		
 		String list = "(?";
 		for(int i=1;i<columnMap.size();i++)
@@ -61,12 +62,12 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			
 			int offset = columnMap.size();
 			int parameterIndex=1;
-			for (String key : columnMap.keySet()) {
-					ps.setString(parameterIndex, key);
-					
-					setUnknownParameter(ps,parameterIndex+offset,columnMap.get(key));
-					
-					parameterIndex++;
+			for (String key : columnMap.keySet()) {				
+				ps.setString(parameterIndex, key);
+				
+				setUnknownParameter(ps,parameterIndex+offset,columnMap.get(key));
+				
+				parameterIndex++;
 		     }
 			
 			ps.executeUpdate();
@@ -105,11 +106,11 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			int parameterIndex = 1;
 			
 			for (String key :  columnMap.keySet()) {
-					ps.setString(parameterIndex, key);
-					parameterIndex++;
-					
-					setUnknownParameter(ps,parameterIndex,columnMap.get(key));
-					parameterIndex++;
+				ps.setString(parameterIndex, key);
+				parameterIndex++;
+				
+				setUnknownParameter(ps,parameterIndex,columnMap.get(key));
+				parameterIndex++;
 		     }
 			
 			ps.setInt(parameterIndex, getId(instance));
