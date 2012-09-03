@@ -18,6 +18,10 @@
 	Courses Ingest
 </h1>
 
+<a href="<c:url value="/ingest/professors/${college.getCode()}/${subject.getCode()}" />">
+	Ingest Professors
+</a>
+
 <ul>
 <c:forEach items="${courses}" var="course">
 <li>

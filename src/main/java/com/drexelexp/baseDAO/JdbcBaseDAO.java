@@ -64,10 +64,13 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			}
 		}
 		list+=")";
+		cols+=")";
 		
 		String sql = "INSERT INTO "+getTableName()+" "+cols+" VALUES "+list;
 		Connection conn = null;
  
+		System.out.println(sql);
+		
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -212,7 +215,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 				first=false;
 			}
 			else{
-				condition+="AND "+column+"=?";
+				condition+=" AND "+column+"=?";
 			}
 		}		
 		
@@ -256,7 +259,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	public List<T> getAll() {
 		Map<String, Object> conditions = new Hashtable<String,Object>();
 		
-		conditions.put("1","1");
+		conditions.put("1",1);
 		
 		return getWhere(conditions);
 	}
