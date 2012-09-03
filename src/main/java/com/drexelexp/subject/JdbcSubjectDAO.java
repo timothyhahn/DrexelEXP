@@ -42,4 +42,17 @@ public class JdbcSubjectDAO extends SearchableDAO<Subject> {
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("name");
 	}
+	
+	public Subject getByCode(String code){
+		Map<String,Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("UPPER(CODE)",code.toUpperCase());
+		
+		List<Subject> result = getWhere(conditions);
+		
+		if(result.size()==1)
+			return result.get(0);
+		
+		return null;
+	}
 }

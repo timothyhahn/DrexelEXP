@@ -17,6 +17,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +31,27 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.drexelexp.baseDAO.SearchableDAO;
+import com.drexelexp.course.Course;
+import com.drexelexp.course.JdbcCourseDAO;
+import com.drexelexp.subject.JdbcSubjectDAO;
+import com.drexelexp.subject.Subject;
+
 @Controller
 public class IngestController {
 	private static final Logger logger = LoggerFactory.getLogger(IngestController.class);
-	private static Dictionary<String,String> dtdCache = new Hashtable<String,String>();
-
+	
+	private JdbcSubjectDAO _subjectDAO;
+	private JdbcSubjectDAO getSubjectDAO(){
+		if(_subjectDAO!=null)
+			return _subjectDAO;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		_subjectDAO = (JdbcSubjectDAO) context.getBean("subjectDAO");
+		
+		return _subjectDAO;
+	}
+	
 	@RequestMapping(value = "/ingest", method = RequestMethod.GET)
 	public String list(Model model) {
 		String rootUrl = "http://catalog.drexel.edu/coursedescriptions/quarter/undergrad/index.html";
@@ -62,12 +80,14 @@ public class IngestController {
 		return "ingest/list";
 	}
 
-	@RequestMapping(value = "/ingest/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
-	public String subject(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) {
+	@RequestMapping(value = "/ingest/courses/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
+	public String courses(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) {
 		String url ="http://catalog.drexel.edu/coursedescriptions/quarter/undergrad/"+subjectCode.toLowerCase();
 		if(subjectCode.equals("UNIV"))
 			url+=collegeCode.toLowerCase();
 		url+="/";
+		
+		Subject subject = getSubjectDAO().getByCode(subjectCode); 
 		
 		ArrayList<CourseListing> courses = new ArrayList<CourseListing>();	
 		
@@ -82,7 +102,7 @@ public class IngestController {
 				Element div = (Element) divs.item(i);
 
 				if (div.getAttribute("class").equals("courseblock")) {
-					courses.add(new CourseListing(div));
+					courses.add(new CourseListing(div,subject));
 				}
 			}
 		} catch (IllegalArgumentException ex) {
@@ -92,6 +112,40 @@ public class IngestController {
 		}
 		
 		return "ingest/courses";
+	}
+	
+	@RequestMapping(value = "/ingest/professors/{collegeCode}/{subjectCode}", method = RequestMethod.GET)
+	public String professors(@PathVariable String collegeCode,@PathVariable String subjectCode,Model model) {
+		String url ="http://catalog.drexel.edu/coursedescriptions/quarter/undergrad/"+subjectCode.toLowerCase();
+		if(subjectCode.equals("UNIV"))
+			url+=collegeCode.toLowerCase();
+		url+="/";
+		
+		Subject subject = getSubjectDAO().getByCode(subjectCode); 
+		
+		ArrayList<CourseListing> courses = new ArrayList<CourseListing>();	
+		
+		try {
+			Document document = getUrlDocument(url);
+
+			Element content = document.getElementById("courseinventorycontainer");
+
+			NodeList divs = content.getElementsByTagName("div");
+			int divCount = divs.getLength();
+			for (int i = 0; i < divCount; i++) {
+				Element div = (Element) divs.item(i);
+
+				if (div.getAttribute("class").equals("courseblock")) {
+					courses.add(new CourseListing(div,subject));
+				}
+			}
+		} catch (IllegalArgumentException ex) {
+			logger.error(ex.getMessage());
+		} finally {
+			model.addAttribute("courses", courses);
+		}
+		
+		return "ingest/professors";
 	}
 	
 	private String getFilteredContents(String url) throws IOException {
@@ -133,23 +187,6 @@ public class IngestController {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			builder.setEntityResolver(new EntityResolver() {
-		        @Override
-		        public InputSource resolveEntity(String publicId, String systemId)
-		                throws SAXException, IOException {
-		        	System.out.println("S:"+publicId+"~"+systemId);
-		        	
-		        	if(dtdCache.get(publicId)!=null){
-		        		System.out.println("G:"+publicId);
-		        		return new InputSource(new StringReader(dtdCache.get(publicId)));
-		        	}
-		        	
-		        	System.out.println("P:"+publicId);
-		        	dtdCache.put(publicId, getFilteredContents(systemId));
-		        	
-		        	return new InputSource(new StringReader(dtdCache.get(publicId)));
-		        }
-		    });
 			
 			String contents = getFilteredContents(url);
 			Reader reader = new StringReader(contents);
@@ -165,7 +202,6 @@ public class IngestController {
 			logger.error(ex.getMessage());
 		}
 
-		throw new IllegalArgumentException("Getting document at " + url
-				+ " failed.");
+		throw new IllegalArgumentException("Getting document at " + url	+ " failed.");
 	}
 }

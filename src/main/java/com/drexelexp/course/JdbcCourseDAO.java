@@ -56,6 +56,20 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 		return Arrays.asList("courses.NAME","s.NAME");
 	}	
 	
+	public Course getByCode(Subject subject, int number){
+		Map<String,Object> conditions = new Hashtable<String,Object>();
+		
+		conditions.put("SUBJECT_ID",subject.getId());
+		conditions.put("NUMBER",number);
+		
+		List<Course> result = getWhere(conditions);
+		
+		if(result.size()==1)
+			return result.get(0);
+		
+		return null;
+	}
+	
 	public List<Course> getBySubject(Subject subject){
 		Map<String, Object> conditions = new Hashtable<String,Object>();
 		
