@@ -18,10 +18,26 @@ pageEncoding="UTF-8"%>
 	<div id="page">
 		<div id ="text">
 			<h1>Professor ${professor.getName() }</h1>
-			<p> You are shown a person with id ${professor.getId()} and name ${professor.getName()} on <%= new java.util.Date() %></p>
 			<a href="/drexelexp/professor/edit/${professor.getId()}">Edit</a>
 			<a href="/drexelexp/professor/delete/${professor.getId()}">Delete</a>
+			<hr />
+			<table>
+			<tr>
+			<td width="50">Rating</td>
+			<td width="150">Text</td>
+			</tr>
+			<c:forEach items="${reviews}" var="review">
+			<tr>
+			
+			<td><c:out value="${review.getRating()}" /></td>
+			<td><c:out value="${review.getText()}" /></td>
+			
+			</tr>
+			</c:forEach>
+			
+			</table>
 		 </div>
+		 
 	</div>
 </body>
 </html>
