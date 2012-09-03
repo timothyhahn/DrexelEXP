@@ -2,6 +2,8 @@ package com.drexelexp.security;
 
 import java.security.Principal;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,12 @@ public class LoginController {
  
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		return "login";
 	}
  

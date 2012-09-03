@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<title>Login Page</title>
+<title>DrexelEXP - Login</title>
 <style>
 .errorblock {
 	color: #ff0000;
@@ -11,10 +11,18 @@
 	margin: 16px;
 }
 </style>
+	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
+		<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
+		<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+
 </head>
 <body onload='document.f.j_username.focus();'>
-	<h3>Login with Username and Password (Custom Page)</h3>
- 
+	 <div class="header">
+		<%@ include file="/WEB-INF/views/header.jsp" %>
+	</div>
+	<div id="page">
+		<div id ="text">
+	<h3>Login with Username and Password</h3>
 	<c:if test="${not empty error}">
 		<div class="errorblock">
 			Your login attempt was not successful, try again.<br /> Cause :
@@ -48,5 +56,8 @@
 		</table>
  
 	</form>
+		</div>
+	</div>
+ 
 </body>
 </html>

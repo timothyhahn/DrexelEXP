@@ -7,10 +7,17 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DrexelEXP - Edit Professors</title>
+		<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
+		<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+
 </head>
 <body>
- 
+ 	 <div class="header">
+		<%@ include file="/WEB-INF/views/header.jsp" %>
+	</div>
+		<div id="page">
+		<div id ="text">
 <h1> ${professor.name }</h1><p>
  <form:form method="post" action="">
 
@@ -27,6 +34,9 @@ pageEncoding="UTF-8"%>
 	</tr>
 </table>	
 	
-</form:form>
+</form:form>		
+</div>
+	</div>
+ 
 </body>
 </html>

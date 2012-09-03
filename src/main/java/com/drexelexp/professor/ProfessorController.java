@@ -28,7 +28,13 @@ import com.drexelexp.baseDAO.BaseDAO;
 public class ProfessorController {
 	
 	@RequestMapping(value="/professor/add", method = RequestMethod.GET)
-	public ModelAndView addProfessor() {
+	public ModelAndView addProfessor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		return new ModelAndView("professor/add", "command", new Professor());
 	}
 	
@@ -38,11 +44,17 @@ public class ProfessorController {
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		professorDAO.insert(professor);
-		return new ModelAndView("redirect:../");
+		return new ModelAndView("redirect:/professor");
 	}
 	
 	@RequestMapping(value="/professor/edit", method = RequestMethod.GET) 
 	public String listEditProfessor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		ArrayList<Professor> professors = null;
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -57,7 +69,12 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor/edit/{profID}", method = RequestMethod.GET) 
 	public ModelAndView editProfessor(@PathVariable String profID, Model model) {
-
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		System.out.println("ID: " + profID);
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -75,11 +92,17 @@ public class ProfessorController {
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		((JdbcProfessorDAO)professorDAO).edit(professor);
-		return new ModelAndView("redirect:../");
+		return new ModelAndView("redirect:/professor");
 	}
 	
 	@RequestMapping(value="/professor/delete", method = RequestMethod.GET) 
 	public String listDeleteProfessor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		ArrayList<Professor> professors = new ArrayList<Professor>();
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -94,6 +117,12 @@ public class ProfessorController {
 	
 	@RequestMapping(value="/professor/delete/{profID}", method = RequestMethod.GET) 
 	public ModelAndView deleteProfessor(@PathVariable String profID, Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		System.out.println("ID: " + profID);
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -117,7 +146,8 @@ public class ProfessorController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN','ROLE_USER'")
 	@RequestMapping(value="/professor", method = RequestMethod.GET)
-	public String list(Model model) {
+	public ModelAndView list(Model model) {
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
 			model.addAttribute("username","");
@@ -134,13 +164,19 @@ public class ProfessorController {
 		professors = ((JdbcProfessorDAO) professorDAO).getAll();
 		
 		model.addAttribute("professors",professors);
-		return "professor/list";
+		return new ModelAndView("professor/list", "command", new Professor());
 	}
 	
 	
 	
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
 	public String show(@PathVariable String profID, Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
@@ -150,7 +186,13 @@ public class ProfessorController {
 	}
 	
 	@RequestMapping(value="/professor/search", method = RequestMethod.GET)
-	public ModelAndView searchForProfessor() {
+	public ModelAndView searchForProfessor(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
 		return new ModelAndView("professor/search", "command", new Professor());
 		
 	}
