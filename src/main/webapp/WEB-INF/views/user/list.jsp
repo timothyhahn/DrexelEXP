@@ -24,7 +24,6 @@ Persons</h1><table>
 <td><c:out value="${person.id}" /></td>
 <td><c:out value="${person.firstName}" /></td>
 <td><c:out value="${person.lastName}" /></td>
-<td><c:out value="${person.money}" /></td>
 </tr>
 </c:forEach>
 </table></body>

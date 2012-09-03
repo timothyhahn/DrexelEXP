@@ -5,9 +5,6 @@
 	<tr>
 		<td><form:label path="query">Professor:</form:label></td>
 		<td><form:input path="query" /></td>
-	</tr>
-
-	<tr>
 		<td colspan="2">
 			<input type="submit" value="Search"/>
 		</td>
