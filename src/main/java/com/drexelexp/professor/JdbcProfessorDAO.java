@@ -1,6 +1,7 @@
 
 package com.drexelexp.professor;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,8 +59,61 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	}
 	
 	public void addProfessorCourse(Professor professor,Course course){
-		//TODO
+		String sql = "SELECT * FROM Professor_Course WHERE PROF_ID = ? AND COURSE_ID = ?";
+		boolean newRecord = false;
 		
+		Connection conn=null;
+		
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, professor.getId());
+			ps.setInt(2, course.getId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			newRecord = rs.next();
+			
+			rs.close();
+			ps.close();
+ 
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+ 
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+		sql = "INSERT INTO Professor_Course SET (PROF_ID,COURSE_ID) VALUES (?,?)";
+				
+		conn=null;
+		
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, professor.getId());
+			ps.setInt(2, course.getId());
+			
+			ps.executeUpdate();
+			
+			ps.close();
+ 
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+ 
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
 	}
 	
 	public List<Professor> getByCourse(Course course){
