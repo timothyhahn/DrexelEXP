@@ -123,7 +123,6 @@ public class ProfessorController {
 		professors = ((JdbcProfessorDAO) professorDAO).getAll();
 		
 		model.addAttribute("professors",professors);
-		
 		return "professor/list";
 	}
 	
