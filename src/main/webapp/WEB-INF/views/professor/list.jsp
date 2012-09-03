@@ -5,10 +5,10 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>YAJSM - Professors</title>
+	<title>DrexelEXP - Professors</title>
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
-		<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
-		<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
+	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
 
 </head>
 <body>
@@ -17,6 +17,8 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
+			<a href="/drexelexp/professor/add">Add</a> 
+			<a href="/drexelexp/professor/search">Search</a>
 			<h1>Professors</h1>
 			<table>
 			<tr>
@@ -27,7 +29,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 			
 			<td><c:out value="${professor.getId()}" /></td>
-			<td><a href="show/${professor.getId()}"><c:out value="${professor.getName()}" /></a></td>
+			<td><a href="/drexelexp/professor/show/${professor.getId()}"><c:out value="${professor.getName()}" /></a></td>
 			
 			</tr>
 			</c:forEach>
