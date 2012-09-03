@@ -1,11 +1,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<form:form method="post" action="/drexelexp/professor/search">
-
+<form:form method="post" action="/drexelexp/professor/search/" commandName="profQuery">
 	<table>
 	<tr>
-		<td><form:label path="name">Professor:</form:label></td>
-		<td><form:input path="name" /></td>
+		<td><form:label path="query">Professor:</form:label></td>
+		<td><form:input path="query" /></td>
 	</tr>
 
 	<tr>

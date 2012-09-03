@@ -16,7 +16,7 @@ public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
 		LinkedList<T> items = new LinkedList<T>();
 		
 		String sql = "SELECT * FROM " + getTableName() + " WHERE "+getSearchableColumns().get(0)+" LIKE ?";
-
+		System.out.println(query);
 		for (String queryPart : Arrays.asList(query.split(" "))) {
 
 			Connection conn = null;
@@ -32,7 +32,6 @@ public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
 				while (rs.next()) {
 
 					T item = parseResultSetRow(rs);
-
 					T toMod = null;
 					boolean itemNotFound = true;
 					for (T i : items) {
@@ -45,6 +44,7 @@ public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
 
 					if (itemNotFound)
 						items.add(item);
+					
 					else {
 						items.remove(toMod);
 						items.addFirst(toMod);

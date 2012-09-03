@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.drexelexp.Query;
 import com.drexelexp.baseDAO.BaseDAO;
 
 /**
@@ -193,14 +194,16 @@ public class ProfessorController {
 		} else {
 			model.addAttribute("username",authentication.getName());
 		}
-		return new ModelAndView("professor/search", "command", new Professor());
+		ModelAndView mav = new ModelAndView("professor/search");
+		mav.addObject("profQuery", new Query());
+		
+		return mav;
 		
 	}
 
 	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
-	public String showSearchResults(@ModelAttribute("name") Professor p, Model model) {
-		String query = p.getName();
-		
+	public String showSearchResults(@ModelAttribute("profQuery") Query q, Model model) {
+		String query = q.getQuery();
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		
 		JdbcProfessorDAO dao = (JdbcProfessorDAO) context.getBean("professorDAO");
