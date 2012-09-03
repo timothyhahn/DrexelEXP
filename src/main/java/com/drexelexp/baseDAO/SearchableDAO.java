@@ -69,7 +69,7 @@ public abstract class SearchableDAO<T> extends JdbcBaseDAO<T> {
 				}
 			}
 		}
-
+		
 		return items;
 	}
 }

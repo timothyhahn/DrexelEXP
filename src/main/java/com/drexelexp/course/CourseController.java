@@ -154,7 +154,9 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.POST)
-	public String search(@ModelAttribute("query") String query, Model model) {			
+	public String search(@ModelAttribute("query") String query, Model model) {
+		System.out.println(query);
+		
 		List<Course> courses = getCourseDAO().search(query);		
 		
 		model.addAttribute("courses",courses);

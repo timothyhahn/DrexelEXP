@@ -90,7 +90,12 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 		
 		conditions.put(getIdColumnName(),id);
 		
-		return getWhere(conditions).get(0);
+		List<T> result = getWhere(conditions);
+		
+		if(result.size()==1)
+			return result.get(0);
+		
+		return null;
 	}
 	public void update(T instance) {
 		String sql = "UPDATE "+getTableName()+" SET ? = ? ";
