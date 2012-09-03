@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -31,7 +32,7 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		//TODO
 		return null;
 	}
-	protected Dictionary<String,Object> getColumnMap(User instance){
+	protected Map<String,Object> getColumnMap(User instance){
 		//TODO
 		return null;
 	}

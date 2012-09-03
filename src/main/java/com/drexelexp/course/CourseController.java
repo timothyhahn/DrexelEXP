@@ -1,7 +1,5 @@
 package com.drexelexp.course;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.SearchableDAO;
 
 /**
@@ -49,7 +46,8 @@ public class CourseController {
 	}
 
 	@RequestMapping(value="/course/add", method = RequestMethod.GET)
-	public ModelAndView addCourse() {
+	public ModelAndView addCourse(Model model) {
+		addUsername(model);
 		return new ModelAndView("course/add", "command", new Course());
 	}
 	
@@ -59,10 +57,11 @@ public class CourseController {
 		
 		return new ModelAndView("redirect:../");
 	}
-
 	
 	@RequestMapping(value="/course/edit", method = RequestMethod.GET)
 	public String listEditCourse(Model model) {
+		addUsername(model);
+		
 		List<Course> courses = getCourseDAO().getAll();
 		
 		model.addAttribute("courses", courses);
@@ -72,6 +71,8 @@ public class CourseController {
 	
 	@RequestMapping(value="/course/edit/{courseID}}", method = RequestMethod.GET)
 	public ModelAndView editCourse(@PathVariable String courseID, Model model) {
+		addUsername(model);
+		
 		System.out.println("ID: " + courseID);
 		Course course = getCourseDAO().getById(Integer.parseInt(courseID));
 		model.addAttribute("course",course);
@@ -89,7 +90,10 @@ public class CourseController {
 	
 	@RequestMapping(value="course/delete", method = RequestMethod.GET)
 	public String listDeleteCourse(Model model) {
+		addUsername(model);
+		
 		List<Course> courses = getCourseDAO().getAll();
+		
 		model.addAttribute("courses", courses);
 		
 		return "delete/list";
@@ -97,10 +101,10 @@ public class CourseController {
 	
 	@RequestMapping(value="/course/delete/{courseID}", method = RequestMethod.GET) 
 	public ModelAndView deleteCourse(@PathVariable String courseID, Model model) {
+		addUsername(model);
+		
 		System.out.println("ID: " + courseID);
-		ApplicationContext context = 
-	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+
 		Course course = new Course();
 		course.setId(Integer.parseInt(courseID));
 		course = getCourseDAO().getById(course.getId());
@@ -111,29 +115,26 @@ public class CourseController {
 	@RequestMapping(value="/course/delete/{courseID}", method = RequestMethod.POST)
 	public ModelAndView removeCourse(@ModelAttribute("course") Course course, @PathVariable String courseID) {
 		course.setId(Integer.parseInt(courseID));
-		ApplicationContext context = 
-	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
-		((JdbcCourseDAO)courseDAO).delete(course);
+		
+		getCourseDAO().delete(course);
+		
 		return new ModelAndView("redirect:../");
 	}
 	
 	@RequestMapping(value="/course", method = RequestMethod.GET)
 	public String showUsers(Model model) {
-		ApplicationContext context = 
-	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Course> courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+		addUsername(model);
 		
-		List<Course> courses = new ArrayList<Course>();
-		
-		courses = getCourseDAO().getAll();
+		List<Course> courses = getCourseDAO().getAll();
 		model.addAttribute("courses", courses);		
 		
 		return "course/list";
 	}
 	
 	@RequestMapping(value="/course/show/{courseID}", method = RequestMethod.GET)
-	public String show(@PathVariable String courseID, Model model) {	
+	public String show(@PathVariable String courseID, Model model) {
+		addUsername(model);
+		
 		Course course = getCourseDAO().getById(Integer.parseInt(courseID));
 		
 		model.addAttribute("course",course);
@@ -142,7 +143,10 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.GET)
-	public ModelAndView searchForCourse() {
+	public ModelAndView searchForCourse(Model model)
+	{
+		addUsername(model);
+		
 		return new ModelAndView("course/search", "command", new Course());
 		
 	}

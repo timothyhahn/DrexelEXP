@@ -1,9 +1,12 @@
 package com.drexelexp.professor;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.drexelexp.course.Course;
+import com.drexelexp.course.JdbcCourseDAO;
 
 /**
  * Model for the Professor object
@@ -38,8 +41,11 @@ public class Professor {
 		if(courses!=null)
 			return courses;
 		
-		//TODO
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcCourseDAO dao = (JdbcCourseDAO) context.getBean("courseDAO");
 		
-		return null;
+		courses = dao.getByProfessor(this);
+		
+		return courses;
 	}
 }

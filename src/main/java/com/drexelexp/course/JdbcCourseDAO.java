@@ -7,8 +7,8 @@ package com.drexelexp.course;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.course.Course;
@@ -34,7 +34,7 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 				rs.getInt("SUBJECT_ID")
 			);
 	}
-	protected Dictionary<String,Object> getColumnMap(Course instance){
+	protected Map<String,Object> getColumnMap(Course instance){
 		//TODO
 		return null;
 	}

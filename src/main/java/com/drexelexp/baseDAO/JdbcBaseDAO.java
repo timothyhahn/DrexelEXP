@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -24,7 +21,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	protected abstract String getIdColumnName();
 	protected abstract int getId(T instance);
 	protected abstract T parseResultSetRow(ResultSet rs) throws SQLException;
-	protected abstract Dictionary<String,Object> getColumnMap(T instance);
+	protected abstract Map<String,Object> getColumnMap(T instance);
 	
 	private List<T> parseResultSet(ResultSet rs) throws SQLException{
 		List<T> items = new ArrayList<T>();
@@ -47,7 +44,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	}
 
 	public void insert(T instance) {
-		Dictionary<String,Object> columnMap = getColumnMap(instance);
+		Map<String,Object> columnMap = getColumnMap(instance);
 		
 		String list = "(?";
 		for(int i=1;i<columnMap.size();i++)
@@ -63,9 +60,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			
 			int offset = columnMap.size();
 			int parameterIndex=1;
-			for (Enumeration<String> e = columnMap.keys(); e.hasMoreElements() ;) {
-					String key=e.nextElement();
-
+			for (String key : columnMap.keySet()) {
 					ps.setString(parameterIndex, key);
 					
 					setUnknownParameter(ps,parameterIndex+offset,columnMap.get(key));
@@ -93,7 +88,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	public void update(T instance) {
 		String sql = "UPDATE "+getTableName()+" SET ? = ? ";
 		
-		Dictionary<String,Object> columnMap = getColumnMap(instance);
+		Map<String,Object> columnMap = getColumnMap(instance);
 		
 		for(int i=1;i<columnMap.size();i++)
 			sql+=", ? = ? ";
@@ -108,13 +103,11 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 			
 			int parameterIndex = 1;
 			
-			for (Enumeration<String> e = columnMap.keys(); e.hasMoreElements() ;) {
-					String key=e.nextElement();
-
+			for (String key :  columnMap.keySet()) {
 					ps.setString(parameterIndex, key);
 					parameterIndex++;
 					
-					setUnknownParameter(ps,parameterIndex,columnMap.get(key));					
+					setUnknownParameter(ps,parameterIndex,columnMap.get(key));
 					parameterIndex++;
 		     }
 			

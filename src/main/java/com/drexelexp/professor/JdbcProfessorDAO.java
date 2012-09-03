@@ -1,19 +1,15 @@
 
 package com.drexelexp.professor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.LinkedList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.course.Course;
-import com.drexelexp.subject.Subject;
 
 /**
  * Implementation of ProfessorDAO in JDBC style.
@@ -35,9 +31,13 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 				rs.getInt("PROF_ID"),
 				rs.getString("NAME"));
 	}
-	protected Dictionary<String,Object> getColumnMap(Professor instance){
-		//TODO
-		return null;
+	protected Map<String,Object> getColumnMap(Professor instance){
+		Map<String,Object> map = new Hashtable<String,Object>();
+		
+		map.put("PROF_ID", instance.getId());
+		map.put("NAME", instance.getName());
+		
+		return map;
 	}
 	protected List<String> getSearchableColumns(){
 		return Arrays.asList("NAME");

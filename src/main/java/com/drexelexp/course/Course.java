@@ -2,7 +2,6 @@
 
 package com.drexelexp.course;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -26,6 +25,7 @@ public class Course {
 	private String description;
 	private int subjectId;
 	private Subject subject;
+	private List<Professor> professors;
 	
 	public Course(){
 		
@@ -67,8 +67,15 @@ public class Course {
 	}
 		
 	public List<Professor> getProfessors() {
-		//TODO
-		return null;
+		if(professors!=null)
+			return professors;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcProfessorDAO dao = (JdbcProfessorDAO) context.getBean("professorDAO");
+		
+		professors = dao.getByCourse(this);
+		
+		return professors;
 	}
 }
 
