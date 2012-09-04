@@ -41,6 +41,9 @@ pageEncoding="UTF-8"%>
 			</tr>
 			</c:forEach>
 			</table>
+			<hr/>
+			<c:if test="${pageNum != 1}"><a href="<c:url value="/course/${pageNum - 1}"/>">Previous</a></c:if>
+			<a href="<c:url value="/course/${pageNum + 1}"/>">Next</a>
 		</div>
 	</div>
  

@@ -8,17 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
 import com.drexelexp.baseDAO.SearchableDAO;
-import com.drexelexp.professor.Professor;
 
 /**
  * Controller for the Course object
@@ -49,13 +46,20 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course", method = RequestMethod.GET)
-	public String showAll(Model model) {
+	public ModelAndView list(Model model) {		
+		return new ModelAndView("redirect:/course/1");
+	}
+	
+	@RequestMapping(value="/course/{pageNum}", method = RequestMethod.GET)
+	public ModelAndView listPage(@PathVariable String pageNum, Model model) {		
 		addUsername(model);
 		
-		List<Course> courses = getCourseDAO().getAll();
-		model.addAttribute("courses", courses);		
+		List<Course> courses = getCourseDAO().getPage(Integer.parseInt(pageNum), 20);
 		
-		return "course/list";
+		model.addAttribute("courses",courses);
+		model.addAttribute("pageNum",Integer.parseInt(pageNum));
+		
+		return new ModelAndView("course/list", "command", new Course());
 	}
 	
 	@RequestMapping(value="/course/show/{courseID}", method = RequestMethod.GET)
