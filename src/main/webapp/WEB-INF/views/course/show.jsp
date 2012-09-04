@@ -41,7 +41,7 @@
 						<td><form:label path="professorId">Professor</form:label></td>
 						<td>
 							<form:select path="professorId">
-								<c:forEach items="${course.professors}" var="course">
+								<c:forEach items="${course.professors}" var="professor">
 									<form:option value="${professor.id}" label="${professor.name}"/>								
 								</c:forEach>
 							</form:select>
