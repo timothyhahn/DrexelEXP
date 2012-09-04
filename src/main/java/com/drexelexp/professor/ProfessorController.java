@@ -187,7 +187,6 @@ public class ProfessorController {
 		course.setId(2266);
 		review.setProfessor(professor);
 		review.setCourse(course);
-		review.setTimestamp(new Timestamp(1));
 		User user = new User();
 		user.setId(1);
 		review.setUser(user);
@@ -203,6 +202,7 @@ public class ProfessorController {
 		String redirectTo  ="redirect:../show/" + profID;
 		return new ModelAndView(redirectTo);
 	}
+	
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
 	public ModelAndView show(@PathVariable String profID, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

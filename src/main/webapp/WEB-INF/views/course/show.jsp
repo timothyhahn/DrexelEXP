@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.Date" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,6 +31,27 @@ pageEncoding="UTF-8"%>
 				
 				</c:forEach>
 			</table>
+			<hr />
+			<form:form method="post" action="${course.getId()}" commandName="newReview">
+			
+				<table>
+				
+				<tr>
+					<td><form:label path="rating">Rating</form:label></td>
+					<td><form:input path="rating" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="">Text</form:label></td>
+					<td rowspan="5"><form:input type="textarea" rows="3"  path="content" /></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" value="Create"/>
+					</td>
+				</tr>
+			</table>	
+				
+			</form:form>
 			<hr />
 			<table>
 			<tr>

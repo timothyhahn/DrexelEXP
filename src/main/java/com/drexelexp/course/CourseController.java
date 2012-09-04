@@ -1,5 +1,6 @@
 package com.drexelexp.course;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -15,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
+import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.baseDAO.SearchableDAO;
+import com.drexelexp.professor.Professor;
+import com.drexelexp.review.JdbcReviewDAO;
+import com.drexelexp.review.Review;
+import com.drexelexp.user.User;
 
 /**
  * Controller for the Course object
@@ -71,6 +77,28 @@ public class CourseController {
 		model.addAttribute("course",course);
 		
 		return "course/show";
+	}
+	
+	@RequestMapping(value="course/show/{profID}", method = RequestMethod.POST)
+	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
+		
+		Course course = new Course();
+		course.setId(1);
+		review.setProfessor(professor);
+		review.setCourse(course);
+		User user = new User();
+		user.setId(1);
+		review.setUser(user);
+		Professor p = new Professor();
+		p.setId(1);
+		review.setProfessor(p);
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		dao.insert(review);
+		
+		return new ModelAndView("redirect:.");
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.GET)
