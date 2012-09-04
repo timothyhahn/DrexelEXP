@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<a href="<c:url value="/professor/search"/>">Search</a>
+			<a href="<c:url value="/course/search"/>">Search</a>
 			<h1>Courses</h1>
 			<table>
 			<tr>

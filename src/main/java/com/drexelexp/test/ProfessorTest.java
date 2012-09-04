@@ -60,7 +60,7 @@ public class ProfessorTest {
 		List<Professor> getByCourseResults = ((JdbcProfessorDAO)professorDAO).getByCourse(resultCourse);
 		boolean resultFound = false;
 		for(Professor p : getByCourseResults) {
-			if(p.getName() == "Professor Test")	{
+			if(p.getName().equals("Professor Test"))	{
 				resultFound = true;
 				break;
 			}
