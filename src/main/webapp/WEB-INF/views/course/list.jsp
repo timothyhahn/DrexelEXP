@@ -21,22 +21,22 @@ pageEncoding="UTF-8"%>
 			<h1>Courses</h1>
 			<table>
 			<tr>
-			<td width="50">Id</td>
 			<td width="50">Subject</td>
 			<td width="50">Number</td>
 			<td width="300">Name</td>
+			<td width="50">Rating</td>
 			</tr>
 			<c:forEach items="${courses}" var="course">
 			<tr>
 			
-			<td><c:out value="${course.getId()}" /></td>
-			<td><c:out value="${course.getSubject().getCode()}" /></td>
-			<td><c:out value="${course.getNumber()}" /></td>
-			<td>
+			<td id="listItem"><c:out value="${course.getSubject().getCode()}" /></td>
+			<td id="listItem"><c:out value="${course.getNumber()}" /></td>
+			<td id="listItem">
 				<a href="<c:url value="/course/show/${course.getId()}" />" >
 					<c:out value="${course.getName()}" />
 				</a>
 			</td>
+			<td id="listItem"><c:out value="${course.getRatingString()}" /></td>
 			
 			</tr>
 			</c:forEach>
