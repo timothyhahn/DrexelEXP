@@ -20,6 +20,19 @@ pageEncoding="UTF-8"%>
 		<div id ="text">
 			<h1><strong>${professor.getName() }</strong></h1>
 			<hr />
+			<h3>Courses Taught</h3>
+			<table>
+				<tr><td width="50">Code</td><td width="100">Name</td></tr>
+				<c:forEach items="${courses}" var="course">
+				
+					<tr>
+						<td id="listItem">${course.getSubject().getCode()} ${course.getNumber()}</td>
+						<td id="listItem">${course.getName()}</td>
+					</tr>
+				
+				</c:forEach>
+			</table>
+			<hr />
 			<table>
 			<tr>
 			<td width="50">Rating</td>

@@ -17,7 +17,7 @@ import com.drexelexp.course.JdbcCourseDAO;
 public class Professor {
 	private int id;
 	private String name;
-	private List<Course> courses;;
+	private List<Course> courses;
 	
 	public Professor() {
 		this.id = -1;
