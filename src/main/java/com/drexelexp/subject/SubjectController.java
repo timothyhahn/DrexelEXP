@@ -80,8 +80,11 @@ public class SubjectController {
 	@RequestMapping(value = "/subject/search", method = RequestMethod.GET)
 	public ModelAndView search(Model model) {
 		addUsername(model);
-
-		return new ModelAndView("subject/search", "command", new Query());
+		
+		ModelAndView mav = new ModelAndView("subject/search");
+		mav.addObject("subjectQuery", new Query());
+		
+		return mav;
 	}
 
 	@RequestMapping(value = "/subject/search", method = RequestMethod.POST)

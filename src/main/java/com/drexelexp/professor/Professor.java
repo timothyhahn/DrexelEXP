@@ -7,6 +7,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.drexelexp.course.Course;
 import com.drexelexp.course.JdbcCourseDAO;
+import com.drexelexp.review.JdbcReviewDAO;
+import com.drexelexp.review.Review;
 
 /**
  * Model for the Professor object
@@ -18,6 +20,7 @@ public class Professor {
 	private int id;
 	private String name;
 	private List<Course> courses;
+	private List<Review> reviews;
 	
 	public Professor() {
 		this.id = -1;
@@ -47,5 +50,22 @@ public class Professor {
 		courses = dao.getByProfessor(this);
 		
 		return courses;
+	}
+	public List<Review>	getReviews(){
+		if(reviews!=null)
+			return reviews;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcReviewDAO dao = (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		reviews = dao.getReviews(this);
+		
+		return reviews;
+	}
+	public float getRating(){
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcReviewDAO dao = (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		return dao.getRating(this);
 	}
 }

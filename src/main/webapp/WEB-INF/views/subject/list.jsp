@@ -30,7 +30,11 @@ pageEncoding="UTF-8"%>
 			
 			<td><c:out value="${subject.getId()}" /></td>
 			<td><c:out value="${subject.getCode()}" /></td>
-			<td><c:out value="${subject.getName()}" /></td>
+			<td>
+				<a href="<c:url value="/subject/show/${subject.getId() }"/>">
+					<c:out value="${subject.getName()}" />
+				</a>
+			</td>
 			
 			</tr>
 			</c:forEach>

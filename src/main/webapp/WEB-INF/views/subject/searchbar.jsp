@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<form:form method="post" action="<c:url value="/subject/search"/>" commandName="subjectQuery">
+<form:form method="post" action="/drexelexp/subject/search" commandName="subjectQuery">
 	<table>
 	<tr>
 	
