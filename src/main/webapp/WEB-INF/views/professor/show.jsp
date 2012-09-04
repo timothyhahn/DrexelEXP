@@ -83,12 +83,14 @@ pageEncoding="UTF-8"%>
 						<tr>
 							<td width="50">Rating</td>
 							<td width="400">Text</td>
+							<td width="200">Course</td>
 							<td></td>
 						</tr>
 						<c:forEach items="${professor.reviews}" var="review">
 								<tr>
 									<td><c:out value="${review.ratingString}" /></td>
 									<td><c:out value="${review.content}" /></td>
+									<td><c:out value="${review.course.name}" /></td>
 									<td>
 										<c:if test="${user != null  && user.moderator }">
 											<a href="<c:url value="/review/delete/${review.id}"/>">
