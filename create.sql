@@ -1,0 +1,71 @@
+create database db;
+use db;
+
+CREATE TABLE `users` (
+  `USER_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `EMAIL` VARCHAR(45) NOT NULL,
+  `PASSWORD` VARCHAR(80) NOT NULL,
+  `ACTIVE` tinyint(1) NOT NULL,
+  PRIMARY KEY (`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user_roles` (
+  `USER_ROLE_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `USER_ID` INT(10) UNSIGNED NOT NULL,
+  `AUTHORITY` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`USER_ROLE_ID`),
+  KEY `FK_user_roles` (`USER_ID`),
+  CONSTRAINT `FK_user_roles` FOREIGN KEY (`USER_ID`) REFERENCES `users` (`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `professors` (
+  `PROF_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) NOT NULL,
+  PRIMARY KEY (`PROF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `subjects` (
+  `SUBJECT_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) NOT NULL,
+  `CODE` varchar(45) NOT NULL,
+  PRIMARY KEY (`SUBJECT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `courses` (
+  `COURSE_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `SUBJECT_ID` int(10) unsigned NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(4096) NOT NULL,
+  `PRE_REQUISITES` varchar(200) DEFAULT NULL,
+  `NUMBER` int(4) UNSIGNED NOT NULL,
+  PRIMARY KEY (`COURSE_ID`),
+  KEY `FK_course_subject_idx` (`SUBJECT_ID`),
+  CONSTRAINT `FK_course_subject` FOREIGN KEY (`SUBJECT_ID`) REFERENCES `subjects` (`SUBJECT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `professor_course` (
+  `PROF_COURSE_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PROF_ID` int(10) unsigned NOT NULL,
+  `COURSE_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`PROF_COURSE_ID`),
+  KEY `FK_professor_course_professor_idx` (`PROF_ID`),
+  KEY `FK_professor_course_course_idx` (`COURSE_ID`),
+  CONSTRAINT `FK_professor_course_course` FOREIGN KEY (`COURSE_ID`) REFERENCES `courses` (`COURSE_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_professor_course_professor` FOREIGN KEY (`PROF_ID`) REFERENCES `professors` (`prof_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `reviews` (
+  `REVIEW_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `DATA` text,
+  `RATING` int(10) DEFAULT NULL,
+  `PROF_ID` int(10) unsigned NOT NULL,
+  `COURSE_ID` int(10) unsigned NOT NULL,
+  `USER_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`REVIEW_ID`),
+  KEY `FK_reviews_professor_idx` (`PROF_ID`),
+  KEY `FK_reviews_course_idx` (`COURSE_ID`),
+  KEY `FK_reviews_user_idx` (`USER_ID`),
+  CONSTRAINT `FK_reviews_user` FOREIGN KEY (`USER_ID`) REFERENCES `users` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_reviews_course` FOREIGN KEY (`COURSE_ID`) REFERENCES `courses` (`COURSE_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_reviews_professor` FOREIGN KEY (`PROF_ID`) REFERENCES `professors` (`PROF_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
