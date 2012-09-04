@@ -2,6 +2,8 @@ package com.drexelexp.test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -55,10 +57,18 @@ public class ProfessorTest {
 		
 		((JdbcProfessorDAO)professorDAO).addProfessorCourse(resultProfessor, resultCourse);
 		
-		// TODO add a way to delete the professorCourse entry
+		List<Professor> getByCourseResults = ((JdbcProfessorDAO)professorDAO).getByCourse(resultCourse);
+		boolean resultFound = false;
+		for(Professor p : getByCourseResults) {
+			if(p.getName() == "Professor Test")	{
+				resultFound = true;
+				break;
+			}
+		}
+		assertTrue(resultFound);
+		
 		((JdbcCourseDAO)courseDAO).delete(resultCourse);
 		((JdbcProfessorDAO)professorDAO).delete(resultProfessor);
 		((JdbcSubjectDAO)subjectDAO).delete(resultSubject);
 	}
-
 }
