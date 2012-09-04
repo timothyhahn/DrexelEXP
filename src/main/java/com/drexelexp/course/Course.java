@@ -2,6 +2,7 @@
 
 package com.drexelexp.course;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -99,6 +100,12 @@ public class Course {
 		JdbcReviewDAO dao = (JdbcReviewDAO) context.getBean("reviewDAO");
 		
 		return dao.getRating(this);
+	}
+	
+	public String getRatingString(){
+		float rating = getRating();
+		
+		return new DecimalFormat("0.0").format(rating);
 	}
 }
 

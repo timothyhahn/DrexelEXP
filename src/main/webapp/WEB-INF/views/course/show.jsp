@@ -18,10 +18,35 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1><c:out value="${course.getName()}"/></h1>
-			<p>
-				<c:out value="${course.getDescription()}"/>
-			</p>
+			<h1><strong>${course.getName() }</strong></h1>
+			<hr />
+			<h3>Professors Teaching</h3>
+			<table>
+				<tr><td width="100">Name</td></tr>
+				<c:forEach items="${course.getProfessors()}" var="professor">
+				
+					<tr>
+						<td id="listItem">${professor.getName()}</td>
+					</tr>
+				
+				</c:forEach>
+			</table>
+			<hr />
+			<table>
+			<tr>
+			<td width="50">Rating</td>
+			<td width="150">Text</td>
+			</tr>
+			<c:forEach items="${reviews}" var="review">
+			<tr>
+			
+			<td><c:out value="${review.getRatingString()}" /></td>
+			<td><c:out value="${review.getText()}" /></td>
+			
+			</tr>
+			</c:forEach>
+			
+			</table>
 		 </div>
 	</div>
 </body>
