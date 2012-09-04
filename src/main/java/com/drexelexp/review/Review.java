@@ -1,6 +1,7 @@
 package com.drexelexp.review;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -21,7 +22,7 @@ import com.drexelexp.user.User;
  */
 public class Review {
 	private int id;
-	private String content;
+	private String text;
 	private float rating;
 	private Timestamp timestamp;
 	private int userId;
@@ -33,7 +34,7 @@ public class Review {
 	
 	public Review() {
 		this.id = -1;
-		this.content = "";
+		this.text = "";
 		this.rating = 0;
 		this.professor = null;
 		this.course = null;
@@ -42,7 +43,7 @@ public class Review {
 	public Review(int id, String text, float rating, Timestamp timestamp,
 			int userId, int professorId, int courseId) {
 		this.id = id;
-		this.content = text;
+		this.text = text;
 		this.rating = rating;
 		this.timestamp = timestamp;
 		this.userId = userId;
@@ -57,14 +58,17 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getContent(){
-		return content;
+	public String getText(){
+		return text;
 	}
-	public void setContent(String text) {
-		this.content = text;
+	public void setText(String text) {
+		this.text = text;
 	}
 	public float getRating(){
 		return rating;
+	}
+	public String getRatingString(){
+		return new DecimalFormat("0.0").format(rating);
 	}
 	public void setRating(float rating) {
 		this.rating = rating;
@@ -100,8 +104,11 @@ public class Review {
 		
 		return professor;
 	}
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public int getProfessorId() {
+		return professorId;
+	}
+	public void setProfessorId(int professorId) {
+		this.professorId=professorId;
 	}
 	public Course getCourse(){
 		if(course!=null)
@@ -114,7 +121,10 @@ public class Review {
 		
 		return course;
 	}
-	public void setCourse(Course course) {
-		this.course = course;
+	public int getCourseId(){
+		return courseId;
+	}
+	public void setCourseId(int courseId) {
+		this.courseId=courseId;
 	}
 }

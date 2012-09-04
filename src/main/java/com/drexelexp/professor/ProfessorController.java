@@ -1,7 +1,6 @@
 package com.drexelexp.professor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -17,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.course.Course;
 import com.drexelexp.review.JdbcReviewDAO;
 import com.drexelexp.review.Review;
-import com.drexelexp.user.User;
+import com.drexelexp.user.JdbcUserDAO;
 
 /**
  * Controller for the Professor object
@@ -37,7 +34,7 @@ public class ProfessorController {
 		} else {
 			model.addAttribute("username",authentication.getName());
 		}
-}
+	}
 
 	private JdbcProfessorDAO _professorDAO;
 	private JdbcProfessorDAO getProfessorDAO(){
@@ -74,17 +71,13 @@ public class ProfessorController {
 		Professor professor = getProfessorDAO().getById(Integer.parseInt(profID));
 		
 		model.addAttribute("professor",professor);
-		List<Course> courses = professor.getCourses();
-		model.addAttribute("courses", courses);
-		Timestamp t = new Timestamp(0);
 		
+		if(professor.getReviews().size()==0){
+			Timestamp t = new Timestamp(0);
 		
-		Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,
-				1, 1, 1);
-		List<Review> reviews = new ArrayList<Review>();
-
-		reviews.add(review);
-		model.addAttribute("reviews", reviews);
+			Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,1, 1, 1);
+			professor.getReviews().add(review);
+		}
 		
 		Review newReview = new Review();
 		ModelAndView mav = new ModelAndView("professor/show");
@@ -94,22 +87,15 @@ public class ProfessorController {
 	
 	@RequestMapping(value="professor/show/{profID}", method = RequestMethod.POST)
 	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
-		
-		Course course = new Course();
-		course.setId(2266);
-		review.setProfessor(professor);
-		review.setCourse(course);
-		User user = new User();
-		user.setId(1);
-		review.setUser(user);
-		Professor p = new Professor();
-		p.setId(66);
-		review.setProfessor(p);
-		
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		JdbcReviewDAO reviewDAO =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		JdbcUserDAO userDAO =  (JdbcUserDAO) context.getBean("userDAO");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		dao.insert(review);
+		review.setProfessorId(Integer.parseInt(profID));
+		review.setUser(userDAO.findByEmail(authentication.getName()));
+		
+		reviewDAO.insert(review);
 		
 		String redirectTo  ="redirect:../show/" + profID;
 		return new ModelAndView(redirectTo);

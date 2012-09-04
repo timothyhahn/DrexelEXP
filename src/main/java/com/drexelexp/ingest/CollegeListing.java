@@ -2,15 +2,10 @@ package com.drexelexp.ingest;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class CollegeListing {
-	private static final Logger logger = LoggerFactory.getLogger(CollegeListing.class);
-	
+public class CollegeListing {	
 	private String name;
 	private String code;
 	private ArrayList<SubjectListing> subjects;

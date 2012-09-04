@@ -33,14 +33,14 @@ pageEncoding="UTF-8"%>
 			<tr>
 			
 			<td id="listItem">
-				<c:out value="${course.getSubject().getCode()}" /> <c:out value="${course.getNumber()}" />
+				<c:out value="${course.subject.code}" /> <c:out value="${course.number}" />
 			</td>			
 			<td id="listItem">
-				<a href="<c:url value="/course/show/${course.getId()}"/>">
-					<c:out value="${course.getName()}" />
+				<a href="<c:url value="/course/show/${course.id}"/>">
+					<c:out value="${course.name}" />
 				</a>
 			</td>
-			<td id="listItem"><c:out value="${course.getRatingString()}" /></td>
+			<td id="listItem"><c:out value="${course.ratingString}" /></td>
 			</tr>
 			</c:forEach>
 			</table>
