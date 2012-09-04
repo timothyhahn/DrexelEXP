@@ -77,22 +77,25 @@ pageEncoding="UTF-8"%>
 				<hr />
 			</c:if>	
 			
-			<table>
-			<tr>
-			<td width="50">Rating</td>
-			<td width="150">Text</td>
-			</tr>
-			<c:forEach items="${professor.reviews}" var="review">
-			<tr>
-			
-			<td><c:out value="${review.ratingString}" /></td>
-			<td><c:out value="${review.content}" /></td>
-			
-			</tr>
-			</c:forEach>
-			
-			</table>
-			
+			<c:choose>
+				<c:when test="${not empty professor.reviews}">
+					<table>
+						<tr>
+							<td width="50">Rating</td>
+							<td width="150">Text</td>
+						</tr>
+						<c:forEach items="${professor.reviews}" var="review">
+								<tr>
+									<td><c:out value="${review.ratingString}" /></td>
+									<td><c:out value="${review.content}" /></td>							
+								</tr>
+						</c:forEach>
+					</table>
+				</c:when>
+				<c:otherwise>
+					<p>No reviews have been submitted for this Professor</p>
+				</c:otherwise>
+			</c:choose>
 		 </div>
 		 
 	</div>

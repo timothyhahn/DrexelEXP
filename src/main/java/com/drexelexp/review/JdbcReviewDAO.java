@@ -26,7 +26,9 @@ public class JdbcReviewDAO extends JdbcBaseDAO<Review> {
 	protected String getIdColumnName() {
 		return "REVIEW_ID";
 	}
-
+	protected String getOrderByColumns(){
+		return "TIMESTAMP DESC";
+	}
 	protected int getId(Review instance) {
 		return instance.getId();
 	}
@@ -110,5 +112,9 @@ public class JdbcReviewDAO extends JdbcBaseDAO<Review> {
 	
 	public float getRating(Course course){
 		return getRating("COURSE_ID",course.getId());
+	}
+	
+	public List<Review> getRecent(int count){
+		return getPage(1,count);
 	}
 }

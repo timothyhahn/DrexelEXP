@@ -1,6 +1,5 @@
 package com.drexelexp.professor;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -71,13 +70,6 @@ public class ProfessorController {
 		Professor professor = getProfessorDAO().getById(Integer.parseInt(profID));
 		
 		model.addAttribute("professor",professor);
-		
-		if(professor.getReviews().size()==0){
-			Timestamp t = new Timestamp(0);
-		
-			Review review =  new Review(1, "This is a sample review.", 2.5f, t,1, 1, 1);
-			professor.getReviews().add(review);
-		}
 		
 		Review newReview = new Review();
 		ModelAndView mav = new ModelAndView("professor/show");

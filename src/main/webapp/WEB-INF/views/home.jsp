@@ -35,9 +35,28 @@
 					<td><h3>Search for a course:</h3><%@ include file="/WEB-INF/views/course/searchbar.jsp" %></td>
 				</tr>
 				<tr>
-					
 					<td><h2>Recent professor reviews:</h2></td>
 					<td><h2>Recent course reviews: </h2></td>
+				</tr>
+				<tr>
+					<td>
+						<c:forEach items="${reviews}" var="review">
+							<c:out value="${review.ratingString}"/>
+							<a href="<c:url value="/professor/show/${review.professor.id }"/>">
+								<c:out value="${review.professor.name}"/>
+							</a>
+							<hr/>
+						</c:forEach>
+					</td>
+					<td>
+						<c:forEach items="${reviews}" var="review">
+							<c:out value="${review.ratingString}"/>
+							<a href="<c:url value="/course/show/${review.course.id }"/>">
+								<c:out value="${review.course.name}"/>
+							</a>
+							<hr/>
+						</c:forEach>
+					</td>
 				</tr>
 			</table>
 		</div>

@@ -1,6 +1,5 @@
 package com.drexelexp.course;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -73,13 +72,6 @@ public class CourseController {
 		Course course = getCourseDAO().getById(Integer.parseInt(courseID));
 		
 		model.addAttribute("course",course);
-		
-		if(course.getReviews().size()==0){
-			Timestamp t = new Timestamp(0);
-		
-			Review review =  new Review(1, "This is a sample review.", 2.5f, t,1, 1, 1);
-			course.getReviews().add(review);
-		}
 
 		ModelAndView mav = new ModelAndView("course/show");
 		mav.addObject("newReview", new Review());
@@ -121,6 +113,4 @@ public class CourseController {
 		model.addAttribute("courses",courses);
 		return "course/list";
 	}
-	
-	
 }
