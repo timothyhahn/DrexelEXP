@@ -81,11 +81,19 @@
 				<c:when test="${not empty course.reviews}">
 					<table>
 						<tr>
+							<td width="auto"></td>
 							<td width="50">Rating</td>
 							<td width="150">Text</td>
 						</tr>
 						<c:forEach items="${course.reviews}" var="review">
 								<tr>
+									<td>
+										<c:if test="${user != null  && user.moderator }">
+											<a href="<c:url value="/review/delete/${review.id}"/>">
+												DELETE
+											</a>
+										</c:if>
+									</td>
 									<td><c:out value="${review.ratingString}" /></td>
 									<td><c:out value="${review.content}" /></td>							
 								</tr>

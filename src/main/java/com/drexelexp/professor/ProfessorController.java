@@ -33,6 +33,10 @@ public class ProfessorController {
 		} else {
 			model.addAttribute("username",authentication.getName());
 		}
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcUserDAO userDAO = (JdbcUserDAO) context.getBean("userDAO");
+		
+		model.addAttribute("user",userDAO.findByEmail(authentication.getName()));
 	}
 
 	private JdbcProfessorDAO _professorDAO;

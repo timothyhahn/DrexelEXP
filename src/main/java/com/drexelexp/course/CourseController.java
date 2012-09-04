@@ -29,12 +29,16 @@ import com.drexelexp.user.JdbcUserDAO;
 @Controller
 public class CourseController {
 	private void addUsername(Model model){
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if (authentication.getName().equals("anonymousUser")) {
-				model.addAttribute("username","");
-			} else {
-				model.addAttribute("username",authentication.getName());
-			}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equals("anonymousUser")) {
+			model.addAttribute("username","");
+		} else {
+			model.addAttribute("username",authentication.getName());
+		}
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcUserDAO userDAO = (JdbcUserDAO) context.getBean("userDAO");
+		
+		model.addAttribute("user",userDAO.findByEmail(authentication.getName()));
 	}
 	
 	private SearchableDAO<Course> _courseDAO;

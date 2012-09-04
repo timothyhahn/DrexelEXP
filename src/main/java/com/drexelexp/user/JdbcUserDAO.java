@@ -28,7 +28,8 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 	protected User parseResultSetRow(ResultSet rs) throws SQLException{
 		return new User(
 				rs.getInt("USER_ID"),
-				rs.getString("EMAIL"));
+				rs.getString("EMAIL"),
+				checkIsModerator(rs.getInt("USER_ID")));
 	}
 	protected Map<String,Object> getColumnMap(User instance){
 		throw new IllegalStateException("User methods are overwritten.");
@@ -57,7 +58,7 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 			
 			ps = conn.prepareStatement(roleSQL);
 			ps.setInt(1, id);
-			if(user.isModerator()){
+			if(user.getModerator()){
 				ps.setString(2, "ROLE_ADMIN");
 			} else {
 				ps.setString(2, "ROLE_USER");
@@ -98,4 +99,38 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		
 		return 0;
 	}
+	
+	private boolean checkIsModerator(int id) {
+		String sql = "SELECT * FROM user_roles WHERE USER_ID = ?";
+		 
+		Connection conn = null;
+ 
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()){
+				return rs.getString("AUTHORITY").equals("ROLE_ADMIN");
+			}
+			
+			rs.close();
+			ps.close();
+			
+			return false;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+	}	
+
 }

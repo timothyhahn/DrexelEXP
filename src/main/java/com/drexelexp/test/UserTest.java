@@ -18,7 +18,7 @@ public class UserTest {
 	
 	@Before
 	public void initializeSubjectAndCourse() {
-		user = new User(1, "tester@test.com");
+		user = new User(1, "tester@test.com", false);
 		
 		context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<User>userDAO = (JdbcUserDAO) context.getBean("userDAO");
