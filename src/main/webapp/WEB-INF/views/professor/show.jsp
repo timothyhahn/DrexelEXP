@@ -18,9 +18,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1>Professor ${professor.getName() }</h1>
-			<a href="/drexelexp/professor/edit/${professor.getId()}">Edit</a>
-			<a href="/drexelexp/professor/delete/${professor.getId()}">Delete</a>
+			<h1><strong>${professor.getName() }</strong></h1>
 			<hr />
 			<table>
 			<tr>
