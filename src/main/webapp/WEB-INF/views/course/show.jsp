@@ -18,7 +18,7 @@
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1><strong>${course.name}</strong></h1>
+			<h1><span class="rating">${course.ratingString}</span> <strong>${course.name}</strong></h1>
 			<hr />
 			<h3>Professors Teaching</h3>
 			<table>

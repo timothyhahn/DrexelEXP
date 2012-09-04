@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1><strong>${professor.name}</strong></h1>
+			<h1><span class="rating">${professor.ratingString}</span> <strong>${professor.name}</strong></h1>
 			<hr />
 			<h3>Courses Taught</h3>
 			<table>
