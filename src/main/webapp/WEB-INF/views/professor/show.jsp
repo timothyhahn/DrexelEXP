@@ -23,10 +23,11 @@ pageEncoding="UTF-8"%>
 			<hr />
 			<h3>Courses Taught</h3>
 			<table>
-				<tr><td width="50">Code</td><td width="">Name</td></tr>
+				<tr><td width="50">Rating</td><td width="50">Code</td><td width="">Name</td></tr>
 				<c:forEach items="${professor.courses}" var="course">
 				
 					<tr>
+						<td id="listItem">${course.ratingString}</td>
 						<td id="listItem"><a href="<c:url value="/course/show/${course.id}" />">${course.subject.code} ${course.number}</a></td>
 						<td id="listItem"><a href="<c:url value="/course/show/${course.id}" />">${course.name}</a></td>
 					</tr>

@@ -23,9 +23,10 @@
 			<hr />
 			<h3>Professors Teaching</h3>
 			<table>
-				<tr><td width="100">Name</td></tr>
+				<tr><td width="50">Rating</td><td width="100">Name</td></tr>
 				<c:forEach items="${course.professors}" var="professor">
 					<tr>
+						<td id="listItem">${professor.ratingString}</td>
 						<td id="listItem">
 							<a href="<c:url value="/professor/show/${professor.id}"/>">
 								${professor.name}
