@@ -93,6 +93,9 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 			}
 		}
 		
+		if(!newRecord)
+			return;
+		
 		sql = "INSERT INTO Professor_Course (PROF_ID,COURSE_ID) VALUES (?,?)";
 				
 		conn=null;

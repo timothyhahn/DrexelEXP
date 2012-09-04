@@ -1,6 +1,5 @@
 package com.drexelexp.course;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
