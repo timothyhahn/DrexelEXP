@@ -17,35 +17,37 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<a href="<c:url value="/course/search"/>">Search</a>
 			<h1>Courses</h1>
 			<table>
 			<tr>
-			<td width="50">Subject</td>
-			<td width="50">Number</td>
-			<td width="300">Name</td>
-			<td width="50">Rating</td>
+			<td width="100">Code
+			<hr /></td>
+			<td width="350">Name
+			<hr /></td>
+			<td width="20">
+			Rating
+			<hr />
+			</td>
 			</tr>
 			<c:forEach items="${courses}" var="course">
 			<tr>
 			
-			<td id="listItem"><c:out value="${course.getSubject().getCode()}" /></td>
-			<td id="listItem"><c:out value="${course.getNumber()}" /></td>
 			<td id="listItem">
-				<a href="<c:url value="/course/show/${course.getId()}" />" >
+				<c:out value="${course.getSubject().getCode()}" /> <c:out value="${course.getNumber()}" />
+			</td>			
+			<td id="listItem">
+				<a href="<c:url value="/course/show/${course.getId()}"/>">
 					<c:out value="${course.getName()}" />
 				</a>
 			</td>
 			<td id="listItem"><c:out value="${course.getRatingString()}" /></td>
-			
 			</tr>
 			</c:forEach>
 			</table>
-			<hr/>
-			<c:if test="${pageNum != 1}"><a href="<c:url value="/course/${pageNum - 1}"/>">Previous</a></c:if>
-			<a href="<c:url value="/course/${pageNum + 1}"/>">Next</a>
+			<hr />
+			<c:if test="${pageNum != 1}"><a href="<c:url value="/professor/${pageNum - 1}"/>">Previous</a></c:if>
+			<a href="<c:url value="/professor/${pageNum + 1}"/>">Next</a>
 		</div>
 	</div>
- 
 </body>
 </html>

@@ -73,6 +73,6 @@ public class Professor {
 	public String getRatingString(){
 		float rating = getRating();
 		
-		return new DecimalFormat("#.#").format(rating);
+		return new DecimalFormat("0.0").format(rating);
 	}
 }
