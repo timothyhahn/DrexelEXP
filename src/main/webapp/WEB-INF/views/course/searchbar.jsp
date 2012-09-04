@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
-<form:form method="post" action="<c:url value="course/search" />" commandName="courseQuery">
+<form:form method="post" action="course/search" commandName="courseQuery">
 	<table>
 	<tr>
 	
