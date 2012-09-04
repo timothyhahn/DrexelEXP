@@ -11,6 +11,7 @@ body {
        min-height: 100%;        /* ie 6 will ignore this */
 	
 }
+
 .header {
 	background-color: #002663;
 	color: #F5CF47;
@@ -22,6 +23,24 @@ body {
 	padding-bottom: 20px;
 	position:absolute;
 	font-family: 'Quattrocento', serif;
+}
+#listItem {
+	background-color: #89CFF0;
+	color:#efefef;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	height:50px;
+ 	padding: 10px;
+ 	border: 1px solid #dfdf90;
+ 	
+}
+#listItem a:link{
+	color:white;
+}
+#listItem a:visited{
+	color:grey;
 }
 #option a:link{
 	color: #F5CF47;

@@ -151,9 +151,14 @@ public class ProfessorController {
 		return new ModelAndView("redirect:../");
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN','ROLE_USER'")
+	
 	@RequestMapping(value="/professor", method = RequestMethod.GET)
 	public ModelAndView list(Model model) {		
+		return new ModelAndView("redirect:/professor/1");
+	}
+
+	@RequestMapping(value="/professor/{pageNum}", method = RequestMethod.GET)
+	public ModelAndView listPage(@PathVariable String pageNum, Model model) {		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
 			model.addAttribute("username","");
@@ -165,12 +170,12 @@ public class ProfessorController {
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
-		List<Professor> professors = ((JdbcProfessorDAO) professorDAO).getAll();
+		List<Professor> professors = ((JdbcProfessorDAO) professorDAO).getPage(Integer.parseInt(pageNum), 20);
 		
 		model.addAttribute("professors",professors);
+		model.addAttribute("pageNum",Integer.parseInt(pageNum));
 		return new ModelAndView("professor/list", "command", new Professor());
 	}
-	
 	
 	
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
