@@ -1,5 +1,6 @@
 package com.drexelexp.course;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -20,6 +21,7 @@ import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.professor.Professor;
 import com.drexelexp.review.JdbcReviewDAO;
 import com.drexelexp.review.Review;
+import com.drexelexp.user.JdbcUserDAO;
 import com.drexelexp.user.User;
 
 /**
@@ -68,36 +70,39 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course/show/{courseID}", method = RequestMethod.GET)
-	public String show(@PathVariable String courseID, Model model) {
+	public ModelAndView show(@PathVariable String courseID, Model model) {
 		addUsername(model);
 		
 		Course course = getCourseDAO().getById(Integer.parseInt(courseID));
 		
 		model.addAttribute("course",course);
 		
-		return "course/show";
+		if(course.getReviews().size()==0){
+			Timestamp t = new Timestamp(0);
+		
+			Review review =  new Review(1, "This is a sample review.", 2.5f, t,1, 1, 1);
+			course.getReviews().add(review);
+		}
+
+		ModelAndView mav = new ModelAndView("course/show");
+		mav.addObject("newReview", new Review());
+		return mav;
 	}
 	
-	@RequestMapping(value="course/show/{profID}", method = RequestMethod.POST)
-	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
-		
-		Course course = new Course();
-		course.setId(1);
-		review.setProfessor(professor);
-		review.setCourse(course);
-		User user = new User();
-		user.setId(1);
-		review.setUser(user);
-		Professor p = new Professor();
-		p.setId(1);
-		review.setProfessor(p);
-		
+	@RequestMapping(value="course/show/{courseID}", method = RequestMethod.POST)
+	public ModelAndView review(@PathVariable String courseID,@ModelAttribute Course course, @ModelAttribute Review review, Model model) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		JdbcReviewDAO reviewDAO =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		JdbcUserDAO userDAO =  (JdbcUserDAO) context.getBean("userDAO");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		dao.insert(review);
+		review.setCourseId(Integer.parseInt(courseID));
+		review.setUser(userDAO.findByEmail(authentication.getName()));
 		
-		return new ModelAndView("redirect:.");
+		reviewDAO.insert(review);
+		
+		String redirectTo  ="redirect:../show/" + courseID;
+		return new ModelAndView(redirectTo);
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.GET)

@@ -77,15 +77,24 @@ public class JdbcUserDAO extends JdbcBaseDAO<User>{
 		}
 	}
 	
-	public int findIdByEmail(String email) {
+	public User findByEmail(String email) {
 		Map<String, Object> conditions = new Hashtable<String,Object>();
 		
-		conditions.put("EMAIL",email);
+		conditions.put("LOWER(EMAIL)",email.toLowerCase());
 		
 		List<User> result = getWhere(conditions);
 		
 		if(result.size()==1)
-			return result.get(0).getId();
+			return result.get(0);
+		
+		return null;
+	}
+	
+	public int findIdByEmail(String email) {		
+		User result = findByEmail(email);
+		
+		if(result!=null)
+			return result.getId();
 		
 		return 0;
 	}
