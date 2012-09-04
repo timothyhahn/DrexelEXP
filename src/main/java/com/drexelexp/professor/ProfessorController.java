@@ -67,29 +67,6 @@ public class ProfessorController {
 		return new ModelAndView("professor/list", "command", new Professor());
 	}
 	
-	@RequestMapping(value="professor/show/{profID}", method = RequestMethod.POST)
-	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
-		
-		Course course = new Course();
-		course.setId(2266);
-		review.setProfessor(professor);
-		review.setCourse(course);
-		User user = new User();
-		user.setId(1);
-		review.setUser(user);
-		Professor p = new Professor();
-		p.setId(66);
-		review.setProfessor(p);
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
-		
-		dao.insert(review);
-		
-		String redirectTo  ="redirect:../show/" + profID;
-		return new ModelAndView(redirectTo);
-	}
-	
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
 	public ModelAndView show(@PathVariable String profID, Model model) {
 		addUsername(model);
@@ -113,10 +90,33 @@ public class ProfessorController {
 		ModelAndView mav = new ModelAndView("professor/show");
 		mav.addObject("newReview", newReview);
 		return mav;
+	}	
+	
+	@RequestMapping(value="professor/show/{profID}", method = RequestMethod.POST)
+	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
+		
+		Course course = new Course();
+		course.setId(2266);
+		review.setProfessor(professor);
+		review.setCourse(course);
+		User user = new User();
+		user.setId(1);
+		review.setUser(user);
+		Professor p = new Professor();
+		p.setId(66);
+		review.setProfessor(p);
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		dao.insert(review);
+		
+		String redirectTo  ="redirect:../show/" + profID;
+		return new ModelAndView(redirectTo);
 	}
 	
 	@RequestMapping(value="/professor/search", method = RequestMethod.GET)
-	public ModelAndView searchForProfessor(Model model) {
+	public ModelAndView search(Model model) {
 		addUsername(model);
 		
 		ModelAndView mav = new ModelAndView("professor/search");
@@ -126,7 +126,7 @@ public class ProfessorController {
 	}
 
 	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
-	public String showSearchResults(@ModelAttribute("profQuery") Query q, Model model) {
+	public String search(@ModelAttribute("profQuery") Query q, Model model) {
 		String query = q.getQuery();
 		
 		List<Professor> professors = getProfessorDAO().search(query);

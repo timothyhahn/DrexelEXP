@@ -39,6 +39,13 @@ pageEncoding="UTF-8"%>
 				<table>
 				
 				<tr>
+					<td><form:label path="course">Course</form:label></td>
+					<td>
+						<form:select path="course" items="${professor.getCourses()}"/>
+					</td>
+				</tr>				
+				
+				<tr>
 					<td><form:label path="rating">Rating</form:label></td>
 					<td><form:input path="rating" /></td>
 				</tr>

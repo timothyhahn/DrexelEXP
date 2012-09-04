@@ -31,13 +31,15 @@ pageEncoding="UTF-8"%>
 			<tr>
 			
 			<td id="listItem"><a href="<c:url value="/professor/show/${professor.getId()}"/>"><c:out value="${professor.getName()}" /></a></td>
-			<td id="listItem">5.0</td>
+			<td id="listItem">${professor.getRatingString()}</td>
 			</tr>
 			</c:forEach>
 			</table>
 			<hr />
-			<c:if test="${pageNum != 1}"><a href="<c:url value="/professor/${pageNum - 1}"/>">Previous</a></c:if>
-			<a href="<c:url value="/professor/${pageNum + 1}"/>">Next</a>
+			<c:if test="${pageNum!=null}">
+				<c:if test="${pageNum != 1}"><a href="<c:url value="/professor/${pageNum - 1}"/>">Previous</a></c:if>
+				<a href="<c:url value="/professor/${pageNum + 1}"/>">Next</a>
+			</c:if>
 		</div>
 	</div>
  
