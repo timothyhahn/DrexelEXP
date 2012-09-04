@@ -24,11 +24,13 @@
 			<table>
 				<tr><td width="100">Name</td></tr>
 				<c:forEach items="${course.professors}" var="professor">
-				
 					<tr>
-						<td id="listItem">${professor.name}</td>
+						<td id="listItem">
+							<a href="<c:url value="/professor/show/${professor.id}"/>">
+								${professor.name}
+							</a>
+						</td>
 					</tr>
-				
 				</c:forEach>
 			</table>
 			<hr />
