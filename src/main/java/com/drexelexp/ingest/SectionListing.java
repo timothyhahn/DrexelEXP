@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.drexelexp.course.Course;
 import com.drexelexp.course.JdbcCourseDAO;
 import com.drexelexp.professor.JdbcProfessorDAO;
 import com.drexelexp.professor.Professor;
@@ -62,11 +63,12 @@ public class SectionListing {
 			 professor = getProfessorDAO().getByName(professorName);
 		}
 		
-		getProfessorDAO().addProfessorCourse(
-				professor,
-				getCourseDAO().getByCode(
-						getSubjectDAO().getByCode(subjectCode),
-						courseNumber));
+		Subject subject = getSubjectDAO().getByCode(subjectCode);
+		Course course = getCourseDAO().getByCode(subject,courseNumber);
+		
+		if(professor!=null && course!=null){
+			getProfessorDAO().addProfessorCourse(professor,course);
+		}
 	}
 	
 	public String getSubjectCode(){

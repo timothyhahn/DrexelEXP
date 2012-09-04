@@ -2,50 +2,63 @@ package com.drexelexp.test;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.course.Course;
+import com.drexelexp.course.JdbcCourseDAO;
 import com.drexelexp.professor.JdbcProfessorDAO;
 import com.drexelexp.professor.Professor;
-import com.drexelexp.professor.ProfessorController;
+import com.drexelexp.subject.JdbcSubjectDAO;
+import com.drexelexp.subject.Subject;
 
 public class ProfessorTest {
-    private MockHttpServletRequest request;
-    private MockHttpServletResponse response;
-    private ProfessorController controller;
-
-    @Before
-    public void setUp() {
-       request = new MockHttpServletRequest();
-       response = new MockHttpServletResponse();
-       controller = new ProfessorController();
-    }
 
 	@Test
-	public void createProfessorTest() throws Exception {
-		request.setRequestURI("/professor/create");
-		request.setMethod("POST");
-		Professor professor = new Professor(9999, "Professor Test");
-		request.setAttribute("professor", professor);
-		
-		ModelAndView mav = new AnnotationMethodHandlerAdapter().handle(request, response, controller);
-		assertEquals("redirect:/professor", mav.getViewName());
+	public void createProfessor() throws Exception {
+		Professor professor = new Professor(-1, "Professor Test");
 		
 		ApplicationContext context = 
 	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
-		Professor result = ((JdbcProfessorDAO)professorDAO).getById(9999);
+		((JdbcProfessorDAO)professorDAO).insert(professor);
 		
-		assertEquals("Professor Test", result.getName());
+		Professor result = ((JdbcProfessorDAO)professorDAO).getByName("Professor Test");
+		((JdbcProfessorDAO)professorDAO).delete(result);
+	}
+	
+	@Test
+	public void createProfessorCourse() throws Exception {
+		Professor professor = new Professor(-1, "Professor Test");
 		
-		((JdbcProfessorDAO)professorDAO).delete(professor);
+		Subject subject = new Subject(-1, "TEST", "TEST");
+		ApplicationContext context = 
+	    		new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Subject>subjectDAO = (JdbcSubjectDAO) context.getBean("subjectDAO");
+		((JdbcSubjectDAO)subjectDAO).insert(subject);
+		
+		Subject resultSubject = ((JdbcSubjectDAO)subjectDAO).getByCode("TEST");
+		
+		Course course = new Course(-1, 1, "Test Course", "Blah", resultSubject.getId());
+		
+		BaseDAO<Course>courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+		((JdbcCourseDAO)courseDAO).insert(course);
+		
+		Course resultCourse = ((JdbcCourseDAO)courseDAO).getByCode(resultSubject, 1);
+		
+		BaseDAO<Professor> professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
+		((JdbcProfessorDAO)professorDAO).insert(professor);
+		
+		Professor resultProfessor = ((JdbcProfessorDAO)professorDAO).getByName("Professor Test");
+		
+		((JdbcProfessorDAO)professorDAO).addProfessorCourse(resultProfessor, resultCourse);
+		
+		// TODO add a way to delete the professorCourse entry
+		((JdbcCourseDAO)courseDAO).delete(resultCourse);
+		((JdbcProfessorDAO)professorDAO).delete(resultProfessor);
+		((JdbcSubjectDAO)subjectDAO).delete(resultSubject);
 	}
 
 }
