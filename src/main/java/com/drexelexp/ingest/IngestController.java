@@ -121,6 +121,9 @@ public class IngestController {
 		} finally {
 			model.addAttribute("courses", courses);
 		}
+		
+		model.addAttribute("collegeCode",collegeCode);
+		model.addAttribute("subjectCode",subjectCode);
 
 		return "ingest/courses";
 	}
