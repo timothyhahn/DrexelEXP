@@ -1,6 +1,5 @@
 package com.drexelexp.subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -19,7 +18,6 @@ import com.drexelexp.Query;
 import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.subject.Subject;
 import com.drexelexp.subject.JdbcSubjectDAO;
-import com.drexelexp.subject.Subject;
 
 /**
  * Controller for the Subject object
@@ -51,14 +49,21 @@ public class SubjectController {
 		return _subjectDAO;
 	}
 
-	@RequestMapping(value = "/subject", method = RequestMethod.GET)
-	public String showAll(Model model) {
+	@RequestMapping(value="/subject", method = RequestMethod.GET)
+	public ModelAndView list(Model model) {		
+		return new ModelAndView("redirect:/subject/1");
+	}
+	
+	@RequestMapping(value="/subject/{pageNum}", method = RequestMethod.GET)
+	public ModelAndView listPage(@PathVariable String pageNum, Model model) {		
 		addUsername(model);
-
-		List<Subject> subjects = getSubjectDAO().getAll();
-		model.addAttribute("subjects", subjects);
-
-		return "subject/list";
+		
+		List<Subject> subjects = getSubjectDAO().getPage(Integer.parseInt(pageNum), 20);
+		
+		model.addAttribute("subjects",subjects);
+		model.addAttribute("pageNum",Integer.parseInt(pageNum));
+		
+		return new ModelAndView("subject/list", "command", new Subject());
 	}
 
 	@RequestMapping(value = "/subject/show/{subjectID}", method = RequestMethod.GET)

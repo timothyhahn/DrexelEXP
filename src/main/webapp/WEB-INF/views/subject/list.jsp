@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 			<td width="50">Id</td>
 			<td width="50">Code</td>
-			<td width="100">Name</td>
+			<td width="300">Name</td>
 			</tr>
 			<c:forEach items="${subjects}" var="subject">
 			<tr>
@@ -35,6 +35,9 @@ pageEncoding="UTF-8"%>
 			</tr>
 			</c:forEach>
 			</table>
+			<hr/>
+			<c:if test="${pageNum != 1}"><a href="<c:url value="/subject/${pageNum - 1}"/>">Previous</a></c:if>
+			<a href="<c:url value="/subject/${pageNum + 1}"/>">Next</a>
 		</div>
 	</div>
  

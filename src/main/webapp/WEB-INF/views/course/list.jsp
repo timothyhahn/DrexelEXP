@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 			<td width="50">Id</td>
 			<td width="50">Subject</td>
 			<td width="50">Number</td>
-			<td width="150">Name</td>
+			<td width="300">Name</td>
 			</tr>
 			<c:forEach items="${courses}" var="course">
 			<tr>
