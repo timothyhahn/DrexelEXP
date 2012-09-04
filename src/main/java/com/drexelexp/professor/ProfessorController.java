@@ -220,7 +220,6 @@ public class ProfessorController {
 		mav.addObject("profQuery", new Query());
 		
 		return mav;
-		
 	}
 
 	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
