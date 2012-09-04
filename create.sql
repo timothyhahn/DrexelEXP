@@ -56,11 +56,12 @@ CREATE TABLE `professor_course` (
 
 CREATE TABLE `reviews` (
   `REVIEW_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `DATA` text,
+  `TEXT` text,
   `RATING` int(10) DEFAULT NULL,
   `PROF_ID` int(10) unsigned NOT NULL,
   `COURSE_ID` int(10) unsigned NOT NULL,
   `USER_ID` int(10) unsigned NOT NULL,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`REVIEW_ID`),
   KEY `FK_reviews_professor_idx` (`PROF_ID`),
   KEY `FK_reviews_course_idx` (`COURSE_ID`),
