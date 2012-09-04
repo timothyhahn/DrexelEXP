@@ -18,7 +18,7 @@
 	Courses Ingest
 </h1>
 
-<a href="<c:url value="/ingest/professors/${college.code}/${subject.code}" />">
+<a href="<c:url value="/ingest/professors/${collegeCode}/${subjectCode}" />">
 	Ingest Professors
 </a>
 
