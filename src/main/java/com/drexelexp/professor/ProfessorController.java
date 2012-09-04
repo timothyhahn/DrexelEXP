@@ -184,7 +184,7 @@ public class ProfessorController {
 	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
 		
 		Course course = new Course();
-		course.setId(1);
+		course.setId(2266);
 		review.setProfessor(professor);
 		review.setCourse(course);
 		review.setTimestamp(new Timestamp(1));
@@ -192,7 +192,7 @@ public class ProfessorController {
 		user.setId(1);
 		review.setUser(user);
 		Professor p = new Professor();
-		p.setId(1);
+		p.setId(66);
 		review.setProfessor(p);
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -200,7 +200,8 @@ public class ProfessorController {
 		
 		dao.insert(review);
 		
-		return new ModelAndView("redirect:.");
+		String redirectTo  ="redirect:../show/" + profID;
+		return new ModelAndView(redirectTo);
 	}
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
 	public ModelAndView show(@PathVariable String profID, Model model) {
