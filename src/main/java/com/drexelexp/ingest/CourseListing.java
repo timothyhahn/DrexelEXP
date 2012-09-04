@@ -13,6 +13,7 @@ import com.drexelexp.subject.Subject;
 
 public class CourseListing {
 	private static final Logger logger = LoggerFactory.getLogger(CourseListing.class);
+	
 	private JdbcCourseDAO _courseDAO;
 	private JdbcCourseDAO getCourseDAO(){
 		if(_courseDAO!=null)
@@ -44,6 +45,7 @@ public class CourseListing {
 		
 		Course course = getCourseDAO().getByCode(subject,number);
 		if(course==null){
+			logger.info("Ingest Course: "+name);
 			getCourseDAO().insert(new Course(0,number,name,desc,subject.getId()));
 			course = getCourseDAO().getByCode(subject,number);
 		}

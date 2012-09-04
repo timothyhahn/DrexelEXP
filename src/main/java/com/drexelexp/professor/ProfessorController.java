@@ -1,7 +1,6 @@
 package com.drexelexp.professor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -17,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
-import com.drexelexp.baseDAO.BaseDAO;
-import com.drexelexp.course.Course;
 import com.drexelexp.review.JdbcReviewDAO;
 import com.drexelexp.review.Review;
 import com.drexelexp.user.JdbcUserDAO;
-import com.drexelexp.user.User;
 
 /**
  * Controller for the Professor object

@@ -1,5 +1,7 @@
 package com.drexelexp.ingest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Element;
@@ -13,6 +15,8 @@ import com.drexelexp.subject.JdbcSubjectDAO;
 import com.drexelexp.subject.Subject;
 
 public class SectionListing {
+	private static final Logger logger = LoggerFactory.getLogger(SectionListing.class);
+	
 	private String subjectCode;
 	private int courseNumber;
 	private String professorName;
@@ -50,17 +54,25 @@ public class SectionListing {
 		return _subjectDAO;
 	}
 	
-	public SectionListing(Element htmlElement){
+	public SectionListing(String subjectCode,int courseNumber,Element htmlElement){
 		NodeList cells = htmlElement.getElementsByTagName("TD");		
 		
-		subjectCode = ((Element)cells.item(0)).getTextContent();
-		courseNumber = Integer.parseInt(((Element)cells.item(1)).getTextContent());
-		professorName = ((Element)cells.item(8)).getTextContent();
+		this.subjectCode=subjectCode;
+		this.courseNumber=courseNumber;
+		String text= ((Element)cells.item(8)).getTextContent();
+		if(text.contains(","))
+			this.professorName =  text.split(",")[0];
+		else
+			this.professorName = text;
+		
+		if(this.professorName.equals("STAFF"))
+			return;
 		
 		Professor professor = getProfessorDAO().getByName(professorName);
 		if(professor==null){
+			logger.info("Ingesting Professor: "+professorName);
 			getProfessorDAO().insert(new Professor(0,professorName));
-			 professor = getProfessorDAO().getByName(professorName);
+			professor = getProfessorDAO().getByName(professorName);
 		}
 		
 		Subject subject = getSubjectDAO().getByCode(subjectCode);
