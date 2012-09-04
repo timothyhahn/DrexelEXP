@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>DrexelEXP - ${professor.getName() }</title>
+	<title>DrexelEXP - ${professor.name }</title>
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
 	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1><strong>${professor.getName() }</strong></h1>
+			<h1><strong>${professor.name }</strong></h1>
 			<hr />
 			<h3>Courses Taught</h3>
 			<table>

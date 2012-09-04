@@ -30,8 +30,8 @@ pageEncoding="UTF-8"%>
 			<c:forEach items="${professors}" var="professor">
 			<tr>
 			
-			<td id="listItem"><a href="<c:url value="/professor/show/${professor.getId()}"/>"><c:out value="${professor.getName()}" /></a></td>
-			<td id="listItem">${professor.getRatingString()}</td>
+			<td id="listItem"><a href="<c:url value="/professor/show/${professor.id}"/>"><c:out value="${professor.name}" /></a></td>
+			<td id="listItem">${professor.ratingString}</td>
 			</tr>
 			</c:forEach>
 			</table>
