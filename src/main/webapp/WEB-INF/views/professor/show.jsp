@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>DrexelEXP - ${professor.getName() }</title>
+	<title>DrexelEXP - ${professor.name }</title>
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
 	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1><strong>${professor.getName() }</strong></h1>
+			<h1><strong>${professor.name}</strong></h1>
 			<hr />
 			<h3>Courses Taught</h3>
 			<table>
@@ -27,21 +27,21 @@ pageEncoding="UTF-8"%>
 				<c:forEach items="${courses}" var="course">
 				
 					<tr>
-						<td id="listItem">${course.getSubject().getCode()} ${course.getNumber()}</td>
-						<td id="listItem">${course.getName()}</td>
+						<td id="listItem"><a href="<c:url value="/course/show/${course.id}" />">${course.subject.code} ${course.number}</a></td>
+						<td id="listItem"><a href="<c:url value="/course/show/${course.id}" />">${course.name}</a></td>
 					</tr>
 				
 				</c:forEach>
 			</table>
 			<hr />
-				<form:form method="post" action="${professor.getId()}" commandName="newReview">
+				<form:form method="post" action="${professor.id}" commandName="newReview">
 			
 				<table>
 				
 				<tr>
 					<td><form:label path="course">Course</form:label></td>
 					<td>
-						<form:select path="course" items="${professor.getCourses()}"/>
+						<form:select path="course" items="${professor.courses}"/>
 					</td>
 				</tr>				
 				
@@ -70,8 +70,8 @@ pageEncoding="UTF-8"%>
 			<c:forEach items="${reviews}" var="review">
 			<tr>
 			
-			<td><c:out value="${review.getRating()}" /></td>
-			<td><c:out value="${review.getContent()}" /></td>
+			<td><c:out value="${review.rating}" /></td>
+			<td><c:out value="${review.content}" /></td>
 			
 			</tr>
 			</c:forEach>
