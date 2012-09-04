@@ -21,12 +21,15 @@
 		<c:choose>
 		<c:when test="${username ==  ''}"> <!-- If the user is not validated -->
 			<p>
-				DrexelEXP is a bla bla bla.
+				DrexelEXP is a user driven website to rate, review, and research your professors and courses at Drexel before you take them.
+				
+			</p>
+			<p>
 				If you want more information, try the following steps
+				</p>
 				<ul>
 					<li>Register above for more features!</li>
 				</ul>
-			</p>
 		</c:when>
 		<c:otherwise>
 			<div id ="main-table">

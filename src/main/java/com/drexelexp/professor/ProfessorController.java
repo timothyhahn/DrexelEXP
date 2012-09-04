@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
 import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.course.Course;
 import com.drexelexp.review.Review;
 
 /**
@@ -189,7 +190,12 @@ public class ProfessorController {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		BaseDAO<Professor> dao = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
-		model.addAttribute("professor",dao.getById(Integer.parseInt(profID)));
+		Professor professor = dao.getById(Integer.parseInt(profID));
+		model.addAttribute("professor",professor);
+		
+		
+		List<Course> courses = professor.getCourses();
+		model.addAttribute("courses", courses);
 		Timestamp t = new Timestamp(0);
 		
 		Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,
@@ -198,6 +204,7 @@ public class ProfessorController {
 
 		reviews.add(review);
 		model.addAttribute("reviews", reviews);
+		
 		return "professor/show";
 	}
 	
