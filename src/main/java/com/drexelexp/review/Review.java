@@ -58,10 +58,10 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getText(){
+	public String getContent(){
 		return text;
 	}
-	public void setText(String text) {
+	public void setContent(String text) {
 		this.text = text;
 	}
 	public float getRating(){

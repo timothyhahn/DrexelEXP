@@ -75,7 +75,7 @@ public class ProfessorController {
 		if(professor.getReviews().size()==0){
 			Timestamp t = new Timestamp(0);
 		
-			Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,1, 1, 1);
+			Review review =  new Review(1, "This is a sample review.", 2.5f, t,1, 1, 1);
 			professor.getReviews().add(review);
 		}
 		
