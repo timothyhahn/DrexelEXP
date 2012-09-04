@@ -74,11 +74,13 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.GET)
-	public ModelAndView search(Model model)
-	{
+	public ModelAndView search(Model model) {
 		addUsername(model);
 		
-		return new ModelAndView("course/search", "command", new Query());
+		ModelAndView mav = new ModelAndView("course/search");
+		mav.addObject("courseQuery", new Query());
+		
+		return mav;
 	}
 	
 	@RequestMapping(value="/course/search", method = RequestMethod.POST)
