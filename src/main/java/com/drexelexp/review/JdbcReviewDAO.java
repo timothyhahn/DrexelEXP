@@ -38,7 +38,7 @@ public class JdbcReviewDAO extends JdbcBaseDAO<Review> {
 				rs.getFloat("RATING"),
 				rs.getTimestamp("TIMESTAMP"),
 				rs.getInt("USER_ID"),
-				rs.getInt("PROFESSOR_ID"),
+				rs.getInt("PROF_ID"),
 				rs.getInt("COURSE_ID"));
 	}
 
@@ -46,11 +46,11 @@ public class JdbcReviewDAO extends JdbcBaseDAO<Review> {
 		Map<String,Object> map = new Hashtable<String,Object>();
 		
 		map.put("REVIEW_ID",instance.getId());
-		map.put("TEXT",instance.getText());
+		map.put("TEXT",instance.getContent());
 		map.put("RATING",instance.getRating());
 		map.put("TIMESTAMP",instance.getTimestamp());
 		map.put("USER_ID",instance.getUser().getId());
-		map.put("PROFESSOR_ID",instance.getProfessor().getId());
+		map.put("PROF_ID",instance.getProfessor().getId());
 		map.put("COURSE_ID",instance.getCourse().getId());
 		
 		return map;

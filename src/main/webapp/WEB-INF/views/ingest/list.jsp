@@ -42,6 +42,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#autoingest").click(function(){
+			alert("hi");
 			$(".subject").each(function(index,value){
 				var subject = $(value).attr('data-subject');
 				var college = $(value).attr('data-college');

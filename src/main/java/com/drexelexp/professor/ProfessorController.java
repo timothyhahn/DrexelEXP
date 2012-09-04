@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.drexelexp.Query;
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.course.Course;
+import com.drexelexp.review.JdbcReviewDAO;
 import com.drexelexp.review.Review;
+import com.drexelexp.user.User;
 
 /**
  * Controller for the Professor object
@@ -178,9 +180,30 @@ public class ProfessorController {
 		return new ModelAndView("professor/list", "command", new Professor());
 	}
 	
-	
+	@RequestMapping(value="professor/show/{profID}", method = RequestMethod.POST)
+	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
+		
+		Course course = new Course();
+		course.setId(1);
+		review.setProfessor(professor);
+		review.setCourse(course);
+		review.setTimestamp(new Timestamp(1));
+		User user = new User();
+		user.setId(1);
+		review.setUser(user);
+		Professor p = new Professor();
+		p.setId(1);
+		review.setProfessor(p);
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		BaseDAO<Review> dao =  (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		dao.insert(review);
+		
+		return new ModelAndView("redirect:.");
+	}
 	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
-	public String show(@PathVariable String profID, Model model) {
+	public ModelAndView show(@PathVariable String profID, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
 			model.addAttribute("username","");
@@ -198,6 +221,7 @@ public class ProfessorController {
 		model.addAttribute("courses", courses);
 		Timestamp t = new Timestamp(0);
 		
+		
 		Review review =  new Review(1, "Okay so I really hated this prof!!!", 1, t,
 				1, 1, 1);
 		List<Review> reviews = new ArrayList<Review>();
@@ -205,7 +229,10 @@ public class ProfessorController {
 		reviews.add(review);
 		model.addAttribute("reviews", reviews);
 		
-		return "professor/show";
+		Review newReview = new Review();
+		ModelAndView mav = new ModelAndView("professor/show");
+		mav.addObject("newReview", newReview);
+		return mav;
 	}
 	
 	@RequestMapping(value="/professor/search", method = RequestMethod.GET)

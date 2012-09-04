@@ -21,7 +21,7 @@ import com.drexelexp.user.User;
  */
 public class Review {
 	private int id;
-	private String text;
+	private String content;
 	private float rating;
 	private Timestamp timestamp;
 	private int userId;
@@ -33,7 +33,7 @@ public class Review {
 	
 	public Review() {
 		this.id = -1;
-		this.text = "";
+		this.content = "";
 		this.rating = 0;
 		this.professor = null;
 		this.course = null;
@@ -42,7 +42,7 @@ public class Review {
 	public Review(int id, String text, float rating, Timestamp timestamp,
 			int userId, int professorId, int courseId) {
 		this.id = id;
-		this.text = text;
+		this.content = text;
 		this.rating = rating;
 		this.timestamp = timestamp;
 		this.userId = userId;
@@ -57,14 +57,23 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getText(){
-		return text;
+	public String getContent(){
+		return content;
+	}
+	public void setContent(String text) {
+		this.content = text;
 	}
 	public float getRating(){
 		return rating;
 	}
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
 	public Timestamp getTimestamp(){
 		return timestamp;
+	}
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 	public User getUser(){
 		if(user!=null)
@@ -77,6 +86,9 @@ public class Review {
 		
 		return user;
 	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Professor getProfessor(){
 		if(professor!=null)
 			return professor;
@@ -88,6 +100,9 @@ public class Review {
 		
 		return professor;
 	}
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
 	public Course getCourse(){
 		if(course!=null)
 			return course;
@@ -98,5 +113,8 @@ public class Review {
 		course = dao.getById(courseId);
 		
 		return course;
+	}
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 }

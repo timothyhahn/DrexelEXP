@@ -2,6 +2,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +23,7 @@ pageEncoding="UTF-8"%>
 			<hr />
 			<h3>Courses Taught</h3>
 			<table>
-				<tr><td width="50">Code</td><td width="100">Name</td></tr>
+				<tr><td width="50">Code</td><td width="">Name</td></tr>
 				<c:forEach items="${courses}" var="course">
 				
 					<tr>
@@ -33,6 +34,27 @@ pageEncoding="UTF-8"%>
 				</c:forEach>
 			</table>
 			<hr />
+				<form:form method="post" action="${professor.getId()}" commandName="newReview">
+			
+				<table>
+				
+				<tr>
+					<td><form:label path="rating">Rating</form:label></td>
+					<td><form:input path="rating" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="">Text</form:label></td>
+					<td rowspan="5"><form:input type="textarea" rows="3"  path="content" /></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" value="Create"/>
+					</td>
+				</tr>
+			</table>	
+				
+			</form:form>
+			<hr />
 			<table>
 			<tr>
 			<td width="50">Rating</td>
@@ -42,12 +64,13 @@ pageEncoding="UTF-8"%>
 			<tr>
 			
 			<td><c:out value="${review.getRating()}" /></td>
-			<td><c:out value="${review.getText()}" /></td>
+			<td><c:out value="${review.getContent()}" /></td>
 			
 			</tr>
 			</c:forEach>
 			
 			</table>
+			
 		 </div>
 		 
 	</div>
