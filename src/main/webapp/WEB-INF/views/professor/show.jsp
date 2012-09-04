@@ -50,8 +50,8 @@ pageEncoding="UTF-8"%>
 					<td><form:input path="rating" /></td>
 				</tr>
 				<tr>
-					<td><form:label path="text">Text</form:label></td>
-					<td rowspan="5"><form:input type="textarea" rows="3"  path="text" /></td>
+					<td><form:label path="">Text</form:label></td>
+					<td rowspan="5"><form:input type="textarea" rows="3"  path="content" /></td>
 				</tr>
 				<tr>
 					<td colspan="2">
@@ -71,7 +71,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 			
 			<td><c:out value="${review.rating}" /></td>
-			<td><c:out value="${review.text}" /></td>
+			<td><c:out value="${review.content}" /></td>
 			
 			</tr>
 			</c:forEach>
