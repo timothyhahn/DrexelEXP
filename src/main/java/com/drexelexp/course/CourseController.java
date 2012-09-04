@@ -121,4 +121,6 @@ public class CourseController {
 		model.addAttribute("courses",courses);
 		return "course/list";
 	}
+	
+	
 }

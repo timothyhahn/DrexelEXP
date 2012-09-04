@@ -210,7 +210,7 @@ public abstract class JdbcBaseDAO<T> implements BaseDAO<T> {
 	}
 	
 	private List<T> getWhere(Map<String,Object> conditions, int page, int pageSize){
-		String condition = "";		
+		String condition = "";
 		boolean first = true;
 		for(String column : conditions.keySet()){
 			if(first){
