@@ -18,9 +18,10 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<h1>Course ${course.getName() }</h1>
-			<a href="<c:url value="/course/edit/${course.getId()}" />">Edit</a>
-			<a href="<c:url value="/course/delete/${course.getId()}" />">Delete</a>
+			<h1><c:out value="${course.getName()}"/></h1>
+			<p>
+				<c:out value="${course.getDescription()}"/>
+			</p>
 		 </div>
 	</div>
 </body>
