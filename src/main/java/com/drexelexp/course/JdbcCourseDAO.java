@@ -85,7 +85,7 @@ public class JdbcCourseDAO extends SearchableDAO<Course> {
 	public List<Course> getByProfessor(Professor professor){
 		return getQuery(
 				"SELECT c.* FROM courses as c "+
-						"JOIN (Professor_Course as pc, professors as p) "+
+						"JOIN (professor_course as pc, professors as p) "+
 						"ON (p.prof_id=pc.prof_id and pc.course_id=c.course_id) "+
 						"WHERE pc.prof_id="+professor.getId());
 	}

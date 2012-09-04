@@ -21,14 +21,14 @@
 			<ul>
 				<c:forEach items="${colleges}" var="college">
 					<li>
-						<h4><c:out value="${college.getName()}" /></h4>
+						<h4><c:out value="${college.name}" /></h4>
 						<ul>
-							<c:forEach items="${college.getSubjects()}" var="subject">
+							<c:forEach items="${college.subjects}" var="subject">
 								<li>
 									<div class="subject"
-										data-college="<c:out value="${college.getCode()}"/>"
-										data-subject="<c:out value="${subject.getCode()}"/>">
-										<span><c:out value="${subject.getName()}" /></span>
+										data-college="<c:out value="${college.code}"/>"
+										data-subject="<c:out value="${subject.code}"/>">
+										<span><c:out value="${subject.name}" /></span>
 									</div>
 								</li>
 							</c:forEach>

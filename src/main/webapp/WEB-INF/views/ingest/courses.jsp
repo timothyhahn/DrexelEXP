@@ -18,15 +18,15 @@
 	Courses Ingest
 </h1>
 
-<a href="<c:url value="/ingest/professors/${college.getCode()}/${subject.getCode()}" />">
+<a href="<c:url value="/ingest/professors/${college.code}/${subject.code}" />">
 	Ingest Professors
 </a>
 
 <ul>
 <c:forEach items="${courses}" var="course">
 <li>
-	<h4><c:out value="${course.getNumber()}"/> <c:out value="${course.getName()}"/></h4>
-	<p><c:out value="${course.getDesc()}"/></p>
+	<h4><c:out value="${course.number}"/> <c:out value="${course.name}"/></h4>
+	<p><c:out value="${course.desc}"/></p>
 </li>
 </c:forEach>
 </ul>
