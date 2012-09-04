@@ -35,8 +35,8 @@
 			<div id ="main-table">
 				<table>
 					<tr>
-						<td width="350"><h2><a href="/drexelexp/professor">Professors</a></h2></td>
-						<td width="350"><h2><a href="/drexelexp/course">Courses</a></h2></td>
+						<td width="350"><h2><a href="<c:url value="/professor/" />">Professors</a></h2></td>
+						<td width="350"><h2><a href="<c:url value="/course/ "/>" >Courses</a></h2></td>
 					</tr>
 					<tr>
 						<td><h3>Search for a professor: </h3> <%@ include file="/WEB-INF/views/professor/searchbar.jsp" %></td>
