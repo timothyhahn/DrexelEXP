@@ -19,6 +19,7 @@
 	<div id="page">
 		<div id ="text">
 			<h1><span class="rating">${course.ratingString}</span> <strong>${course.name}</strong></h1>
+			<p>${course.description}</p>
 			<hr />
 			<h3>Professors Teaching</h3>
 			<table>
@@ -64,11 +65,11 @@
 					</tr>
 					<tr>
 						<td><form:label path="content">Text</form:label></td>
-						<td rowspan="5"><form:input type="textarea" rows="3"  path="content" /></td>
+						<td><form:textarea rows="5" cols="30"  path="content" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="submit" value="Create"/>
+							<input type="submit" value="Submit Review"/>
 						</td>
 					</tr>
 				</table>	
@@ -81,21 +82,20 @@
 				<c:when test="${not empty course.reviews}">
 					<table>
 						<tr>
-							<td width="auto"></td>
 							<td width="50">Rating</td>
-							<td width="150">Text</td>
+							<td width="400">Text</td>
 						</tr>
 						<c:forEach items="${course.reviews}" var="review">
 								<tr>
+									<td><c:out value="${review.ratingString}" /></td>
+									<td><c:out value="${review.content}" /></td>
 									<td>
 										<c:if test="${user != null  && user.moderator }">
 											<a href="<c:url value="/review/delete/${review.id}"/>">
 												DELETE
 											</a>
 										</c:if>
-									</td>
-									<td><c:out value="${review.ratingString}" /></td>
-									<td><c:out value="${review.content}" /></td>							
+									</td>						
 								</tr>
 						</c:forEach>
 					</table>

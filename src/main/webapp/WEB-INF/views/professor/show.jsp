@@ -64,11 +64,11 @@ pageEncoding="UTF-8"%>
 					</tr>
 					<tr>
 						<td><form:label path="content">Text</form:label></td>
-						<td rowspan="5"><form:input type="textarea" rows="3"  path="content" /></td>
+						<td><form:textarea type="textarea" rows="5" cols="50"  path="content" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="submit" value="Create"/>
+							<input type="submit" value="Submit Review"/>
 						</td>
 					</tr>
 				</table>	
@@ -81,12 +81,14 @@ pageEncoding="UTF-8"%>
 				<c:when test="${not empty professor.reviews}">
 					<table>
 						<tr>
-							<td width="auto"></td>
 							<td width="50">Rating</td>
-							<td width="150">Text</td>
+							<td width="400">Text</td>
+							<td></td>
 						</tr>
 						<c:forEach items="${professor.reviews}" var="review">
 								<tr>
+									<td><c:out value="${review.ratingString}" /></td>
+									<td><c:out value="${review.content}" /></td>
 									<td>
 										<c:if test="${user != null  && user.moderator }">
 											<a href="<c:url value="/review/delete/${review.id}"/>">
@@ -94,8 +96,6 @@ pageEncoding="UTF-8"%>
 											</a>
 										</c:if>
 									</td>
-									<td><c:out value="${review.ratingString}" /></td>
-									<td><c:out value="${review.content}" /></td>
 								</tr>
 						</c:forEach>
 					</table>
