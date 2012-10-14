@@ -46,7 +46,8 @@ public class JdbcCustomerDAO implements CustomerDAO {
  
 	public Customer findByCustomerId(int custId){
  
-		String sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";
+		String sql = null;
+		sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";
  
 		Connection conn = null;
  
