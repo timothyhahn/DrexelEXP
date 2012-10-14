@@ -12,7 +12,7 @@ Setup Instructions
 8. Visit http://localhost:8080/ingest to grab all of the subjects and load them into the database. This may take up to a minute.
 9. Either click on the "Click me to ingest" text to see a popup alert and then wait for it to ingest all the files (not suggested for testing/dev, we will probably only do this on the prod server, instead do the following)
 10. OR Visit http://localhost:8080/ingest/courses/CE/CS and after that has finished loading, either click the link or go to http://localhost:8080/ingest/professor/CE/CS Courses will take maybe a minute, professors a few seconds
-11. The project is now ready for development
+11. The project is now ready for development.
 
 NOTE TO PROFESSOR: As discussed during our presentation, our tests greatly started to disappear once we had the DAO working as it does now. Like we considered in class, however, that would be a good reason to switch back to the MVC + Services + DAO architecture, but we definitely had too much already going on and ran out of time.
 
