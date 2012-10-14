@@ -19,8 +19,8 @@ public class JdbcCustomerDAO implements CustomerDAO {
  
 	public void insert(Customer customer){
  
-		String sql = "INSERT INTO CUSTOMER " +
-				"(NAME, AGE) VALUES (?, ?)";
+		String sql = null;
+		sql = "INSERT INTO CUSTOMER " + "(NAME, AGE) VALUES (?, ?)";
 		Connection conn = null;
  
 		try {
