@@ -8,37 +8,21 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>DrexelEXP - Add Professor</title>
+<title>DrexelEXP - Search for a Course</title>
 	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
 		<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
 		<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
 <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
- 	 <div class="header">
-		<%@ include file="/WEB-INF/views/header.jsp" %>
+<div class="header">
+<%@ include file="/WEB-INF/views/header.jsp" %>
+</div>
+<div id="page">
+	<div id ="text">
+<h3>Find a Subject</h3>
+<%@ include file="searchbar.jsp" %>
 	</div>
-		<div id="page">
-		<div id ="text">
-	<h3>Create a new professor</h3>
-
-<form:form method="post" action="create">
-
-	<table>
-	<tr>
-		<td><form:label path="name">Name</form:label></td>
-		<td><form:input path="name" /></td>
-	</tr>
-
-	<tr>
-		<td colspan="2">
-			<input type="submit" value="Create"/>
-		</td>
-	</tr>
-</table>	
-	
-</form:form>
-		</div>
-	</div>
+</div>
 </body>
 </html>

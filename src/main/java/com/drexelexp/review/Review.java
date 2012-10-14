@@ -1,6 +1,7 @@
 package com.drexelexp.review;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -57,14 +58,26 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getText(){
+	public String getContent(){
 		return text;
+	}
+	public void setContent(String text) {
+		this.text = text;
 	}
 	public float getRating(){
 		return rating;
 	}
+	public String getRatingString(){
+		return new DecimalFormat("0.0").format(rating);
+	}
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
 	public Timestamp getTimestamp(){
 		return timestamp;
+	}
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 	public User getUser(){
 		if(user!=null)
@@ -77,6 +90,9 @@ public class Review {
 		
 		return user;
 	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Professor getProfessor(){
 		if(professor!=null)
 			return professor;
@@ -88,6 +104,12 @@ public class Review {
 		
 		return professor;
 	}
+	public int getProfessorId() {
+		return professorId;
+	}
+	public void setProfessorId(int professorId) {
+		this.professorId=professorId;
+	}
 	public Course getCourse(){
 		if(course!=null)
 			return course;
@@ -98,5 +120,11 @@ public class Review {
 		course = dao.getById(courseId);
 		
 		return course;
+	}
+	public int getCourseId(){
+		return courseId;
+	}
+	public void setCourseId(int courseId) {
+		this.courseId=courseId;
 	}
 }

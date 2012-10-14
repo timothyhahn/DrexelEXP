@@ -37,14 +37,14 @@ public class User {
 	 * @param id Auto generated ID
 	 * @param email User's e-mail
 	 */
-	public User(int id, String email) {
+	public User(int id, String email, boolean isModerator) {
 		this.setId(id);
 		this.setEmail(email);
 		this.setUniversity(findUniversity(email));
 		this.setActive(true);
-		this.setModerator(false);
+		this.setModerator(isModerator);	
 	}
-	
+
 	/**
 	 * Helper Functions
 	 */
@@ -91,7 +91,7 @@ public class User {
 	public void setUniversity(String university) {
 		this.university = university;
 	}
-	public boolean isModerator() {
+	public boolean getModerator() {
 		return moderator;
 	}
 	public void setModerator(boolean moderator) {
@@ -139,7 +139,4 @@ public class User {
 		}
 		return "";
 	}
-	
-	
-	
 }

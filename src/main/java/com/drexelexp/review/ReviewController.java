@@ -1,20 +1,20 @@
 package com.drexelexp.review;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.drexelexp.baseDAO.BaseDAO;
+import com.drexelexp.user.JdbcUserDAO;
+import com.drexelexp.user.User;
 
 /**
  * Controller for the Review object
@@ -23,5 +23,23 @@ import com.drexelexp.baseDAO.BaseDAO;
  */
 @Controller
 public class ReviewController {
-	// TODO Actually add things here
+	@RequestMapping(value="/review/delete/{reviewId}", method = RequestMethod.GET)
+	public View delete(@PathVariable String reviewId,HttpServletRequest request) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcUserDAO userDAO = (JdbcUserDAO) context.getBean("userDAO");
+		User user = userDAO.findByEmail(authentication.getName());
+		
+		if(user==null || !user.getModerator())
+			return new RedirectView(request.getHeader("referer"));
+		
+		JdbcReviewDAO reviewDAO = (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		Review review = reviewDAO.getById(Integer.parseInt(reviewId));
+		
+		reviewDAO.delete(review);
+		
+		return new RedirectView(request.getHeader("referer"));
+	}	
 }

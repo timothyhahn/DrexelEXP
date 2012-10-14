@@ -9,4 +9,5 @@ public interface BaseDAO<T> {
 	public void delete(T instance);	
 	
 	public List<T> getAll();
+	public List<T> getPage(int page, int pageSize);
 }

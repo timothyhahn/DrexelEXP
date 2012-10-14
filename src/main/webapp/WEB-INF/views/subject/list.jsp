@@ -5,27 +5,45 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+	<title>DrexelEXP - Professors</title>
+	<script src="<c:url value="/resources/js/jquery-1.8.1.js" />"></script>
+	<script src="<c:url value="/resources/js/drexelexp.js" />"></script>
+	<link href="<c:url value="/resources/css/drexelexp.css" />" rel="stylesheet" type="text/css" media="screen" />
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
+	 <div class="header">
+		<%@ include file="/WEB-INF/views/header.jsp" %>
+	</div>
+	<div id="page">
+		<div id ="text">
+			<a href="<c:url value="/subject/search"/>">Search</a>
+			<h1>Subjects</h1>
+			<table>
+			<tr>
+			<td width="50">Id</td>
+			<td width="50">Code</td>
+			<td width="300">Name</td>
+			</tr>
+			<c:forEach items="${subjects}" var="subject">
+			<tr>
+			
+			<td><c:out value="${subject.getId()}" /></td>
+			<td><c:out value="${subject.getCode()}" /></td>
+			<td>
+				<a href="<c:url value="/subject/show/${subject.getId() }"/>">
+					<c:out value="${subject.getName()}" />
+				</a>
+			</td>
+			
+			</tr>
+			</c:forEach>
+			</table>
+			<hr/>
+			<c:if test="${pageNum != 1}"><a href="<c:url value="/subject/${pageNum - 1}"/>">Previous</a></c:if>
+			<a href="<c:url value="/subject/${pageNum + 1}"/>">Next</a>
+		</div>
+	</div>
  
-<h1>
- 
- 
-Persons</h1><table>
-<tr>
-<td width="50">Id</td>
-<td width="150">First Name</td>
-<td width="150">Last Name</td>
-<td width="50">Money</td>
-</tr>
-<c:forEach items="${persons}" var="person">
-<tr>
-<td><c:out value="${person.id}" /></td>
-<td><c:out value="${person.firstName}" /></td>
-<td><c:out value="${person.lastName}" /></td>
-<td><c:out value="${person.money}" /></td>
-</tr>
-</c:forEach>
-</table></body>
+</body>
 </html>

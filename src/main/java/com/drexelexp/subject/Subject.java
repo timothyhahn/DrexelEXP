@@ -20,6 +20,12 @@ public class Subject {
 	
 	private List<Course> courses;
 	
+	public Subject(){
+		this.id=0;
+		this.code="";
+		this.name="";
+	}
+	
 	public Subject(int id, String code, String name) {
 		this.id=id;
 		this.code=code;

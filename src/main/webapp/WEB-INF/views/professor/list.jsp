@@ -17,23 +17,29 @@ pageEncoding="UTF-8"%>
 	</div>
 	<div id="page">
 		<div id ="text">
-			<a href="/drexelexp/professor/add">Add</a> 
-			<a href="/drexelexp/professor/search">Search</a>
 			<h1>Professors</h1>
 			<table>
 			<tr>
-			<td width="50">Id</td>
-			<td width="150">Name</td>
+			<td width="350">Name
+			<hr /></td>
+			<td width="20">
+			Rating
+			<hr />
+			</td>
 			</tr>
 			<c:forEach items="${professors}" var="professor">
 			<tr>
 			
-			<td><c:out value="${professor.getId()}" /></td>
-			<td><a href="/drexelexp/professor/show/${professor.getId()}"><c:out value="${professor.getName()}" /></a></td>
-			
+			<td id="listItem"><a href="<c:url value="/professor/show/${professor.id}"/>"><c:out value="${professor.name}" /></a></td>
+			<td id="listItem">${professor.ratingString}</td>
 			</tr>
 			</c:forEach>
 			</table>
+			<hr />
+			<c:if test="${pageNum!=null}">
+				<c:if test="${pageNum != 1}"><a href="<c:url value="/professor/${pageNum - 1}"/>">Previous</a></c:if>
+				<a href="<c:url value="/professor/${pageNum + 1}"/>">Next</a>
+			</c:if>
 		</div>
 	</div>
  

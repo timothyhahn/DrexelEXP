@@ -2,6 +2,7 @@
 
 package com.drexelexp.course;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.drexelexp.baseDAO.BaseDAO;
 import com.drexelexp.professor.JdbcProfessorDAO;
 import com.drexelexp.professor.Professor;
+import com.drexelexp.review.JdbcReviewDAO;
+import com.drexelexp.review.Review;
 import com.drexelexp.subject.JdbcSubjectDAO;
 import com.drexelexp.subject.Subject;
 
@@ -26,6 +29,7 @@ public class Course {
 	private int subjectId;
 	private Subject subject;
 	private List<Professor> professors;
+	private List<Review> reviews;
 	
 	public Course(){
 		
@@ -78,6 +82,30 @@ public class Course {
 		professors = dao.getByCourse(this);
 		
 		return professors;
+	}
+	public List<Review>	getReviews(){
+		if(reviews!=null)
+			return reviews;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcReviewDAO dao = (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		reviews = dao.getReviews(this);
+		
+		return reviews;
+	}
+	
+	public float getRating(){
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		JdbcReviewDAO dao = (JdbcReviewDAO) context.getBean("reviewDAO");
+		
+		return dao.getRating(this);
+	}
+	
+	public String getRatingString(){
+		float rating = getRating();
+		
+		return new DecimalFormat("0.0").format(rating);
 	}
 }
 

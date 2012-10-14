@@ -22,9 +22,9 @@
 					<c:forEach items="${sections}" var="section">
 						<li>
 							<span>
-								<c:out value="${section.getSubjectCode()}" />
-								<c:out value="${section.getCourseNumber()}" />
-								<c:out value="${section.getProfessorName()}" />
+								<c:out value="${section.subjectCode}" />
+								<c:out value="${section.courseNumber}" />
+								<c:out value="${section.professorName}" />
 							</span>
 						</li>
 					</c:forEach>

@@ -25,6 +25,10 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	protected String getIdColumnName(){
 		return "PROF_ID";
 	}
+	@Override
+	protected String getOrderByColumns(){
+		return "NAME";
+	}
 	protected int getId(Professor instance){
 		return instance.getId();
 	}
@@ -59,8 +63,8 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	}
 	
 	public void addProfessorCourse(Professor professor,Course course){
-		String sql = "SELECT * FROM Professor_Course WHERE PROF_ID = ? AND COURSE_ID = ?";
-		boolean newRecord = false;
+		String sql = "SELECT * FROM professor_course WHERE PROF_ID = ? AND COURSE_ID = ?";
+		boolean exists = false;
 		
 		Connection conn=null;
 		
@@ -73,7 +77,7 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 			
 			ResultSet rs = ps.executeQuery();
 			
-			newRecord = rs.next();
+			exists = rs.next();
 			
 			rs.close();
 			ps.close();
@@ -89,7 +93,10 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 			}
 		}
 		
-		sql = "INSERT INTO Professor_Course SET (PROF_ID,COURSE_ID) VALUES (?,?)";
+		if(exists)
+			return;
+		
+		sql = "INSERT INTO professor_course (PROF_ID,COURSE_ID) VALUES (?,?)";
 				
 		conn=null;
 		
@@ -119,7 +126,7 @@ public class JdbcProfessorDAO extends SearchableDAO<Professor>{
 	public List<Professor> getByCourse(Course course){
 		return getQuery(
 				"SELECT p.* FROM professors as p "+
-						"JOIN (Professor_Course as pc, courses as c) "+
+						"JOIN (professor_course as pc, courses as c) "+
 						"ON (p.prof_id=pc.prof_id and pc.course_id=c.course_id) "+
 						"WHERE pc.course_id="+course.getId());
 	}

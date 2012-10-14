@@ -11,6 +11,7 @@ import com.drexelexp.subject.Subject;
 
 public class SubjectListing {
 	private static final Logger logger = LoggerFactory.getLogger(SubjectListing.class);
+	
 	private JdbcSubjectDAO _subjectDAO;
 	private JdbcSubjectDAO getSubjectDAO(){
 		if(_subjectDAO!=null)
@@ -33,8 +34,9 @@ public class SubjectListing {
 		
 		Subject subject = getSubjectDAO().getByCode(code);
 		if(subject==null){
-			 getSubjectDAO().insert(new Subject(0,code,name));
-			 subject = getSubjectDAO().getByCode(code);
+			logger.info("Ingesting Subject: "+name);
+			getSubjectDAO().insert(new Subject(0,code,name));
+		 	subject = getSubjectDAO().getByCode(code);
 		}
 	}
 	
