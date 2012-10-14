@@ -16,8 +16,8 @@ Setup Instructions
 
 NOTE TO PROFESSOR: As discussed during our presentation, our tests greatly started to disappear once we had the DAO working as it does now. Like we considered in class, however, that would be a good reason to switch back to the MVC + Services + DAO architecture, but we definitely had too much already going on and ran out of time.
 
-Any questions about Models, Views, Controllers, or Spring should be directed to Timothy Hahn
-Any questions about the database or the DAOs should be directed to Chris Harvey
-Any questions about unit testing or integration testing sohuld be directed to Martin Barbella
+Any questions about Models, Views, Controllers, or Spring should be directed to Lakshit Dhanda and Timothy Hahn
+Any questions about the database or the DAOs should be directed to Chris Harvey and Lakshit Dhanda
+Any questions about unit testing or integration testing sohuld be directed to Timothy Hahn and Martin Barbella 
 
 Production Server: http://www.drexelexp.com 
