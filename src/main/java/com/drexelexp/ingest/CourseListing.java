@@ -25,9 +25,10 @@ public class CourseListing {
 		return _courseDAO;
 	}
 	
-	private int number;
+	
 	private String name;
 	private String desc;
+	private int number;
 	
 	public CourseListing(Element htmlElement, Subject subject){
 		String text;
