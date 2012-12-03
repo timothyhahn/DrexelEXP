@@ -22,8 +22,8 @@ import com.drexelexp.subject.Subject;
  *
  */
 public class Course {
-	private int number;
 	private int id;
+	private int number;
 	private String name;
 	private String description;
 	private int subjectId;

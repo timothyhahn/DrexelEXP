@@ -19,8 +19,8 @@ public class JdbcCustomerDAO implements CustomerDAO {
  
 	public void insert(Customer customer){
  
-		String sql = null;
-		sql = "INSERT INTO CUSTOMER " + "(NAME, AGE) VALUES (?, ?)";
+		String sql = "INSERT INTO CUSTOMER " +
+				"(NAME, AGE) VALUES (?, ?)";
 		Connection conn = null;
  
 		try {
@@ -46,8 +46,7 @@ public class JdbcCustomerDAO implements CustomerDAO {
  
 	public Customer findByCustomerId(int custId){
  
-		String sql = null;
-		sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";
+		String sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";
  
 		Connection conn = null;
  

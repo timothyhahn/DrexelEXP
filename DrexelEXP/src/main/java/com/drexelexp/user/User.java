@@ -10,11 +10,12 @@ import java.util.regex.Pattern;
  *
  */
 public class User {
+	private int id;
 	private String email;
 	private String name = "";
 	private String password = ""; 
 	private String confPassword = "";
-	private int id;
+	
 	private String university;
 	private boolean active;
 	private boolean moderator;

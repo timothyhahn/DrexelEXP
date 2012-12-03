@@ -1,4 +1,4 @@
-package com.drexelexp.course;
+package com.drexelexp.professor;
 
 import java.util.List;
 
@@ -15,25 +15,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drexelexp.Query;
-import com.drexelexp.baseDAO.SearchableDAO;
 import com.drexelexp.review.JdbcReviewDAO;
 import com.drexelexp.review.Review;
 import com.drexelexp.user.JdbcUserDAO;
 
 /**
- * Controller for the Course object
+ * Controller for the Professor object
  * @author
  *
  */
-
 @Controller
-public class CourseController {
+public class ProfessorController {
 	private void addUsername(Model model){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
 			model.addAttribute("username","");
-		} 
-		if (!authentication.getName().equals("anonymousUser")){
+		} else {
 			model.addAttribute("username",authentication.getName());
 		}
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
@@ -41,81 +38,83 @@ public class CourseController {
 		
 		model.addAttribute("user",userDAO.findByEmail(authentication.getName()));
 	}
-	
-	private SearchableDAO<Course> _courseDAO;
-	private SearchableDAO<Course> getCourseDAO(){
-		if(_courseDAO!=null)
-			return _courseDAO;
+
+	private JdbcProfessorDAO _professorDAO;
+	private JdbcProfessorDAO getProfessorDAO(){
+		if(_professorDAO!=null)
+			return _professorDAO;
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-		_courseDAO = (JdbcCourseDAO) context.getBean("courseDAO");
+		_professorDAO = (JdbcProfessorDAO) context.getBean("professorDAO");
 		
-		return _courseDAO;
+		return _professorDAO;
 	}
 	
-	@RequestMapping(value="/course", method = RequestMethod.GET)
+	
+	@RequestMapping(value="/professor", method = RequestMethod.GET)
 	public ModelAndView list(Model model) {		
-		return new ModelAndView("redirect:/course/1");
+		return new ModelAndView("redirect:/professor/1");
 	}
-	
-	@RequestMapping(value="/course/{pageNum}", method = RequestMethod.GET)
+
+	@RequestMapping(value="/professor/{pageNum}", method = RequestMethod.GET)
 	public ModelAndView listPage(@PathVariable String pageNum, Model model) {		
 		addUsername(model);
+				
+		List<Professor> professors = getProfessorDAO().getPage(Integer.parseInt(pageNum), 20);
 		
-		List<Course> courses = getCourseDAO().getPage(Integer.parseInt(pageNum), 20);
-		
-		model.addAttribute("courses",courses);
+		model.addAttribute("professors",professors);
 		model.addAttribute("pageNum",Integer.parseInt(pageNum));
-		
-		return new ModelAndView("course/list", "command", new Course());
+		return new ModelAndView("professor/list", "command", new Professor());
 	}
 	
-	@RequestMapping(value="/course/show/{courseID}", method = RequestMethod.GET)
-	public ModelAndView show(@PathVariable String courseID, Model model) {
+	@RequestMapping(value="/professor/show/{profID}", method = RequestMethod.GET)
+	public ModelAndView show(@PathVariable String profID, Model model) {
 		addUsername(model);
+			
+		Professor professor = getProfessorDAO().getById(Integer.parseInt(profID));
 		
-		Course course = getCourseDAO().getById(Integer.parseInt(courseID));
+		model.addAttribute("professor",professor);
 		
-		model.addAttribute("course",course);
-
-		ModelAndView mav = new ModelAndView("course/show");
-		mav.addObject("newReview", new Review());
+		Review newReview = new Review();
+		ModelAndView mav = new ModelAndView("professor/show");
+		mav.addObject("newReview", newReview);
 		return mav;
-	}
+	}	
 	
-	@RequestMapping(value="course/show/{courseID}", method = RequestMethod.POST)
-	public ModelAndView review(@PathVariable String courseID,@ModelAttribute Course course, @ModelAttribute Review review, Model model) {
+	@RequestMapping(value="professor/show/{profID}", method = RequestMethod.POST)
+	public ModelAndView review(@PathVariable String profID,@ModelAttribute Professor professor, @ModelAttribute Review review, Model model) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		JdbcReviewDAO reviewDAO =  (JdbcReviewDAO) context.getBean("reviewDAO");
 		JdbcUserDAO userDAO =  (JdbcUserDAO) context.getBean("userDAO");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		review.setCourseId(Integer.parseInt(courseID));
+		review.setProfessorId(Integer.parseInt(profID));
 		review.setUser(userDAO.findByEmail(authentication.getName()));
 		
 		reviewDAO.insert(review);
 		
-		String redirectTo  ="redirect:../show/" + courseID;
+		String redirectTo  ="redirect:../show/" + profID;
 		return new ModelAndView(redirectTo);
 	}
 	
-	@RequestMapping(value="/course/search", method = RequestMethod.GET)
+	@RequestMapping(value="/professor/search", method = RequestMethod.GET)
 	public ModelAndView search(Model model) {
 		addUsername(model);
 		
-		ModelAndView mav = new ModelAndView("course/search");
-		mav.addObject("courseQuery", new Query());
+		ModelAndView mav = new ModelAndView("professor/search");
+		mav.addObject("profQuery", new Query());
 		
 		return mav;
 	}
-	
-	@RequestMapping(value="/course/search", method = RequestMethod.POST)
-	public String search(@ModelAttribute("query") String query, Model model) {
-		System.out.println(query);
+
+	@RequestMapping(value="/professor/search", method = RequestMethod.POST)
+	public String search(@ModelAttribute("profQuery") Query q, Model model) {
+		String query = q.getQuery();
 		
-		List<Course> courses = getCourseDAO().search(query);		
-		
-		model.addAttribute("courses",courses);
-		return "course/list";
+		List<Professor> professors = getProfessorDAO().search(query);
+				
+		model.addAttribute("professors",professors);
+
+		return "/professor/list";
 	}
 }
