@@ -1,5 +1,7 @@
 #DrexelEXP
 
+Travis CI Test
+
 Setup Instructions
 
 1. Get SpringToolSource http://www.springsource.org/downloads/sts-ggts  (Note STS is simply a customized Eclipse with the Spring libraries, but it also takes care of a virtualized application server for you, making set up easeir)
