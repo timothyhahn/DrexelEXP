@@ -32,8 +32,7 @@ public class CourseController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getName().equals("anonymousUser")) {
 			model.addAttribute("username","");
-		} 
-		if (!authentication.getName().equals("anonymousUser")){
+		} else {
 			model.addAttribute("username",authentication.getName());
 		}
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");

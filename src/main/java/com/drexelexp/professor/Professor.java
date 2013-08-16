@@ -18,8 +18,8 @@ import com.drexelexp.review.Review;
  * 
  */
 public class Professor {
-	private String name;
 	private int id;
+	private String name;
 	private List<Course> courses;
 	private List<Review> reviews;
 	
